@@ -46,15 +46,15 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Audio Pipeline
 
-- [ ] **AUDIO-01**: AudioStream interface (open, readFrames, totalFrames, close, seek) implemented by CdAudioStream and FlacAudioStream
-- [ ] **AUDIO-02**: Single LocalPlaybackController parameterized by AudioStream — replaces separate CD and FLAC controllers
-- [ ] **AUDIO-03**: ALSA PCM output to S/PDIF device (hw:2,0) at 44100Hz, 16-bit, stereo via IAudioOutput interface
-- [ ] **AUDIO-04**: Background thread playback loop with atomic flag control (stop, pause, pending track, pending seek)
-- [ ] **AUDIO-05**: Intelligent audio buffering: 8-second buffer, 1-second prefill target, max 3 retries with 50ms backoff
-- [ ] **AUDIO-06**: Buffer statistics: xrun tracking, per-read latency (avg/max microseconds), read error counting
-- [ ] **AUDIO-07**: EIO recovery: close and reopen ALSA device on I/O errors, emit audioRecoveryFailed when exhausted
-- [ ] **AUDIO-08**: Full playback control: play, pause, stop, next, previous, seek (sector-based for CD, sample-based for FLAC)
-- [ ] **AUDIO-09**: ALSA device exclusivity enforced architecturally — one controller, one device, mutually exclusive sources
+- [x] **AUDIO-01**: AudioStream interface (open, readFrames, totalFrames, close, seek) implemented by CdAudioStream and FlacAudioStream
+- [x] **AUDIO-02**: Single LocalPlaybackController parameterized by AudioStream — replaces separate CD and FLAC controllers
+- [x] **AUDIO-03**: ALSA PCM output to S/PDIF device (hw:2,0) at 44100Hz, 16-bit, stereo via IAudioOutput interface
+- [x] **AUDIO-04**: Background thread playback loop with atomic flag control (stop, pause, pending track, pending seek)
+- [x] **AUDIO-05**: Intelligent audio buffering: 8-second buffer, 1-second prefill target, max 3 retries with 50ms backoff
+- [x] **AUDIO-06**: Buffer statistics: xrun tracking, per-read latency (avg/max microseconds), read error counting
+- [x] **AUDIO-07**: EIO recovery: close and reopen ALSA device on I/O errors, emit audioRecoveryFailed when exhausted
+- [x] **AUDIO-08**: Full playback control: play, pause, stop, next, previous, seek (sector-based for CD, sample-based for FLAC)
+- [x] **AUDIO-09**: ALSA device exclusivity enforced architecturally — one controller, one device, mutually exclusive sources
 
 ### CD Subsystem
 
@@ -229,15 +229,15 @@ Updated during roadmap creation.
 | RECV-12 | Phase 3 | Complete |
 | RECV-13 | Phase 3 | Complete |
 | ORCH-03 | Phase 3 | Complete |
-| AUDIO-01 | Phase 4 | Pending |
-| AUDIO-02 | Phase 4 | Pending |
-| AUDIO-03 | Phase 4 | Pending |
-| AUDIO-04 | Phase 4 | Pending |
-| AUDIO-05 | Phase 4 | Pending |
-| AUDIO-06 | Phase 4 | Pending |
-| AUDIO-07 | Phase 4 | Pending |
-| AUDIO-08 | Phase 4 | Pending |
-| AUDIO-09 | Phase 4 | Pending |
+| AUDIO-01 | Phase 4 | Complete |
+| AUDIO-02 | Phase 4 | Complete |
+| AUDIO-03 | Phase 4 | Complete |
+| AUDIO-04 | Phase 4 | Complete |
+| AUDIO-05 | Phase 4 | Complete |
+| AUDIO-06 | Phase 4 | Complete |
+| AUDIO-07 | Phase 4 | Complete |
+| AUDIO-08 | Phase 4 | Complete |
+| AUDIO-09 | Phase 4 | Complete |
 | CD-01 | Phase 5 | Pending |
 | CD-02 | Phase 5 | Pending |
 | CD-03 | Phase 5 | Pending |

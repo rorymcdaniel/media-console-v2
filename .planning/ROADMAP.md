@@ -15,7 +15,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 1: Foundation and Build Infrastructure** - Project skeleton with CMake, interfaces, platform abstraction, composition root, and test framework
 - [x] **Phase 2: State Layer and QML Binding Surface** - Thin reactive state objects that QML binds to, registered as singletons
 - [x] **Phase 3: Receiver Control** - eISCP TCP connection to Onkyo receiver with volume gesture coalescing and metadata parsing
-- [ ] **Phase 4: Audio Pipeline** - Unified LocalPlaybackController with ALSA output, audio streams, and playback thread
+- [x] **Phase 4: Audio Pipeline** - Unified LocalPlaybackController with ALSA output, audio streams, and playback thread
 - [ ] **Phase 5: CD Subsystem** - Disc detection, paranoia extraction, three-tier async metadata lookup, and progressive display
 - [ ] **Phase 6: FLAC Library** - Directory scanning, SQLite-backed library database, hierarchical browse models, and playlist playback
 - [ ] **Phase 7: GPIO Hardware** - Volume encoder, input encoder, and reed switch monitors via libgpiod v2
@@ -86,9 +86,9 @@ Plans:
 **Plans**: 3 plans in 3 waves
 
 Plans:
-- [ ] 04-01-PLAN.md — AudioStream interface, AlsaAudioOutput, AudioConfig, PlatformFactory wiring
-- [ ] 04-02-PLAN.md — AudioRingBuffer, AudioBufferStats, LocalPlaybackController with background thread and playback controls
-- [ ] 04-03-PLAN.md — AppBuilder wiring and integration test for LocalPlaybackController
+- [x] 04-01-PLAN.md — AudioStream interface, AlsaAudioOutput, AudioConfig, PlatformFactory wiring (`336bd99`)
+- [x] 04-02-PLAN.md — AudioRingBuffer, AudioBufferStats, LocalPlaybackController with background thread and playback controls (`525c01e`)
+- [x] 04-03-PLAN.md — AppBuilder wiring and integration test for LocalPlaybackController (`c0f10c9`)
 
 ### Phase 5: CD Subsystem
 **Goal**: Users can insert a CD, see track listing immediately, watch metadata fill in progressively, and play any track with paranoia error correction
@@ -200,7 +200,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 1. Foundation and Build Infrastructure | 3/3 | Complete | 2026-02-28 |
 | 2. State Layer and QML Binding Surface | 2/2 | Complete | 2026-02-28 |
 | 3. Receiver Control | 3/3 | Complete | 2026-02-28 |
-| 4. Audio Pipeline | 0/3 | Not started | - |
+| 4. Audio Pipeline | 3/3 | Complete | 2026-02-28 |
 | 5. CD Subsystem | 0/3 | Not started | - |
 | 6. FLAC Library | 0/3 | Not started | - |
 | 7. GPIO Hardware | 0/2 | Not started | - |

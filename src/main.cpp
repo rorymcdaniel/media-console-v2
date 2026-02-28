@@ -6,7 +6,12 @@
 
 #include "app/AppBuilder.h"
 #include "app/AppConfig.h"
+#include "display/ScreenTimeoutController.h"
+#include "orchestration/AlbumArtResolver.h"
+#include "orchestration/PlaybackRouter.h"
+#include "receiver/ReceiverController.h"
 #include "spotify/SpotifyAuth.h"
+#include "spotify/SpotifyController.h"
 #include "state/ActiveView.h"
 #include "state/CommandSource.h"
 #include "state/MediaSource.h"
@@ -16,6 +21,13 @@
 #include "state/StreamingService.h"
 #include "state/UIState.h"
 #include "utils/Logging.h"
+
+#ifdef HAS_SNDFILE
+#include "library/FlacLibraryController.h"
+#include "library/LibraryAlbumModel.h"
+#include "library/LibraryArtistModel.h"
+#include "library/LibraryTrackModel.h"
+#endif
 
 int main(int argc, char* argv[])
 {
@@ -91,6 +103,20 @@ int main(int argc, char* argv[])
     qmlRegisterSingletonInstance("MediaConsole", 1, 0, "ReceiverState", ctx.receiverState);
     qmlRegisterSingletonInstance("MediaConsole", 1, 0, "PlaybackState", ctx.playbackState);
     qmlRegisterSingletonInstance("MediaConsole", 1, 0, "UIState", ctx.uiState);
+
+    // Register Phase 10 controller singletons for QML access
+    qmlRegisterSingletonInstance("MediaConsole", 1, 0, "PlaybackRouter", ctx.playbackRouter);
+    qmlRegisterSingletonInstance("MediaConsole", 1, 0, "AlbumArtResolver", ctx.albumArtResolver);
+    qmlRegisterSingletonInstance("MediaConsole", 1, 0, "SpotifyController", ctx.spotifyController);
+    qmlRegisterSingletonInstance("MediaConsole", 1, 0, "ReceiverController", ctx.receiverController);
+    qmlRegisterSingletonInstance("MediaConsole", 1, 0, "ScreenTimeoutController", ctx.screenTimeoutController);
+
+#ifdef HAS_SNDFILE
+    qmlRegisterSingletonInstance("MediaConsole", 1, 0, "FlacLibraryController", ctx.flacLibraryController);
+    qmlRegisterSingletonInstance("MediaConsole", 1, 0, "LibraryArtistModel", ctx.flacLibraryController->artistModel());
+    qmlRegisterSingletonInstance("MediaConsole", 1, 0, "LibraryAlbumModel", ctx.flacLibraryController->albumModel());
+    qmlRegisterSingletonInstance("MediaConsole", 1, 0, "LibraryTrackModel", ctx.flacLibraryController->trackModel());
+#endif
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/MediaConsole/src/qml/main.qml"));

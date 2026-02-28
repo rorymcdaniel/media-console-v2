@@ -1,78 +1,653 @@
 import QtQuick
-import QtQuick.Window
 import QtQuick.Layouts
+import QtQuick.Controls
 import MediaConsole 1.0
 
 Window {
+    id: root
     width: 1920
     height: 720
     visible: true
-    title: "Media Console v2 - State Test Harness"
-    color: "#0a1628"
+    title: "Media Console"
+    color: Theme.primaryBg
 
-    Column {
+    // Global touch activity detection (UI-18)
+    // Covers the entire window, forwards all press events to ScreenTimeoutController
+    // without consuming them so child elements still receive input.
+    MouseArea {
         anchors.fill: parent
-        anchors.margins: 30
-        spacing: 20
+        z: 1000
+        propagateComposedEvents: true
+        acceptedButtons: Qt.AllButtons
+        onPressed: function(mouse) {
+            ScreenTimeoutController.activityDetected()
+            mouse.accepted = false
+        }
+        onReleased: function(mouse) { mouse.accepted = false }
+        onClicked: function(mouse) { mouse.accepted = false }
+    }
 
-        Text {
-            text: "Media Console v2 - State Test Harness"
-            color: "#e0e0e0"
-            font.pixelSize: 28
-            font.bold: true
+    // ========== Top Status Bar (UI-03) ==========
+    Rectangle {
+        id: statusBar
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: Theme.statusBarHeight
+        color: Theme.secondaryBg
+        z: 10
+
+        // Bottom separator line
+        Rectangle {
+            anchors.bottom: parent.bottom
+            anchors.left: parent.left
+            anchors.right: parent.right
+            height: 1
+            color: Theme.glassBorder
+        }
+
+        RowLayout {
+            anchors.fill: parent
+            anchors.leftMargin: Theme.spacingMedium
+            anchors.rightMargin: Theme.spacingMedium
+
+            // Left: Connection status indicator
+            Row {
+                spacing: Theme.spacingSmall
+                Layout.fillHeight: true
+
+                Rectangle {
+                    width: 8
+                    height: 8
+                    radius: 4
+                    color: UIState.receiverConnected ? Theme.successColor : Theme.errorColor
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                Text {
+                    text: UIState.receiverConnected ? "Connected" : "Disconnected"
+                    color: UIState.receiverConnected ? Theme.textDimmed : Theme.errorColor
+                    font.pixelSize: Theme.fontSizeSmall
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+            }
+
+            // Spacer
+            Item { Layout.fillWidth: true }
+
+            // Right side controls
+            RowLayout {
+                spacing: Theme.spacingMedium
+
+                // Eject button (UI-13) — visible only when CD is active source
+                Rectangle {
+                    width: Theme.touchTargetSmall
+                    height: Theme.touchTargetSmall
+                    radius: Theme.radiusSmall
+                    color: ejectMa.pressed ? Theme.glassBg : "transparent"
+                    visible: PlaybackState.activeSource === MediaSource.CD
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "\u23CF"
+                        color: Theme.textPrimary
+                        font.pixelSize: Theme.fontSizeMedium
+                    }
+
+                    MouseArea {
+                        id: ejectMa
+                        anchors.fill: parent
+                        onClicked: {
+                            // CD eject — CdController.eject() if available
+                        }
+                    }
+                }
+
+                // Search button (UI-14) — visible only on Streaming input
+                Rectangle {
+                    width: Theme.touchTargetSmall
+                    height: Theme.touchTargetSmall
+                    radius: Theme.radiusSmall
+                    color: searchMa.pressed ? Theme.glassBg : "transparent"
+                    visible: ReceiverState.currentInput === MediaSource.Streaming
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "\u2315"
+                        color: Theme.textPrimary
+                        font.pixelSize: Theme.fontSizeMedium
+                    }
+
+                    MouseArea {
+                        id: searchMa
+                        anchors.fill: parent
+                        onClicked: UIState.setActiveView(ActiveView.SpotifySearch)
+                    }
+                }
+
+                // Volume indicator with slider (UI-12)
+                Row {
+                    spacing: Theme.spacingSmall
+
+                    Slider {
+                        id: volumeSlider
+                        width: 100
+                        height: Theme.touchTargetSmall
+                        from: 0
+                        to: 200
+                        value: ReceiverState.volume
+                        onMoved: ReceiverController.setVolume(Math.round(value))
+
+                        background: Rectangle {
+                            x: volumeSlider.leftPadding
+                            y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
+                            width: volumeSlider.availableWidth
+                            height: 4
+                            radius: 2
+                            color: Theme.glassBg
+
+                            Rectangle {
+                                width: volumeSlider.visualPosition * parent.width
+                                height: parent.height
+                                radius: 2
+                                color: Theme.accent
+                            }
+                        }
+
+                        handle: Rectangle {
+                            x: volumeSlider.leftPadding + volumeSlider.visualPosition * (volumeSlider.availableWidth - width)
+                            y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
+                            width: 16
+                            height: 16
+                            radius: 8
+                            color: volumeSlider.pressed ? Theme.accentLight : Theme.accent
+                        }
+                    }
+
+                    Text {
+                        text: Math.round(ReceiverState.volume / 2) + "%"
+                        color: Theme.textSecondary
+                        font.pixelSize: Theme.fontSizeSmall
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                }
+
+                // Mute button (UI-17)
+                Rectangle {
+                    width: Theme.touchTargetSmall
+                    height: Theme.touchTargetSmall
+                    radius: Theme.radiusSmall
+                    color: ReceiverState.muted ? Qt.rgba(0.906, 0.298, 0.235, 0.3) : "transparent"
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: ReceiverState.muted ? "\u2716" : "\u266B"
+                        color: ReceiverState.muted ? Theme.errorColor : Theme.textPrimary
+                        font.pixelSize: Theme.fontSizeMedium
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: ReceiverController.toggleMute()
+                    }
+                }
+
+                // Power button (UI-17)
+                Rectangle {
+                    width: Theme.touchTargetSmall
+                    height: Theme.touchTargetSmall
+                    radius: Theme.radiusSmall
+                    color: ReceiverState.powered ? Qt.rgba(0.180, 0.361, 0.541, 0.3) : "transparent"
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "\u23FB"
+                        color: ReceiverState.powered ? Theme.accentLight : Theme.textDimmed
+                        font.pixelSize: Theme.fontSizeMedium
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: ReceiverController.setPower(!ReceiverState.powered)
+                    }
+                }
+
+                // Time display (UI-16)
+                Text {
+                    id: timeDisplay
+                    color: Theme.textSecondary
+                    font.pixelSize: Theme.fontSizeBody
+
+                    Timer {
+                        interval: 60000
+                        running: true
+                        repeat: true
+                        triggeredOnStart: true
+                        onTriggered: timeDisplay.text = Qt.formatTime(new Date(), "h:mm AP")
+                    }
+                }
+            }
+        }
+    }
+
+    // ========== Error Banner (UI-15) ==========
+    Rectangle {
+        id: errorBanner
+        anchors.top: statusBar.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        height: !UIState.receiverConnected ? 40 : 0
+        color: Theme.errorColor
+        z: 100
+        clip: true
+
+        Behavior on height {
+            NumberAnimation { duration: Theme.animMedium; easing.type: Easing.OutCubic }
         }
 
         Row {
-            spacing: 40
-            width: parent.width
+            anchors.centerIn: parent
+            spacing: Theme.spacingSmall
 
-            Column {
-                spacing: 6
-                width: parent.width / 3 - 40
-
-                Text { text: "=== ReceiverState ==="; color: "#e0e0e0"; font.pixelSize: 20; font.bold: true }
-                Text { text: "Volume: " + ReceiverState.volume; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Powered: " + ReceiverState.powered; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Muted: " + ReceiverState.muted; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Input: " + ReceiverState.currentInput; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Title: " + ReceiverState.title; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Artist: " + ReceiverState.artist; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Album: " + ReceiverState.album; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Art URL: " + ReceiverState.albumArtUrl; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "File Info: " + ReceiverState.fileInfo; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Service: " + ReceiverState.serviceName; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Streaming: " + ReceiverState.streamingService; color: "#e0e0e0"; font.pixelSize: 16 }
+            Text {
+                text: "\u26A0"
+                color: Theme.textPrimary
+                font.pixelSize: Theme.fontSizeBody
             }
 
-            Column {
-                spacing: 6
-                width: parent.width / 3 - 40
+            Text {
+                text: "Receiver disconnected \u2014 attempting to reconnect..."
+                color: Theme.textPrimary
+                font.pixelSize: Theme.fontSizeBody
+            }
+        }
+    }
 
-                Text { text: "=== PlaybackState ==="; color: "#e0e0e0"; font.pixelSize: 20; font.bold: true }
-                Text { text: "Mode: " + PlaybackState.playbackMode; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Source: " + PlaybackState.activeSource; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Position: " + PlaybackState.positionMs + " ms"; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Duration: " + PlaybackState.durationMs + " ms"; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Title: " + PlaybackState.title; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Artist: " + PlaybackState.artist; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Album: " + PlaybackState.album; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Art URL: " + PlaybackState.albumArtUrl; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Track: " + PlaybackState.trackNumber + "/" + PlaybackState.trackCount; color: "#e0e0e0"; font.pixelSize: 16 }
+    // ========== Main Content Area ==========
+    Row {
+        anchors.top: errorBanner.bottom
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+
+        // Left panel: Input carousel (UI-03)
+        Rectangle {
+            id: leftPanel
+            width: Theme.leftPanelWidth
+            height: parent.height
+            color: Theme.secondaryBg
+
+            // Separator line on right edge
+            Rectangle {
+                anchors.right: parent.right
+                anchors.top: parent.top
+                anchors.bottom: parent.bottom
+                width: 1
+                color: Theme.glassBorder
             }
 
+            // Input carousel placeholder — replaced in Plan 10-02
             Column {
-                spacing: 6
-                width: parent.width / 3 - 40
+                anchors.centerIn: parent
+                spacing: Theme.spacingMedium
 
-                Text { text: "=== UIState ==="; color: "#e0e0e0"; font.pixelSize: 20; font.bold: true }
-                Text { text: "View: " + UIState.activeView; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Volume Overlay: " + UIState.volumeOverlayVisible; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Error Banner: " + UIState.errorBannerVisible; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Toast Visible: " + UIState.toastVisible; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Toast Msg: " + UIState.toastMessage; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Toast Type: " + UIState.toastType; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Connected: " + UIState.receiverConnected; color: "#e0e0e0"; font.pixelSize: 16 }
-                Text { text: "Audio Error: " + UIState.audioError; color: "#e0e0e0"; font.pixelSize: 16 }
+                Text {
+                    text: "INPUT"
+                    color: Theme.textSecondary
+                    font.pixelSize: Theme.fontSizeSmall
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                Text {
+                    text: {
+                        switch (ReceiverState.currentInput) {
+                            case MediaSource.Streaming: return "Streaming"
+                            case MediaSource.Phono: return "Phono"
+                            case MediaSource.CD: return "CD"
+                            case MediaSource.Computer: return "Computer"
+                            case MediaSource.Bluetooth: return "Bluetooth"
+                            case MediaSource.Library: return "Library"
+                            default: return "None"
+                        }
+                    }
+                    color: Theme.textPrimary
+                    font.pixelSize: Theme.fontSizeLarge
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+            }
+        }
+
+        // Right panel: Active view (UI-03)
+        Item {
+            id: rightPanel
+            width: parent.width - Theme.leftPanelWidth
+            height: parent.height
+
+            // View loader — switches based on UIState.activeView
+            // Placeholder content — components created in Plans 10-02 and 10-03
+            Text {
+                anchors.centerIn: parent
+                text: {
+                    switch (UIState.activeView) {
+                        case ActiveView.NowPlaying: return "Now Playing"
+                        case ActiveView.LibraryBrowser: return "Library Browser"
+                        case ActiveView.SpotifySearch: return "Spotify Search"
+                        default: return "Now Playing"
+                    }
+                }
+                color: Theme.textPrimary
+                font.pixelSize: Theme.fontSizeXLarge
+            }
+        }
+    }
+
+    // ========== Volume Overlay (UI-11) ==========
+    Rectangle {
+        id: volumeOverlay
+        anchors.centerIn: parent
+        width: 300
+        height: 300
+        radius: Theme.radiusLarge
+        color: Theme.glassBg
+        border.color: Theme.glassBorder
+        border.width: 1
+        visible: UIState.volumeOverlayVisible
+        z: 500
+        opacity: visible ? 1.0 : 0.0
+
+        Behavior on opacity {
+            NumberAnimation { duration: Theme.animFast }
+        }
+
+        Column {
+            anchors.centerIn: parent
+            spacing: Theme.spacingMedium
+
+            Text {
+                text: Math.round(ReceiverState.volume / 2)
+                color: Theme.textPrimary
+                font.pixelSize: 96
+                font.bold: true
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+
+            Text {
+                text: ReceiverState.muted ? "MUTED" : "VOLUME"
+                color: ReceiverState.muted ? Theme.errorColor : Theme.textSecondary
+                font.pixelSize: Theme.fontSizeMedium
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
+        }
+
+        Timer {
+            id: volumeHideTimer
+            interval: 2000
+            onTriggered: UIState.setVolumeOverlayVisible(false)
+        }
+
+        onVisibleChanged: {
+            if (visible) volumeHideTimer.restart()
+        }
+    }
+
+    // ========== Toast Notification (UI-10) ==========
+    Rectangle {
+        id: toast
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 40
+        width: toastText.implicitWidth + 60
+        height: 48
+        radius: Theme.radiusLarge
+        color: {
+            switch (UIState.toastType) {
+                case "error": return Theme.errorColor
+                case "success": return Theme.successColor
+                default: return Theme.glassBg
+            }
+        }
+        border.color: Theme.glassBorder
+        border.width: UIState.toastType === "info" ? 1 : 0
+        visible: UIState.toastVisible
+        z: 800
+        opacity: visible ? 1.0 : 0.0
+
+        Behavior on opacity {
+            NumberAnimation { duration: Theme.animFast }
+        }
+
+        Text {
+            id: toastText
+            anchors.centerIn: parent
+            text: UIState.toastMessage
+            color: Theme.textPrimary
+            font.pixelSize: Theme.fontSizeBody
+        }
+
+        Timer {
+            id: toastDismissTimer
+            interval: 3000
+            onTriggered: UIState.setToastVisible(false)
+        }
+
+        Connections {
+            target: UIState
+            function onShowToast(message, type) {
+                UIState.setToastMessage(message)
+                UIState.setToastType(type)
+                UIState.setToastVisible(true)
+                toastDismissTimer.restart()
+            }
+        }
+    }
+
+    // ========== Spotify Takeover Dialog (UI-08) ==========
+    Rectangle {
+        id: takeoverDialog
+        anchors.fill: parent
+        color: Qt.rgba(0, 0, 0, 0.6)
+        visible: false
+        z: 600
+
+        property string deviceName: ""
+        property string trackTitle: ""
+        property string artistName: ""
+
+        Connections {
+            target: SpotifyController
+            function onActiveSessionDetected(device, track, artist) {
+                takeoverDialog.deviceName = device
+                takeoverDialog.trackTitle = track
+                takeoverDialog.artistName = artist
+                takeoverDialog.visible = true
+            }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {} // Consume clicks on backdrop
+        }
+
+        Rectangle {
+            anchors.centerIn: parent
+            width: 500
+            height: 280
+            radius: Theme.radiusLarge
+            color: Theme.secondaryBg
+            border.color: Theme.glassBorder
+            border.width: 1
+
+            Column {
+                anchors.centerIn: parent
+                spacing: Theme.spacingMedium
+                width: parent.width - 60
+
+                Text {
+                    text: "Transfer Playback?"
+                    color: Theme.textPrimary
+                    font.pixelSize: Theme.fontSizeLarge
+                    font.bold: true
+                }
+
+                Text {
+                    text: "Currently playing on: " + takeoverDialog.deviceName
+                    color: Theme.textSecondary
+                    font.pixelSize: Theme.fontSizeBody
+                    wrapMode: Text.Wrap
+                    width: parent.width
+                }
+
+                Text {
+                    text: takeoverDialog.trackTitle + " \u2014 " + takeoverDialog.artistName
+                    color: Theme.textDimmed
+                    font.pixelSize: Theme.fontSizeBody
+                    wrapMode: Text.Wrap
+                    width: parent.width
+                }
+
+                Row {
+                    spacing: Theme.spacingMedium
+                    anchors.horizontalCenter: parent.horizontalCenter
+
+                    Rectangle {
+                        width: 150
+                        height: Theme.touchTargetLarge
+                        radius: Theme.radiusMedium
+                        color: cancelTakeoverMa.pressed ? Theme.accent : Theme.glassBg
+
+                        Text {
+                            anchors.centerIn: parent
+                            text: "Cancel"
+                            color: Theme.textSecondary
+                            font.pixelSize: Theme.fontSizeBody
+                        }
+
+                        MouseArea {
+                            id: cancelTakeoverMa
+                            anchors.fill: parent
+                            onClicked: {
+                                SpotifyController.cancelTransfer()
+                                takeoverDialog.visible = false
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        width: 150
+                        height: Theme.touchTargetLarge
+                        radius: Theme.radiusMedium
+                        color: confirmTakeoverMa.pressed ? Theme.accentLight : Theme.accent
+
+                        Text {
+                            anchors.centerIn: parent
+                            text: "Transfer"
+                            color: Theme.textPrimary
+                            font.pixelSize: Theme.fontSizeBody
+                        }
+
+                        MouseArea {
+                            id: confirmTakeoverMa
+                            anchors.fill: parent
+                            onClicked: {
+                                SpotifyController.confirmTransfer()
+                                takeoverDialog.visible = false
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // ========== Audio Error Dialog (UI-09) ==========
+    Rectangle {
+        id: audioErrorDialog
+        anchors.fill: parent
+        color: Qt.rgba(0, 0, 0, 0.6)
+        visible: UIState.audioError !== ""
+        z: 600
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {} // Consume clicks on backdrop
+        }
+
+        Rectangle {
+            anchors.centerIn: parent
+            width: 450
+            height: 220
+            radius: Theme.radiusLarge
+            color: Theme.secondaryBg
+            border.color: Theme.errorColor
+            border.width: 2
+
+            Column {
+                anchors.centerIn: parent
+                spacing: Theme.spacingMedium
+                width: parent.width - 60
+
+                Text {
+                    text: "Audio Error"
+                    color: Theme.errorColor
+                    font.pixelSize: Theme.fontSizeLarge
+                    font.bold: true
+                }
+
+                Text {
+                    text: UIState.audioError
+                    color: Theme.textSecondary
+                    font.pixelSize: Theme.fontSizeBody
+                    wrapMode: Text.Wrap
+                    width: parent.width
+                }
+
+                Row {
+                    spacing: Theme.spacingMedium
+                    anchors.horizontalCenter: parent.horizontalCenter
+
+                    Rectangle {
+                        width: 150
+                        height: Theme.touchTargetLarge
+                        radius: Theme.radiusMedium
+                        color: dismissErrorMa.pressed ? Theme.accent : Theme.glassBg
+
+                        Text {
+                            anchors.centerIn: parent
+                            text: "Dismiss"
+                            color: Theme.textSecondary
+                            font.pixelSize: Theme.fontSizeBody
+                        }
+
+                        MouseArea {
+                            id: dismissErrorMa
+                            anchors.fill: parent
+                            onClicked: UIState.setAudioError("")
+                        }
+                    }
+
+                    Rectangle {
+                        width: 150
+                        height: Theme.touchTargetLarge
+                        radius: Theme.radiusMedium
+                        color: retryErrorMa.pressed ? Theme.accentLight : Theme.accent
+
+                        Text {
+                            anchors.centerIn: parent
+                            text: "Retry"
+                            color: Theme.textPrimary
+                            font.pixelSize: Theme.fontSizeBody
+                        }
+
+                        MouseArea {
+                            id: retryErrorMa
+                            anchors.fill: parent
+                            onClicked: {
+                                UIState.setAudioError("")
+                                PlaybackRouter.play()
+                            }
+                        }
+                    }
+                }
             }
         }
     }

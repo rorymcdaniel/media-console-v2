@@ -335,6 +335,9 @@ qt_add_qml_module(media-console
     VERSION 1.0
     QML_FILES
         src/qml/main.qml
+        src/qml/Theme.qml
+    RESOURCES
+        src/qml/qmldir
 )
 
 # Testing

@@ -28,6 +28,8 @@ set(TEST_SOURCES
     test_ReceiverController.cpp
     test_VolumeGestureController.cpp
     test_AudioStream.cpp
+    test_AudioRingBuffer.cpp
+    test_LocalPlaybackController.cpp
 )
 
 add_executable(media-console-tests ${TEST_SOURCES})

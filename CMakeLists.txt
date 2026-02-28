@@ -117,6 +117,11 @@ set(LIB_SOURCES
     src/receiver/VolumeGestureController.cpp
     src/state/CommandSource.h
     src/audio/AudioStream.h
+    src/audio/AudioBufferStats.h
+    src/audio/AudioRingBuffer.h
+    src/audio/AudioRingBuffer.cpp
+    src/audio/LocalPlaybackController.h
+    src/audio/LocalPlaybackController.cpp
 )
 
 # ALSA audio output (Linux only)

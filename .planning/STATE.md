@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 10 (QML UI and Production Deployment)
-current_plan: Plan 4 of 4
-status: In progress
-last_updated: "2026-02-28T22:18:29Z"
+current_plan: Plan 4 of 4 (COMPLETE)
+status: completed
+last_updated: "2026-02-28T22:27:03.619Z"
 progress:
   total_phases: 10
-  completed_phases: 9
+  completed_phases: 10
   total_plans: 31
-  completed_plans: 30
+  completed_plans: 31
 ---
 
 # Session State
@@ -26,8 +26,8 @@ See: .planning/PROJECT.md (updated 2026-02-28)
 
 **Milestone:** v1.0 milestone
 **Current phase:** 10 (QML UI and Production Deployment)
-**Current plan:** Plan 4 of 4
-**Status:** In progress
+**Current plan:** Plan 4 of 4 (COMPLETE)
+**Status:** Phase complete
 
 ## Decisions
 
@@ -59,6 +59,10 @@ See: .planning/PROJECT.md (updated 2026-02-28)
 - [Phase 10]: SimpleKeyboard emits lowercase chars and special strings (backspace, space) for uniform handling
 - [Phase 10]: SpotifySearch parses searchResults.tracks.items JSON directly without intermediate model
 - [Phase 10]: StackView.onRemoved: destroy() for memory leak prevention in pushed components
+- [Phase 10]: OutCubic easing on all overlay fade transitions for consistent glass aesthetic
+- [Phase 10]: Loader opacity crossfade for smooth view switching instead of instant swap
+- [Phase 10]: systemd user service with EGLFS platform and eglfs_kms integration for direct framebuffer rendering
+- [Phase 10]: install-kiosk.sh excludes SSH sessions from unclutter via SSH_CONNECTION check
 
 ## Session Log
 
@@ -80,3 +84,5 @@ See: .planning/PROJECT.md (updated 2026-02-28)
 - 2026-02-28: Plan 10-01 complete - Theme.qml singleton, production main.qml layout, QML singleton registrations
 - 2026-02-28: Plan 10-02 complete - InputCarousel 3D wheel, NowPlaying with Flipable album art, PlaybackControls adaptive, dynamic accent
 - 2026-02-28: Plan 10-03 complete - LibraryBrowser StackView drill-down, SpotifySearch overlay with keyboard, AlphabetSidebar
+- 2026-02-28: Plan 10-04 complete - UI polish (view transitions, OutCubic easing), systemd kiosk service, install/uninstall scripts
+- 2026-02-28: Phase 10 (QML UI and Production Deployment) complete - 4 plans, all UI components and deployment ready

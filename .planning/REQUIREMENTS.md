@@ -135,9 +135,9 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **UI-10**: ToastNotification: bottom-center 3-second auto-dismiss (info/success/error types)
 - [x] **UI-11**: VolumeOverlay: large modal with numeric display, auto-dismiss after 2s — only shown for local user input
 - [x] **UI-12**: VolumeIndicator: persistent top-right display with draggable slider
-- [ ] **UI-13**: EjectButton: visible only when CD present
-- [ ] **UI-14**: SearchButton: visible only on Spotify input
-- [ ] **UI-15**: ErrorBanner: shown when receiver disconnected
+- [x] **UI-13**: EjectButton: visible only when CD present
+- [x] **UI-14**: SearchButton: visible only on Spotify input
+- [x] **UI-15**: ErrorBanner: shown when receiver disconnected
 - [x] **UI-16**: TimeDisplay: current time, updates every minute
 - [x] **UI-17**: PowerButton, MuteButton with visual state indicators
 - [x] **UI-18**: Global MouseArea for touch activity detection (resets screen timeout)
@@ -150,9 +150,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Production
 
-- [ ] **PROD-01**: Kiosk mode via systemd service with auto-start, auto-restart on crash
-- [ ] **PROD-02**: Auto-login, hidden cursor (unclutter), disabled screen blanking
-- [ ] **PROD-03**: install-kiosk.sh / uninstall-kiosk.sh deployment scripts
+- [x] **PROD-01**: Kiosk mode via systemd service with auto-start, auto-restart on crash
+- [x] **PROD-02**: Auto-login, hidden cursor (unclutter), disabled screen blanking
+- [x] **PROD-03**: install-kiosk.sh / uninstall-kiosk.sh deployment scripts
 
 ## v2 Requirements
 
@@ -299,15 +299,15 @@ Updated during roadmap creation.
 | UI-10 | Phase 10 | Complete |
 | UI-11 | Phase 10 | Complete |
 | UI-12 | Phase 10 | Complete |
-| UI-13 | Phase 10 | Pending |
-| UI-14 | Phase 10 | Pending |
-| UI-15 | Phase 10 | Pending |
+| UI-13 | Phase 10 | Complete |
+| UI-14 | Phase 10 | Complete |
+| UI-15 | Phase 10 | Complete |
 | UI-16 | Phase 10 | Complete |
 | UI-17 | Phase 10 | Complete |
 | UI-18 | Phase 10 | Complete |
-| PROD-01 | Phase 10 | Pending |
-| PROD-02 | Phase 10 | Pending |
-| PROD-03 | Phase 10 | Pending |
+| PROD-01 | Phase 10 | Complete |
+| PROD-02 | Phase 10 | Complete |
+| PROD-03 | Phase 10 | Complete |
 
 **Coverage:**
 - v1 requirements: 108 total

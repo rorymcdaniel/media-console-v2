@@ -31,6 +31,7 @@ TEST_F(UIStateTest, DefaultValues)
     EXPECT_TRUE(state.toastType().isEmpty());
     EXPECT_FALSE(state.receiverConnected());
     EXPECT_TRUE(state.audioError().isEmpty());
+    EXPECT_TRUE(state.doorOpen()); // default: door open = display on
 }
 
 TEST_F(UIStateTest, ActiveViewEmitsChanged)
@@ -142,4 +143,37 @@ TEST_F(UIStateTest, ShowToastSignalEmits)
     ASSERT_EQ(spy.count(), 1);
     EXPECT_EQ(spy.at(0).at(0).toString(), "Test message");
     EXPECT_EQ(spy.at(0).at(1).toString(), "info");
+}
+
+TEST_F(UIStateTest, DoorOpenEmitsChanged)
+{
+    UIState state;
+    QSignalSpy spy(&state, &UIState::doorOpenChanged);
+
+    state.setDoorOpen(false);
+
+    ASSERT_EQ(spy.count(), 1);
+    EXPECT_FALSE(spy.at(0).at(0).toBool());
+    EXPECT_FALSE(state.doorOpen());
+}
+
+TEST_F(UIStateTest, DoorOpenDoesNotEmitWhenUnchanged)
+{
+    UIState state;
+    // doorOpen defaults to true
+    QSignalSpy spy(&state, &UIState::doorOpenChanged);
+
+    state.setDoorOpen(true); // same as default
+    EXPECT_EQ(spy.count(), 0);
+}
+
+TEST_F(UIStateTest, DoorOpenChangeGuardConsecutiveSame)
+{
+    UIState state;
+    state.setDoorOpen(false); // first change: true -> false
+
+    QSignalSpy spy(&state, &UIState::doorOpenChanged);
+    state.setDoorOpen(false); // duplicate, should not emit
+
+    EXPECT_EQ(spy.count(), 0);
 }

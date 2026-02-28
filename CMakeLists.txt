@@ -197,6 +197,23 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     endif()
 endif()
 
+# GPIO subsystem (Linux only -- libgpiod v2)
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    if(NOT TARGET PkgConfig::ALSA)
+        find_package(PkgConfig REQUIRED)
+    endif()
+    pkg_check_modules(GPIOD IMPORTED_TARGET libgpiodcxx)
+    if(GPIOD_FOUND)
+        list(APPEND LIB_SOURCES
+            src/platform/LinuxGpioMonitor.h
+            src/platform/LinuxGpioMonitor.cpp
+        )
+        message(STATUS "GPIO subsystem: enabled (libgpiodcxx found)")
+    else()
+        message(STATUS "GPIO subsystem: disabled (libgpiodcxx not found)")
+    endif()
+endif()
+
 # Create static library for testing without main()
 add_library(media-console-lib STATIC ${LIB_SOURCES})
 
@@ -229,6 +246,12 @@ if(CDIO_FOUND AND CDIO_PARANOIA_FOUND AND CDIO_CDDA_FOUND AND DISCID_FOUND)
         PkgConfig::DISCID
     )
     target_compile_definitions(media-console-lib PUBLIC HAS_CDIO=1)
+endif()
+
+# Link GPIO subsystem on Linux
+if(GPIOD_FOUND)
+    target_link_libraries(media-console-lib PUBLIC PkgConfig::GPIOD)
+    target_compile_definitions(media-console-lib PUBLIC HAS_GPIOD=1)
 endif()
 
 # Link FLAC library libraries on Linux

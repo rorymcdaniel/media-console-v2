@@ -68,3 +68,11 @@ void UIState::setAudioError(const QString& error)
     m_audioError = error;
     emit audioErrorChanged(m_audioError);
 }
+
+void UIState::setDoorOpen(bool open)
+{
+    if (m_doorOpen == open)
+        return;
+    m_doorOpen = open;
+    emit doorOpenChanged(m_doorOpen);
+}

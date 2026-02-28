@@ -19,6 +19,7 @@ class UIState : public QObject
     Q_PROPERTY(QString toastType READ toastType WRITE setToastType NOTIFY toastTypeChanged)
     Q_PROPERTY(bool receiverConnected READ receiverConnected WRITE setReceiverConnected NOTIFY receiverConnectedChanged)
     Q_PROPERTY(QString audioError READ audioError WRITE setAudioError NOTIFY audioErrorChanged)
+    Q_PROPERTY(bool doorOpen READ doorOpen WRITE setDoorOpen NOTIFY doorOpenChanged)
 
 public:
     explicit UIState(QObject* parent = nullptr);
@@ -31,6 +32,7 @@ public:
     QString toastType() const { return m_toastType; }
     bool receiverConnected() const { return m_receiverConnected; }
     QString audioError() const { return m_audioError; }
+    bool doorOpen() const { return m_doorOpen; }
 
 public slots:
     void setActiveView(ActiveView view);
@@ -41,6 +43,7 @@ public slots:
     void setToastType(const QString& type);
     void setReceiverConnected(bool connected);
     void setAudioError(const QString& error);
+    void setDoorOpen(bool open);
 
 signals:
     void activeViewChanged(ActiveView view);
@@ -51,6 +54,7 @@ signals:
     void toastTypeChanged(const QString& type);
     void receiverConnectedChanged(bool connected);
     void audioErrorChanged(const QString& error);
+    void doorOpenChanged(bool open);
 
     /// Transient error signal for toast display — not a property, just an event.
     void showToast(const QString& message, const QString& type);
@@ -64,4 +68,5 @@ private:
     QString m_toastType;
     bool m_receiverConnected = false;
     QString m_audioError;
+    bool m_doorOpen = true; // default: door open = display on
 };

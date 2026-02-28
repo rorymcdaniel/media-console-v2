@@ -101,6 +101,12 @@ set(LIB_SOURCES
     src/state/StreamingService.h
     src/state/PlaybackMode.h
     src/state/ActiveView.h
+    src/state/ReceiverState.h
+    src/state/ReceiverState.cpp
+    src/state/PlaybackState.h
+    src/state/PlaybackState.cpp
+    src/state/UIState.h
+    src/state/UIState.cpp
 )
 
 # Create static library for testing without main()

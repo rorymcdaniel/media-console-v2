@@ -21,6 +21,9 @@ set(TEST_SOURCES
     test_AppConfig.cpp
     test_AppBuilder.cpp
     test_MediaSource.cpp
+    test_ReceiverState.cpp
+    test_PlaybackState.cpp
+    test_UIState.cpp
 )
 
 add_executable(media-console-tests ${TEST_SOURCES})

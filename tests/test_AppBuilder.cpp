@@ -68,3 +68,30 @@ TEST_F(AppBuilderTest, ContextHasDisplayControl)
 
     ASSERT_NE(ctx.displayControl, nullptr);
 }
+
+TEST_F(AppBuilderTest, ContextHasReceiverState)
+{
+    AppConfig config;
+    AppBuilder builder;
+    auto ctx = builder.build(config);
+
+    ASSERT_NE(ctx.receiverState, nullptr);
+}
+
+TEST_F(AppBuilderTest, ContextHasPlaybackState)
+{
+    AppConfig config;
+    AppBuilder builder;
+    auto ctx = builder.build(config);
+
+    ASSERT_NE(ctx.playbackState, nullptr);
+}
+
+TEST_F(AppBuilderTest, ContextHasUIState)
+{
+    AppConfig config;
+    AppBuilder builder;
+    auto ctx = builder.build(config);
+
+    ASSERT_NE(ctx.uiState, nullptr);
+}

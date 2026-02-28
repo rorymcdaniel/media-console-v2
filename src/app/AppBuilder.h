@@ -11,6 +11,9 @@ class IAudioOutput;
 class ICdDrive;
 class IGpioMonitor;
 class IDisplayControl;
+class ReceiverState;
+class PlaybackState;
+class UIState;
 
 class AppBuilder : public QObject
 {
@@ -27,4 +30,7 @@ private:
     std::unique_ptr<ICdDrive> m_cdDrive;
     std::unique_ptr<IGpioMonitor> m_gpioMonitor;
     std::unique_ptr<IDisplayControl> m_displayControl;
+    std::unique_ptr<ReceiverState> m_receiverState;
+    std::unique_ptr<PlaybackState> m_playbackState;
+    std::unique_ptr<UIState> m_uiState;
 };

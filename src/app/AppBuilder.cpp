@@ -5,6 +5,9 @@
 #include "platform/IDisplayControl.h"
 #include "platform/IGpioMonitor.h"
 #include "platform/PlatformFactory.h"
+#include "state/PlaybackState.h"
+#include "state/ReceiverState.h"
+#include "state/UIState.h"
 #include "utils/Logging.h"
 
 AppBuilder::AppBuilder(QObject* parent)
@@ -29,12 +32,22 @@ AppContext AppBuilder::build(const AppConfig& config)
 
     qCInfo(mediaApp) << "AppBuilder: platform:" << (PlatformFactory::isLinux() ? "Linux (real)" : "non-Linux (stubs)");
 
+    // Create state layer — thin Q_PROPERTY bags for QML binding
+    m_receiverState = std::make_unique<ReceiverState>(this);
+    m_playbackState = std::make_unique<PlaybackState>(this);
+    m_uiState = std::make_unique<UIState>(this);
+
+    qCInfo(mediaApp) << "AppBuilder: state layer initialized";
+
     // Build context with non-owning pointers
     AppContext ctx;
     ctx.audioOutput = m_audioOutput.get();
     ctx.cdDrive = m_cdDrive.get();
     ctx.gpioMonitor = m_gpioMonitor.get();
     ctx.displayControl = m_displayControl.get();
+    ctx.receiverState = m_receiverState.get();
+    ctx.playbackState = m_playbackState.get();
+    ctx.uiState = m_uiState.get();
 
     qCInfo(mediaApp) << "AppBuilder: object graph complete";
     return ctx;

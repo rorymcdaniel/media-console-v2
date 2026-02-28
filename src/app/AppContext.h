@@ -4,6 +4,9 @@ class IAudioOutput;
 class ICdDrive;
 class IGpioMonitor;
 class IDisplayControl;
+class ReceiverState;
+class PlaybackState;
+class UIState;
 
 struct AppContext
 {
@@ -14,9 +17,8 @@ struct AppContext
     IGpioMonitor* gpioMonitor = nullptr;
     IDisplayControl* displayControl = nullptr;
 
-    // Future phases add:
-    // ReceiverState* receiverState
-    // PlaybackState* playbackState
-    // UIState* uiState
-    // Controllers, etc.
+    // State layer -- thin Q_PROPERTY bags for QML binding
+    ReceiverState* receiverState = nullptr;
+    PlaybackState* playbackState = nullptr;
+    UIState* uiState = nullptr;
 };

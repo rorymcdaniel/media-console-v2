@@ -84,12 +84,12 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### GPIO Hardware
 
-- [ ] **GPIO-01**: Volume rotary encoder monitor (PEC11R-4020F-S0024): GPIO 27/22/23, quadrature decoding via libgpiod v2 API, gesture-based coalescing
-- [ ] **GPIO-02**: Input rotary encoder monitor (PEC11R-4320F-S0012): GPIO 16/20/5, quadrature decoding, 250ms switch debounce, 1:1 detent-to-input mapping
-- [ ] **GPIO-03**: Reed switch monitor: GPIO 17, 500ms debounce, magnets apart = display on, together = off
-- [ ] **GPIO-04**: All monitors run in background threads via libgpiod v2 event monitoring on /dev/gpiochip4
-- [ ] **GPIO-05**: Linux-only with no-op stubs on other platforms (via IGpioMonitor interface)
-- [ ] **GPIO-06**: Mute button triggers on ONE edge only (falling or rising, not both) — fixes known double-toggle bug
+- [x] **GPIO-01**: Volume rotary encoder monitor (PEC11R-4020F-S0024): GPIO 27/22/23, quadrature decoding via libgpiod v2 API, gesture-based coalescing
+- [x] **GPIO-02**: Input rotary encoder monitor (PEC11R-4320F-S0012): GPIO 16/20/5, quadrature decoding, 250ms switch debounce, 1:1 detent-to-input mapping
+- [x] **GPIO-03**: Reed switch monitor: GPIO 17, 500ms debounce, magnets apart = display on, together = off
+- [x] **GPIO-04**: All monitors run in background threads via libgpiod v2 event monitoring on /dev/gpiochip4
+- [x] **GPIO-05**: Linux-only with no-op stubs on other platforms (via IGpioMonitor interface)
+- [x] **GPIO-06**: Mute button triggers on ONE edge only (falling or rising, not both) — fixes known double-toggle bug
 
 ### Spotify
 
@@ -258,12 +258,12 @@ Updated during roadmap creation.
 | FLAC-06 | Phase 6 | Pending |
 | FLAC-07 | Phase 6 | Pending |
 | FLAC-08 | Phase 6 | Pending |
-| GPIO-01 | Phase 7 | Pending |
-| GPIO-02 | Phase 7 | Pending |
-| GPIO-03 | Phase 7 | Pending |
-| GPIO-04 | Phase 7 | Pending |
-| GPIO-05 | Phase 7 | Pending |
-| GPIO-06 | Phase 7 | Pending |
+| GPIO-01 | Phase 7 | Complete |
+| GPIO-02 | Phase 7 | Complete |
+| GPIO-03 | Phase 7 | Complete |
+| GPIO-04 | Phase 7 | Complete |
+| GPIO-05 | Phase 7 | Complete |
+| GPIO-06 | Phase 7 | Complete |
 | SPOT-01 | Phase 8 | Pending |
 | SPOT-02 | Phase 8 | Pending |
 | SPOT-03 | Phase 8 | Pending |

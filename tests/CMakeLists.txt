@@ -38,6 +38,8 @@ set(TEST_SOURCES
     test_FlacAudioStream.cpp
     test_LibraryScanner.cpp
     test_LibraryAlbumArtProvider.cpp
+    test_LibraryModels.cpp
+    test_FlacLibraryController.cpp
 )
 
 add_executable(media-console-tests ${TEST_SOURCES})

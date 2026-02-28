@@ -22,6 +22,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 8: Spotify Integration** - OAuth PKCE flow, device transfer, search, playback control, and session takeover
 - [ ] **Phase 9: Display, HTTP API, and Orchestration** - Screen timeout state machine, REST API server, PlaybackRouter, and AlbumArtResolver
 - [x] **Phase 10: QML UI and Production Deployment** - All QML components integrated, theme system, kiosk systemd service, and deployment scripts (completed 2026-02-28)
+- [ ] **Phase 11: Integration Wiring Fixes** - Fix cross-phase integration bugs: Q_INVOKABLE, signal wiring, QML singleton registration, seek routing, volume reconciliation
+- [ ] **Phase 12: Verification and Traceability Completion** - Write VERIFICATION.md for Phases 1/2/4/5/6, create Phase 6 SUMMARYs, reconcile REQUIREMENTS.md traceability
 
 ## Phase Details
 
@@ -193,6 +195,37 @@ Plans:
 - [ ] 10-03: TBD
 - [ ] 10-04: TBD
 
+### Phase 11: Integration Wiring Fixes
+**Goal**: Fix all cross-phase integration bugs causing runtime failures or unreachable features
+**Depends on**: Phase 4, Phase 5, Phase 6, Phase 9, Phase 10
+**Requirements**: AUDIO-06, AUDIO-07, FLAC-08, UI-09, UI-13, ORCH-03
+**Gap Closure**: Closes 5 integration bugs and 2 broken E2E flows from v1.0 audit
+**Success Criteria** (what must be TRUE):
+  1. FlacLibraryController.playTrack() is Q_INVOKABLE and QML library playback works end-to-end
+  2. audioRecoveryFailed signal connected to UIState.setAudioError in AppBuilder — AudioErrorDialog triggers on ALSA recovery failure
+  3. CdController registered as QML singleton, eject button handler calls CdController.eject(), CD track selection works from UI
+  4. PlaybackRouter.seek() routes to LocalPlaybackController for CD and Library sources
+  5. ReceiverController volume updates flow through VolumeGestureController.onExternalVolumeUpdate()
+
+Plans:
+- [ ] 11-01: TBD
+- [ ] 11-02: TBD
+
+### Phase 12: Verification and Traceability Completion
+**Goal**: Write VERIFICATION.md for all unverified phases and reconcile REQUIREMENTS.md to close the milestone
+**Depends on**: Phase 11
+**Requirements**: FOUND-01..10, STATE-01..05, AUDIO-01..09, CD-01..12, FLAC-01..08
+**Gap Closure**: Closes verification documentation gaps for Phases 1, 2, 4, 5, 6 from v1.0 audit
+**Success Criteria** (what must be TRUE):
+  1. VERIFICATION.md exists for Phases 1, 2, 4, 5, and 6 with line-by-line evidence
+  2. SUMMARY files exist for all Phase 6 plans with requirements-completed frontmatter
+  3. REQUIREMENTS.md traceability table reflects verified status for all 108 requirements
+  4. All requirement checkboxes match verified/unverified status
+
+Plans:
+- [ ] 12-01: TBD
+- [ ] 12-02: TBD
+
 ## Progress
 
 **Execution Order:**
@@ -210,3 +243,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 8. Spotify Integration | 3/3 | Complete | 2026-02-28 |
 | 9. Display, HTTP API, and Orchestration | 3/3 | Complete | 2026-02-28 |
 | 10. QML UI and Production Deployment | 4/4 | Complete    | 2026-02-28 |
+| 11. Integration Wiring Fixes | 0/? | Planned | — |
+| 12. Verification and Traceability Completion | 0/? | Planned | — |

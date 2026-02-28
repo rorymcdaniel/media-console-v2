@@ -22,11 +22,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### State Layer
 
-- [x] **STATE-01**: ReceiverState as thin Q_PROPERTY bag exposing volume, input, power, mute, metadata — no business logic
-- [x] **STATE-02**: PlaybackState as thin Q_PROPERTY bag exposing playback mode, position, duration, track info — no business logic
-- [x] **STATE-03**: UIState as thin Q_PROPERTY bag exposing overlay visibility, active view, error states — no business logic
-- [x] **STATE-04**: MediaSource enum separates user-facing sources from receiver input hex codes
-- [x] **STATE-05**: All state objects registered as QML singletons via qmlRegisterSingletonInstance()
+- [ ] **STATE-01**: ReceiverState as thin Q_PROPERTY bag exposing volume, input, power, mute, metadata — no business logic
+- [ ] **STATE-02**: PlaybackState as thin Q_PROPERTY bag exposing playback mode, position, duration, track info — no business logic
+- [ ] **STATE-03**: UIState as thin Q_PROPERTY bag exposing overlay visibility, active view, error states — no business logic
+- [ ] **STATE-04**: MediaSource enum separates user-facing sources from receiver input hex codes
+- [ ] **STATE-05**: All state objects registered as QML singletons via qmlRegisterSingletonInstance()
 
 ### Receiver Control
 
@@ -46,15 +46,15 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Audio Pipeline
 
-- [x] **AUDIO-01**: AudioStream interface (open, readFrames, totalFrames, close, seek) implemented by CdAudioStream and FlacAudioStream
-- [x] **AUDIO-02**: Single LocalPlaybackController parameterized by AudioStream — replaces separate CD and FLAC controllers
-- [x] **AUDIO-03**: ALSA PCM output to S/PDIF device (hw:2,0) at 44100Hz, 16-bit, stereo via IAudioOutput interface
-- [x] **AUDIO-04**: Background thread playback loop with atomic flag control (stop, pause, pending track, pending seek)
-- [x] **AUDIO-05**: Intelligent audio buffering: 8-second buffer, 1-second prefill target, max 3 retries with 50ms backoff
-- [x] **AUDIO-06**: Buffer statistics: xrun tracking, per-read latency (avg/max microseconds), read error counting
-- [x] **AUDIO-07**: EIO recovery: close and reopen ALSA device on I/O errors, emit audioRecoveryFailed when exhausted
-- [x] **AUDIO-08**: Full playback control: play, pause, stop, next, previous, seek (sector-based for CD, sample-based for FLAC)
-- [x] **AUDIO-09**: ALSA device exclusivity enforced architecturally — one controller, one device, mutually exclusive sources
+- [ ] **AUDIO-01**: AudioStream interface (open, readFrames, totalFrames, close, seek) implemented by CdAudioStream and FlacAudioStream
+- [ ] **AUDIO-02**: Single LocalPlaybackController parameterized by AudioStream — replaces separate CD and FLAC controllers
+- [ ] **AUDIO-03**: ALSA PCM output to S/PDIF device (hw:2,0) at 44100Hz, 16-bit, stereo via IAudioOutput interface
+- [ ] **AUDIO-04**: Background thread playback loop with atomic flag control (stop, pause, pending track, pending seek)
+- [ ] **AUDIO-05**: Intelligent audio buffering: 8-second buffer, 1-second prefill target, max 3 retries with 50ms backoff
+- [ ] **AUDIO-06**: Buffer statistics: xrun tracking, per-read latency (avg/max microseconds), read error counting
+- [ ] **AUDIO-07**: EIO recovery: close and reopen ALSA device on I/O errors, emit audioRecoveryFailed when exhausted
+- [ ] **AUDIO-08**: Full playback control: play, pause, stop, next, previous, seek (sector-based for CD, sample-based for FLAC)
+- [ ] **AUDIO-09**: ALSA device exclusivity enforced architecturally — one controller, one device, mutually exclusive sources
 
 ### CD Subsystem
 
@@ -131,11 +131,11 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **UI-06**: LibraryBrowser: StackView drill-down (Artists -> Albums -> Tracks), artist A-Z quick scroll sidebar, split layout on track page
 - [x] **UI-07**: SpotifySearch: fullscreen overlay with on-screen QWERTY keyboard (SimpleKeyboard), search results with album art
 - [x] **UI-08**: SpotifyTakeoverDialog: modal confirmation for session transfer
-- [x] **UI-09**: AudioErrorDialog: modal for ALSA recovery failures with retry option
+- [ ] **UI-09**: AudioErrorDialog: modal for ALSA recovery failures with retry option
 - [x] **UI-10**: ToastNotification: bottom-center 3-second auto-dismiss (info/success/error types)
 - [x] **UI-11**: VolumeOverlay: large modal with numeric display, auto-dismiss after 2s — only shown for local user input
 - [x] **UI-12**: VolumeIndicator: persistent top-right display with draggable slider
-- [x] **UI-13**: EjectButton: visible only when CD present
+- [ ] **UI-13**: EjectButton: visible only when CD present
 - [x] **UI-14**: SearchButton: visible only on Spotify input
 - [x] **UI-15**: ErrorBanner: shown when receiver disconnected
 - [x] **UI-16**: TimeDisplay: current time, updates every minute
@@ -146,7 +146,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **ORCH-01**: PlaybackRouter owns input->controller routing, eliminating duplicated if/else chains across play/pause/stop/next/previous/seek
 - [x] **ORCH-02**: AlbumArtResolver: receiver CGI art for streaming sources, local cached art for CD and Library
-- [x] **ORCH-03**: VolumeGestureController: coalesces encoder events, manages optimistic UI, sends commands after gesture ends
+- [ ] **ORCH-03**: VolumeGestureController: coalesces encoder events, manages optimistic UI, sends commands after gesture ends
 
 ### Production
 
@@ -210,11 +210,11 @@ Updated during roadmap creation.
 | FOUND-08 | Phase 1 | Pending |
 | FOUND-09 | Phase 1 | Pending |
 | FOUND-10 | Phase 1 | Pending |
-| STATE-01 | Phase 2 | Complete |
-| STATE-02 | Phase 2 | Complete |
-| STATE-03 | Phase 2 | Complete |
-| STATE-04 | Phase 2 | Complete |
-| STATE-05 | Phase 2 | Complete |
+| STATE-01 | Phase 2 | Pending |
+| STATE-02 | Phase 2 | Pending |
+| STATE-03 | Phase 2 | Pending |
+| STATE-04 | Phase 2 | Pending |
+| STATE-05 | Phase 2 | Pending |
 | RECV-01 | Phase 3 | Complete |
 | RECV-02 | Phase 3 | Complete |
 | RECV-03 | Phase 3 | Complete |
@@ -228,16 +228,16 @@ Updated during roadmap creation.
 | RECV-11 | Phase 3 | Complete |
 | RECV-12 | Phase 3 | Complete |
 | RECV-13 | Phase 3 | Complete |
-| ORCH-03 | Phase 3 | Complete |
-| AUDIO-01 | Phase 4 | Complete |
-| AUDIO-02 | Phase 4 | Complete |
-| AUDIO-03 | Phase 4 | Complete |
-| AUDIO-04 | Phase 4 | Complete |
-| AUDIO-05 | Phase 4 | Complete |
-| AUDIO-06 | Phase 4 | Complete |
-| AUDIO-07 | Phase 4 | Complete |
-| AUDIO-08 | Phase 4 | Complete |
-| AUDIO-09 | Phase 4 | Complete |
+| ORCH-03 | Phase 11 | Pending |
+| AUDIO-01 | Phase 4 | Pending |
+| AUDIO-02 | Phase 4 | Pending |
+| AUDIO-03 | Phase 4 | Pending |
+| AUDIO-04 | Phase 4 | Pending |
+| AUDIO-05 | Phase 4 | Pending |
+| AUDIO-06 | Phase 11 | Pending |
+| AUDIO-07 | Phase 11 | Pending |
+| AUDIO-08 | Phase 4 | Pending |
+| AUDIO-09 | Phase 4 | Pending |
 | CD-01 | Phase 5 | Complete |
 | CD-02 | Phase 5 | Complete |
 | CD-03 | Phase 5 | Pending |
@@ -257,7 +257,7 @@ Updated during roadmap creation.
 | FLAC-05 | Phase 6 | Pending |
 | FLAC-06 | Phase 6 | Pending |
 | FLAC-07 | Phase 6 | Pending |
-| FLAC-08 | Phase 6 | Pending |
+| FLAC-08 | Phase 11 | Pending |
 | GPIO-01 | Phase 7 | Complete |
 | GPIO-02 | Phase 7 | Complete |
 | GPIO-03 | Phase 7 | Complete |
@@ -295,11 +295,11 @@ Updated during roadmap creation.
 | UI-06 | Phase 10 | Complete |
 | UI-07 | Phase 10 | Complete |
 | UI-08 | Phase 10 | Complete |
-| UI-09 | Phase 10 | Complete |
+| UI-09 | Phase 11 | Pending |
 | UI-10 | Phase 10 | Complete |
 | UI-11 | Phase 10 | Complete |
 | UI-12 | Phase 10 | Complete |
-| UI-13 | Phase 10 | Complete |
+| UI-13 | Phase 11 | Pending |
 | UI-14 | Phase 10 | Complete |
 | UI-15 | Phase 10 | Complete |
 | UI-16 | Phase 10 | Complete |

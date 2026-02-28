@@ -470,6 +470,34 @@ void HttpApiServer::setupRoutes()
                         return QJsonObject { { "authenticated", m_spotifyAuth->isAuthenticated() } };
                     });
 
+    // GET /spotify/search - Search Spotify catalog
+    m_server->route("/spotify/search", QHttpServerRequest::Method::Get,
+                    [this](const QHttpServerRequest& request)
+                    {
+                        emit activityDetected();
+
+                        if (!m_spotifyAuth || !m_spotifyAuth->isAuthenticated())
+                        {
+                            return QHttpServerResponse(QJsonObject { { "error", "Not authenticated" } },
+                                                       QHttpServerResponder::StatusCode::Unauthorized);
+                        }
+
+                        QUrlQuery query(request.url());
+                        if (!query.hasQueryItem("q"))
+                        {
+                            return QHttpServerResponse(QJsonObject { { "error", "Missing 'q' parameter" } },
+                                                       QHttpServerResponder::StatusCode::BadRequest);
+                        }
+
+                        QString searchQuery = query.queryItemValue("q");
+                        if (m_spotifyController)
+                        {
+                            m_spotifyController->search(searchQuery);
+                        }
+
+                        return QHttpServerResponse(QJsonObject { { "status", "ok" }, { "query", searchQuery } });
+                    });
+
     // POST /spotify/play - Resume playback on receiver
     m_server->route("/spotify/play", QHttpServerRequest::Method::Post,
                     [this]()

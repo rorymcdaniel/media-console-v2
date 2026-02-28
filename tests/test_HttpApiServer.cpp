@@ -438,4 +438,14 @@ TEST_F(HttpApiServerIntegrationTest, ActivityDetectedOnPostRequests)
     EXPECT_GE(activitySpy.count(), 1);
 }
 
+TEST_F(HttpApiServerIntegrationTest, SpotifySearchWhenNotAuthenticatedReturnsError)
+{
+    ASSERT_TRUE(server->start());
+
+    QNetworkAccessManager nam;
+    auto json = httpGet(nam, baseUrl() + "/spotify/search?q=test");
+
+    EXPECT_TRUE(json.contains("error"));
+}
+
 #endif // HAS_QT_HTTPSERVER

@@ -13,7 +13,7 @@ A 10-phase ground-up rewrite of the Qt6/QML music console application, structure
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation and Build Infrastructure** - Project skeleton with CMake, interfaces, platform abstraction, composition root, and test framework
-- [ ] **Phase 2: State Layer and QML Binding Surface** - Thin reactive state objects that QML binds to, registered as singletons
+- [x] **Phase 2: State Layer and QML Binding Surface** - Thin reactive state objects that QML binds to, registered as singletons
 - [ ] **Phase 3: Receiver Control** - eISCP TCP connection to Onkyo receiver with volume gesture coalescing and metadata parsing
 - [ ] **Phase 4: Audio Pipeline** - Unified LocalPlaybackController with ALSA output, audio streams, and playback thread
 - [ ] **Phase 5: CD Subsystem** - Disc detection, paranoia extraction, three-tier async metadata lookup, and progressive display
@@ -51,11 +51,11 @@ Plans:
   2. PlaybackState exposes playback mode, position, duration, and track info as Q_PROPERTYs
   3. A QML test harness can bind to all three state objects (ReceiverState, PlaybackState, UIState) registered as singletons and display their values
   4. MediaSource enum is distinct from receiver input hex codes and can be converted between the two
-**Plans**: TBD
+**Plans**: 2 plans in 2 waves
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+- [x] 02-01-PLAN.md — State enums with MediaSource hex code conversion, Q_PROPERTY bags, AppBuilder wiring (`3911c0b`, `9d34813`)
+- [x] 02-02-PLAN.md — QML singleton registration and test harness (`92996c8`)
 
 ### Phase 3: Receiver Control
 **Goal**: The application connects to the Onkyo receiver and provides full control over power, volume, input, mute, and metadata with smooth encoder-driven volume gestures
@@ -198,7 +198,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation and Build Infrastructure | 3/3 | Complete | 2026-02-28 |
-| 2. State Layer and QML Binding Surface | 0/2 | Not started | - |
+| 2. State Layer and QML Binding Surface | 2/2 | Complete | 2026-02-28 |
 | 3. Receiver Control | 0/3 | Not started | - |
 | 4. Audio Pipeline | 0/3 | Not started | - |
 | 5. CD Subsystem | 0/3 | Not started | - |

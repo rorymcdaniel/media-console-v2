@@ -26,7 +26,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **STATE-02**: PlaybackState as thin Q_PROPERTY bag exposing playback mode, position, duration, track info — no business logic
 - [x] **STATE-03**: UIState as thin Q_PROPERTY bag exposing overlay visibility, active view, error states — no business logic
 - [x] **STATE-04**: MediaSource enum separates user-facing sources from receiver input hex codes
-- [ ] **STATE-05**: All state objects registered as QML singletons via qmlRegisterSingletonInstance()
+- [x] **STATE-05**: All state objects registered as QML singletons via qmlRegisterSingletonInstance()
 
 ### Receiver Control
 
@@ -214,7 +214,7 @@ Updated during roadmap creation.
 | STATE-02 | Phase 2 | Complete |
 | STATE-03 | Phase 2 | Complete |
 | STATE-04 | Phase 2 | Complete |
-| STATE-05 | Phase 2 | Pending |
+| STATE-05 | Phase 2 | Complete |
 | RECV-01 | Phase 3 | Pending |
 | RECV-02 | Phase 3 | Pending |
 | RECV-03 | Phase 3 | Pending |

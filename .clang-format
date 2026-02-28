@@ -1,0 +1,24 @@
+---
+BasedOnStyle: WebKit
+ColumnLimit: 120
+IndentWidth: 4
+BreakBeforeBraces: Allman
+AccessModifierOffset: -4
+AlignAfterOpenBracket: Align
+AllowShortFunctionsOnASingleLine: Inline
+SpaceAfterTemplateKeyword: true
+PointerAlignment: Left
+
+# Include ordering: corresponding header, Qt, system, project
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: '^"[^/]*\.h"'
+    Priority: 1
+  - Regex: '^<Q'
+    Priority: 2
+  - Regex: '^<'
+    Priority: 3
+  - Regex: '^"'
+    Priority: 4
+SortIncludes: CaseSensitive
+...

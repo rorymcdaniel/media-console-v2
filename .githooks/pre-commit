@@ -1,0 +1,23 @@
+#!/bin/bash
+# Format-only pre-commit hook
+# Runs clang-format on staged C++ files and re-stages them.
+# clang-tidy runs during CMake build, not here (keeps commits fast).
+
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '\.(cpp|h|hpp)$')
+
+if [ -z "$STAGED_FILES" ]; then
+    exit 0
+fi
+
+# Check if clang-format is available
+if ! command -v clang-format &> /dev/null; then
+    echo "Warning: clang-format not found, skipping formatting"
+    exit 0
+fi
+
+for FILE in $STAGED_FILES; do
+    if [ -f "$FILE" ]; then
+        clang-format -i "$FILE"
+        git add "$FILE"
+    fi
+done

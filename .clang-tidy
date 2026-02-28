@@ -1,0 +1,13 @@
+---
+Checks: >
+  -*,
+  bugprone-*,
+  modernize-*,
+  performance-*,
+  readability-*,
+  -modernize-use-trailing-return-type,
+  -readability-redundant-access-specifiers,
+  -readability-identifier-length
+HeaderFilterRegex: 'src/.*\.h$'
+WarningsAsErrors: ''
+...

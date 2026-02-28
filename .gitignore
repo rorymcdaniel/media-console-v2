@@ -1,0 +1,37 @@
+# Build directories
+build/
+cmake-build-*/
+.cache/
+
+# Compiled objects
+*.o
+*.so
+*.dylib
+*.a
+
+# Qt generated files
+moc_*
+qrc_*
+*.qmlc
+ui_*.h
+
+# CMake generated
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+compile_commands.json
+
+# Testing
+Testing/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

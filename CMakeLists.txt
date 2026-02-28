@@ -130,6 +130,8 @@ set(LIB_SOURCES
     src/cd/CdMetadataProvider.cpp
     src/cd/CdAlbumArtProvider.h
     src/cd/CdAlbumArtProvider.cpp
+    src/cd/CdController.h
+    src/cd/CdController.cpp
 )
 
 # ALSA audio output (Linux only)

@@ -7,7 +7,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 # Qt6 components
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick Qml Test Network Sql)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick Qml Test Network Sql Concurrent)
 qt_standard_project_setup(REQUIRES 6.8)
 
 # clang-tidy integration (runs during build, does not block commits)
@@ -132,6 +132,8 @@ set(LIB_SOURCES
     src/cd/CdAlbumArtProvider.cpp
     src/cd/CdController.h
     src/cd/CdController.cpp
+    src/library/LibraryDatabase.h
+    src/library/LibraryDatabase.cpp
 )
 
 # ALSA audio output (Linux only)
@@ -164,6 +166,37 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     endif()
 endif()
 
+# FLAC library subsystem (Linux only -- libsndfile + libsamplerate + taglib)
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    if(NOT TARGET PkgConfig::ALSA)
+        find_package(PkgConfig REQUIRED)
+    endif()
+    pkg_check_modules(SNDFILE IMPORTED_TARGET sndfile)
+    pkg_check_modules(SAMPLERATE IMPORTED_TARGET samplerate)
+    pkg_check_modules(TAGLIB IMPORTED_TARGET taglib)
+    if(SNDFILE_FOUND AND SAMPLERATE_FOUND AND TAGLIB_FOUND)
+        list(APPEND LIB_SOURCES
+            src/library/FlacAudioStream.h
+            src/library/FlacAudioStream.cpp
+            src/library/LibraryScanner.h
+            src/library/LibraryScanner.cpp
+            src/library/LibraryAlbumArtProvider.h
+            src/library/LibraryAlbumArtProvider.cpp
+            src/library/LibraryArtistModel.h
+            src/library/LibraryArtistModel.cpp
+            src/library/LibraryAlbumModel.h
+            src/library/LibraryAlbumModel.cpp
+            src/library/LibraryTrackModel.h
+            src/library/LibraryTrackModel.cpp
+            src/library/FlacLibraryController.h
+            src/library/FlacLibraryController.cpp
+        )
+        message(STATUS "FLAC library: enabled (libsndfile + libsamplerate + taglib found)")
+    else()
+        message(STATUS "FLAC library: disabled (libsndfile/libsamplerate/taglib not found)")
+    endif()
+endif()
+
 # Create static library for testing without main()
 add_library(media-console-lib STATIC ${LIB_SOURCES})
 
@@ -178,6 +211,7 @@ target_link_libraries(media-console-lib PUBLIC
     Qt6::Qml
     Qt6::Network
     Qt6::Sql
+    Qt6::Concurrent
 )
 
 # Link ALSA on Linux
@@ -195,6 +229,16 @@ if(CDIO_FOUND AND CDIO_PARANOIA_FOUND AND CDIO_CDDA_FOUND AND DISCID_FOUND)
         PkgConfig::DISCID
     )
     target_compile_definitions(media-console-lib PUBLIC HAS_CDIO=1)
+endif()
+
+# Link FLAC library libraries on Linux
+if(SNDFILE_FOUND AND SAMPLERATE_FOUND AND TAGLIB_FOUND)
+    target_link_libraries(media-console-lib PUBLIC
+        PkgConfig::SNDFILE
+        PkgConfig::SAMPLERATE
+        PkgConfig::TAGLIB
+    )
+    target_compile_definitions(media-console-lib PUBLIC HAS_SNDFILE=1)
 endif()
 
 # Pass version info to C++ code

@@ -34,6 +34,8 @@ set(TEST_SOURCES
     test_CdMetadataCache.cpp
     test_CdMetadataProvider.cpp
     test_CdController.cpp
+    test_LibraryDatabase.cpp
+    test_FlacAudioStream.cpp
 )
 
 add_executable(media-console-tests ${TEST_SOURCES})

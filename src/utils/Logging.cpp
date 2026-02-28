@@ -8,6 +8,7 @@ Q_LOGGING_CATEGORY(mediaHttp, "media.http")
 Q_LOGGING_CATEGORY(mediaLidarr, "media.lidarr")
 Q_LOGGING_CATEGORY(mediaGpio, "media.gpio")
 Q_LOGGING_CATEGORY(mediaCd, "media.cd")
+Q_LOGGING_CATEGORY(mediaLibrary, "media.library")
 
 void initLogging(const QString& filterRules)
 {

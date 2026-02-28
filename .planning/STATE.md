@@ -4,12 +4,12 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 8
 status: In Progress
-last_updated: "2026-02-28T19:46:14Z"
+last_updated: "2026-02-28T19:52:19Z"
 progress:
   total_phases: 10
   completed_phases: 7
   total_plans: 25
-  completed_plans: 23
+  completed_plans: 24
 ---
 
 # Session State
@@ -22,7 +22,7 @@ See: .planning/PROJECT.md
 
 **Milestone:** v1.0 milestone
 **Current phase:** 8 (Spotify Integration)
-**Current plan:** 2 of 3
+**Current plan:** 3 of 3
 **Status:** In Progress
 
 ## Decisions
@@ -30,6 +30,9 @@ See: .planning/PROJECT.md
 - QByteArray for Spotify scope tokens (Qt6 NetworkAuth API requires QSet<QByteArray>)
 - spotify_auth QSettings group for token persistence (separate from spotify config group)
 - fprintf for CLI auth output in --spotify-auth mode
+- Static buildUrl method for testable URL construction without live HTTP calls
+- Three reply handler patterns: JsonObject, JsonArray (with key extraction), and Command (204 success)
+- sendCustomRequest with POST verb for next/previous/addToQueue (QNetworkAccessManager has no post-with-empty-body)
 
 ## Session Log
 
@@ -39,3 +42,4 @@ See: .planning/PROJECT.md
 - 2026-02-28: Plan 07-02 complete - QuadratureDecoder, LinuxGpioMonitor with libgpiod v2 poll() loop
 - 2026-02-28: Plan 07-03 complete - PlatformFactory HAS_GPIOD, AppBuilder GPIO wiring, ReceiverController input cycling
 - 2026-02-28: Plan 08-01 complete - SpotifyAuth OAuth 2.0 PKCE S256, token persistence, CLI --spotify-auth
+- 2026-02-28: Plan 08-02 complete - SpotifyClient REST API wrapper, 15 endpoint methods, 8 tests

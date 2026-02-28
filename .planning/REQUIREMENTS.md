@@ -94,13 +94,13 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Spotify
 
 - [x] **SPOT-01**: OAuth 2.0 PKCE Authorization Code flow with token persistence and auto-refresh (5 min pre-expiry)
-- [ ] **SPOT-02**: Device discovery and playback transfer by device name
-- [ ] **SPOT-03**: Playback control: play, pause, next, previous, play by URI, context-aware playback
-- [ ] **SPOT-04**: Full-text search via Spotify Web API (tracks, artists, albums)
-- [ ] **SPOT-05**: Queue management: add tracks to queue
-- [ ] **SPOT-06**: Suggested playlists: featured + user recommendations
-- [ ] **SPOT-07**: Active session detection with takeover dialog showing current device and track
-- [ ] **SPOT-08**: Album art: use receiver-provided CGI art for all streaming sources
+- [x] **SPOT-02**: Device discovery and playback transfer by device name
+- [x] **SPOT-03**: Playback control: play, pause, next, previous, play by URI, context-aware playback
+- [x] **SPOT-04**: Full-text search via Spotify Web API (tracks, artists, albums)
+- [x] **SPOT-05**: Queue management: add tracks to queue
+- [x] **SPOT-06**: Suggested playlists: featured + user recommendations
+- [x] **SPOT-07**: Active session detection with takeover dialog showing current device and track
+- [x] **SPOT-08**: Album art: use receiver-provided CGI art for all streaming sources
 
 ### Display Control
 
@@ -265,13 +265,13 @@ Updated during roadmap creation.
 | GPIO-05 | Phase 7 | Complete |
 | GPIO-06 | Phase 7 | Complete |
 | SPOT-01 | Phase 8 | Complete |
-| SPOT-02 | Phase 8 | Pending |
-| SPOT-03 | Phase 8 | Pending |
-| SPOT-04 | Phase 8 | Pending |
-| SPOT-05 | Phase 8 | Pending |
-| SPOT-06 | Phase 8 | Pending |
-| SPOT-07 | Phase 8 | Pending |
-| SPOT-08 | Phase 8 | Pending |
+| SPOT-02 | Phase 8 | Complete |
+| SPOT-03 | Phase 8 | Complete |
+| SPOT-04 | Phase 8 | Complete |
+| SPOT-05 | Phase 8 | Complete |
+| SPOT-06 | Phase 8 | Complete |
+| SPOT-07 | Phase 8 | Complete |
+| SPOT-08 | Phase 8 | Complete |
 | DISP-01 | Phase 9 | Pending |
 | DISP-02 | Phase 9 | Pending |
 | DISP-03 | Phase 9 | Pending |

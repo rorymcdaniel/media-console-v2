@@ -14,8 +14,7 @@ public:
     void stop() override;
 
     // Programmatic control for testing
-    void simulateVolumeUp();
-    void simulateVolumeDown();
+    void simulateVolumeChange(int delta);
     void simulateMuteToggle();
     void simulateInputNext();
     void simulateInputPrevious();

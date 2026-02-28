@@ -44,5 +44,21 @@ AppConfig AppConfig::loadFromSettings()
     config.spotify.desiredDeviceName
         = settings.value("spotify/desired_device_name", config.spotify.desiredDeviceName).toString();
 
+    // GPIO
+    config.gpio.chipPath = settings.value("gpio/chip_path", config.gpio.chipPath).toString();
+    config.gpio.volumeEncoderPinA = settings.value("gpio/volume_encoder_pin_a", config.gpio.volumeEncoderPinA).toInt();
+    config.gpio.volumeEncoderPinB = settings.value("gpio/volume_encoder_pin_b", config.gpio.volumeEncoderPinB).toInt();
+    config.gpio.volumeEncoderDelta
+        = settings.value("gpio/volume_encoder_delta", config.gpio.volumeEncoderDelta).toInt();
+    config.gpio.inputEncoderPinA = settings.value("gpio/input_encoder_pin_a", config.gpio.inputEncoderPinA).toInt();
+    config.gpio.inputEncoderPinB = settings.value("gpio/input_encoder_pin_b", config.gpio.inputEncoderPinB).toInt();
+    config.gpio.inputEncoderButtonPin
+        = settings.value("gpio/input_encoder_button_pin", config.gpio.inputEncoderButtonPin).toInt();
+    config.gpio.inputButtonDebounceMs
+        = settings.value("gpio/input_button_debounce_ms", config.gpio.inputButtonDebounceMs).toInt();
+    config.gpio.reedSwitchPin = settings.value("gpio/reed_switch_pin", config.gpio.reedSwitchPin).toInt();
+    config.gpio.reedSwitchDebounceMs
+        = settings.value("gpio/reed_switch_debounce_ms", config.gpio.reedSwitchDebounceMs).toInt();
+
     return config;
 }

@@ -52,6 +52,23 @@ struct SpotifyConfig
     QString desiredDeviceName = "Voice of Music";
 };
 
+struct GpioConfig
+{
+    QString chipPath = "/dev/gpiochip4";
+    // Volume encoder (PEC11R-4020F-S0024, 24 PPR, smooth)
+    int volumeEncoderPinA = 27;
+    int volumeEncoderPinB = 22;
+    int volumeEncoderDelta = 2; // volume steps per detent
+    // Input encoder (PEC11R-4320F-S0012, 12 PPR, 12 detents)
+    int inputEncoderPinA = 16;
+    int inputEncoderPinB = 20;
+    int inputEncoderButtonPin = 5; // push button (mute/select)
+    int inputButtonDebounceMs = 250;
+    // Reed switch
+    int reedSwitchPin = 17;
+    int reedSwitchDebounceMs = 500;
+};
+
 struct AppConfig
 {
     ReceiverConfig receiver;
@@ -62,6 +79,7 @@ struct AppConfig
     ApiConfig api;
     LoggingConfig logging;
     SpotifyConfig spotify;
+    GpioConfig gpio;
 
     static AppConfig loadFromSettings();
 };

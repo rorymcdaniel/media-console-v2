@@ -27,22 +27,24 @@ TEST_F(StubGpioMonitorTest, StartSucceeds)
     EXPECT_TRUE(gpio.start());
 }
 
-TEST_F(StubGpioMonitorTest, SimulateVolumeUpEmitsSignal)
+TEST_F(StubGpioMonitorTest, SimulateVolumeChangePositiveEmitsSignal)
 {
     StubGpioMonitor gpio;
-    QSignalSpy spy(&gpio, &IGpioMonitor::volumeUp);
+    QSignalSpy spy(&gpio, &IGpioMonitor::volumeChanged);
 
-    gpio.simulateVolumeUp();
-    EXPECT_EQ(spy.count(), 1);
+    gpio.simulateVolumeChange(+2);
+    ASSERT_EQ(spy.count(), 1);
+    EXPECT_EQ(spy.at(0).at(0).toInt(), 2);
 }
 
-TEST_F(StubGpioMonitorTest, SimulateVolumeDownEmitsSignal)
+TEST_F(StubGpioMonitorTest, SimulateVolumeChangeNegativeEmitsSignal)
 {
     StubGpioMonitor gpio;
-    QSignalSpy spy(&gpio, &IGpioMonitor::volumeDown);
+    QSignalSpy spy(&gpio, &IGpioMonitor::volumeChanged);
 
-    gpio.simulateVolumeDown();
-    EXPECT_EQ(spy.count(), 1);
+    gpio.simulateVolumeChange(-2);
+    ASSERT_EQ(spy.count(), 1);
+    EXPECT_EQ(spy.at(0).at(0).toInt(), -2);
 }
 
 TEST_F(StubGpioMonitorTest, SimulateMuteToggleEmitsSignal)
@@ -74,5 +76,23 @@ TEST_F(StubGpioMonitorTest, SimulateInputNextEmitsSignal)
     QSignalSpy spy(&gpio, &IGpioMonitor::inputNext);
 
     gpio.simulateInputNext();
+    EXPECT_EQ(spy.count(), 1);
+}
+
+TEST_F(StubGpioMonitorTest, SimulateInputPreviousEmitsSignal)
+{
+    StubGpioMonitor gpio;
+    QSignalSpy spy(&gpio, &IGpioMonitor::inputPrevious);
+
+    gpio.simulateInputPrevious();
+    EXPECT_EQ(spy.count(), 1);
+}
+
+TEST_F(StubGpioMonitorTest, SimulateInputSelectEmitsSignal)
+{
+    StubGpioMonitor gpio;
+    QSignalSpy spy(&gpio, &IGpioMonitor::inputSelect);
+
+    gpio.simulateInputSelect();
     EXPECT_EQ(spy.count(), 1);
 }

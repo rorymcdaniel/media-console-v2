@@ -18,14 +18,9 @@ void StubGpioMonitor::stop()
     qCInfo(mediaGpio) << "StubGpioMonitor: stopped";
 }
 
-void StubGpioMonitor::simulateVolumeUp()
+void StubGpioMonitor::simulateVolumeChange(int delta)
 {
-    emit volumeUp();
-}
-
-void StubGpioMonitor::simulateVolumeDown()
-{
-    emit volumeDown();
+    emit volumeChanged(delta);
 }
 
 void StubGpioMonitor::simulateMuteToggle()

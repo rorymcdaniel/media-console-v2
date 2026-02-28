@@ -17,9 +17,8 @@ public:
     virtual void stop() = 0;
 
 signals:
-    // Volume encoder signals
-    void volumeUp();
-    void volumeDown();
+    // Volume encoder signal — carries pre-scaled delta (+N/-N per detent)
+    void volumeChanged(int delta);
     void muteToggled();
 
     // Input encoder signals

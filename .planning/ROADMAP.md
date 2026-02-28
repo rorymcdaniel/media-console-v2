@@ -35,12 +35,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. A Google Test suite executes via CTest with at least one test per platform interface using stub implementations
   4. AppBuilder constructs an object graph and returns an AppContext with all platform stubs wired
   5. AppConfig loads settings from an INI file and provides typed access without any code touching QSettings directly
-**Plans**: TBD
+**Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
-- [ ] 01-03: TBD
+- [ ] 01-01-PLAN.md — CMake project skeleton, code quality tooling, logging categories, coding standards
+- [ ] 01-02-PLAN.md — Platform abstraction interfaces, stub implementations, PlatformFactory
+- [ ] 01-03-PLAN.md — AppConfig typed configuration, AppBuilder composition root, Google Test suite
 
 ### Phase 2: State Layer and QML Binding Surface
 **Goal**: QML has a stable, reactive binding surface with thin state objects that expose all properties the UI will need

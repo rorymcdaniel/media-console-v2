@@ -7,7 +7,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 # Qt6 components needed in Phase 1 (minimal set, expand in later phases)
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick Qml)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick Qml Test)
 qt_standard_project_setup(REQUIRES 6.8)
 
 # clang-tidy integration (runs during build, does not block commits)
@@ -91,6 +91,11 @@ set(LIB_SOURCES
     src/platform/stubs/StubGpioMonitor.cpp
     src/platform/stubs/StubDisplayControl.h
     src/platform/stubs/StubDisplayControl.cpp
+    src/app/AppConfig.h
+    src/app/AppConfig.cpp
+    src/app/AppContext.h
+    src/app/AppBuilder.h
+    src/app/AppBuilder.cpp
 )
 
 # Create static library for testing without main()

@@ -5,12 +5,12 @@ milestone_name: milestone
 current_phase: 9 (Display, HTTP API, and Orchestration)
 current_plan: 3 of 3
 status: executing
-last_updated: "2026-02-28T20:34:39.435Z"
+last_updated: "2026-02-28T20:36:59.084Z"
 progress:
-  total_phases: 10
-  completed_phases: 8
-  total_plans: 27
-  completed_plans: 26
+  total_phases: 9
+  completed_phases: 7
+  total_plans: 28
+  completed_plans: 23
 ---
 
 # Session State
@@ -43,6 +43,8 @@ See: .planning/PROJECT.md (updated 2026-02-28)
 - HAS_QT_HTTPSERVER compile guard for optional Qt6::HttpServer dependency
 - Static inputStringToMediaSource for testable input mapping without HttpServer
 - activityDetected signal on all API requests for ScreenTimeoutController integration
+- [Phase 09]: LinuxDisplayControl compiled unconditionally (uses only QProcess), HAS_DDCUTIL controls PlatformFactory routing
+- [Phase 09]: ScreenTimeoutController seconds-to-ms conversion from DisplayConfig, 20-step dimming animation, doorCloseMode flag for immediate off
 
 ## Session Log
 

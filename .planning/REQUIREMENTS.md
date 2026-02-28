@@ -104,14 +104,14 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Display Control
 
-- [ ] **DISP-01**: DDC/CI power and brightness control via ddcutil subprocess through IDisplayControl interface
-- [ ] **DISP-02**: Smooth dimming transitions, fade to black
-- [ ] **DISP-03**: Auto-detection of display bus
-- [ ] **DISP-04**: Screen timeout state machine: ACTIVE -> DIMMED -> OFF (+ DOOR_CLOSED from reed switch)
-- [ ] **DISP-05**: Configurable dim timeout (default 5 min), off timeout (default 20 min), dim brightness (default 25%)
-- [ ] **DISP-06**: Activity-based reset (touch events reset timeout)
-- [ ] **DISP-07**: Playback-aware: disable timeout during active music playback
-- [ ] **DISP-08**: Door sensor integration via reed switch
+- [x] **DISP-01**: DDC/CI power and brightness control via ddcutil subprocess through IDisplayControl interface
+- [x] **DISP-02**: Smooth dimming transitions, fade to black
+- [x] **DISP-03**: Auto-detection of display bus
+- [x] **DISP-04**: Screen timeout state machine: ACTIVE -> DIMMED -> OFF (+ DOOR_CLOSED from reed switch)
+- [x] **DISP-05**: Configurable dim timeout (default 5 min), off timeout (default 20 min), dim brightness (default 25%)
+- [x] **DISP-06**: Activity-based reset (touch events reset timeout)
+- [x] **DISP-07**: Playback-aware: disable timeout during active music playback
+- [x] **DISP-08**: Door sensor integration via reed switch
 
 ### HTTP API
 
@@ -272,14 +272,14 @@ Updated during roadmap creation.
 | SPOT-06 | Phase 8 | Complete |
 | SPOT-07 | Phase 8 | Complete |
 | SPOT-08 | Phase 8 | Complete |
-| DISP-01 | Phase 9 | Pending |
-| DISP-02 | Phase 9 | Pending |
-| DISP-03 | Phase 9 | Pending |
-| DISP-04 | Phase 9 | Pending |
-| DISP-05 | Phase 9 | Pending |
-| DISP-06 | Phase 9 | Pending |
-| DISP-07 | Phase 9 | Pending |
-| DISP-08 | Phase 9 | Pending |
+| DISP-01 | Phase 9 | Complete |
+| DISP-02 | Phase 9 | Complete |
+| DISP-03 | Phase 9 | Complete |
+| DISP-04 | Phase 9 | Complete |
+| DISP-05 | Phase 9 | Complete |
+| DISP-06 | Phase 9 | Complete |
+| DISP-07 | Phase 9 | Complete |
+| DISP-08 | Phase 9 | Complete |
 | API-01 | Phase 9 | Complete |
 | API-02 | Phase 9 | Complete |
 | API-03 | Phase 9 | Complete |

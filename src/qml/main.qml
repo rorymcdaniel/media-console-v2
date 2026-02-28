@@ -286,34 +286,9 @@ Window {
                 color: Theme.glassBorder
             }
 
-            // Input carousel placeholder — replaced in Plan 10-02
-            Column {
-                anchors.centerIn: parent
-                spacing: Theme.spacingMedium
-
-                Text {
-                    text: "INPUT"
-                    color: Theme.textSecondary
-                    font.pixelSize: Theme.fontSizeSmall
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-
-                Text {
-                    text: {
-                        switch (ReceiverState.currentInput) {
-                            case MediaSource.Streaming: return "Streaming"
-                            case MediaSource.Phono: return "Phono"
-                            case MediaSource.CD: return "CD"
-                            case MediaSource.Computer: return "Computer"
-                            case MediaSource.Bluetooth: return "Bluetooth"
-                            case MediaSource.Library: return "Library"
-                            default: return "None"
-                        }
-                    }
-                    color: Theme.textPrimary
-                    font.pixelSize: Theme.fontSizeLarge
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
+            // Input carousel (UI-05)
+            InputCarousel {
+                anchors.fill: parent
             }
         }
 

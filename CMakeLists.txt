@@ -336,6 +336,9 @@ qt_add_qml_module(media-console
     QML_FILES
         src/qml/main.qml
         src/qml/Theme.qml
+        src/qml/components/InputCarousel.qml
+        src/qml/components/LibraryBrowser.qml
+        src/qml/controls/AlphabetSidebar.qml
     RESOURCES
         src/qml/qmldir
 )

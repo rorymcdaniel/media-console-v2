@@ -62,7 +62,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **CD-02**: TOC reading via CdDrive (libcdio wrapper) through ICdDrive interface
 - [ ] **CD-03**: Hybrid disc presence detection: QFileSystemWatcher + ioctl polling with debounced state changes
 - [ ] **CD-04**: CD playback is ALWAYS user-initiated — no auto-play on insert or startup
-- [ ] **CD-05**: Three-tier async metadata lookup: MusicBrainz (via libdiscid) → GnuDB (CDDB) → Discogs (REST API) — ALL fully async, no event loop blocking
+- [ ] **CD-05**: Three-tier async metadata lookup: MusicBrainz (via libdiscid) -> GnuDB (CDDB) -> Discogs (REST API) — ALL fully async, no event loop blocking
 - [ ] **CD-06**: Progressive metadata display: show TOC immediately (Track 1, Track 2 with durations), fill in titles/artist/album art asynchronously
 - [ ] **CD-07**: SQLite metadata cache: instant lookup for previously-seen discs by disc ID
 - [ ] **CD-08**: Album art downloading from CoverArtArchive and Discogs, cached to disk with front and back cover support
@@ -107,7 +107,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **DISP-01**: DDC/CI power and brightness control via ddcutil subprocess through IDisplayControl interface
 - [ ] **DISP-02**: Smooth dimming transitions, fade to black
 - [ ] **DISP-03**: Auto-detection of display bus
-- [ ] **DISP-04**: Screen timeout state machine: ACTIVE → DIMMED → OFF (+ DOOR_CLOSED from reed switch)
+- [ ] **DISP-04**: Screen timeout state machine: ACTIVE -> DIMMED -> OFF (+ DOOR_CLOSED from reed switch)
 - [ ] **DISP-05**: Configurable dim timeout (default 5 min), off timeout (default 20 min), dim brightness (default 25%)
 - [ ] **DISP-06**: Activity-based reset (touch events reset timeout)
 - [ ] **DISP-07**: Playback-aware: disable timeout during active music playback
@@ -128,7 +128,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **UI-03**: Main layout: left panel (input icon + service label), right panel (NowPlaying or LibraryBrowser), top status bar
 - [ ] **UI-04**: NowPlaying: album art (front/back carousel), track info, progress bar with seek, playback controls
 - [ ] **UI-05**: InputCarousel: 3D perspective carousel with 6 inputs, 4-second auto-select timeout, encoder-driven navigation
-- [ ] **UI-06**: LibraryBrowser: StackView drill-down (Artists → Albums → Tracks), artist A-Z quick scroll sidebar, split layout on track page
+- [ ] **UI-06**: LibraryBrowser: StackView drill-down (Artists -> Albums -> Tracks), artist A-Z quick scroll sidebar, split layout on track page
 - [ ] **UI-07**: SpotifySearch: fullscreen overlay with on-screen QWERTY keyboard (SimpleKeyboard), search results with album art
 - [ ] **UI-08**: SpotifyTakeoverDialog: modal confirmation for session transfer
 - [ ] **UI-09**: AudioErrorDialog: modal for ALSA recovery failures with retry option
@@ -144,7 +144,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Orchestration
 
-- [ ] **ORCH-01**: PlaybackRouter owns input→controller routing, eliminating duplicated if/else chains across play/pause/stop/next/previous/seek
+- [ ] **ORCH-01**: PlaybackRouter owns input->controller routing, eliminating duplicated if/else chains across play/pause/stop/next/previous/seek
 - [ ] **ORCH-02**: AlbumArtResolver: receiver CGI art for streaming sources, local cached art for CD and Library
 - [ ] **ORCH-03**: VolumeGestureController: coalesces encoder events, manages optimistic UI, sends commands after gesture ends
 
@@ -184,7 +184,7 @@ Deferred to future release. Tracked but not in current roadmap.
 | CD auto-play | Always user-initiated — explicit design decision, no config option |
 | Bluetooth album art (Discogs) | Seldom-used input, receiver metadata is sufficient |
 | StreamingAlbumArtFetcher | No external art fetching for streaming sources — receiver CGI is sufficient |
-| Spotify settings migration | No [Spotify] → [spotify] key migration — use lowercase from start |
+| Spotify settings migration | No [Spotify] -> [spotify] key migration — use lowercase from start |
 | Multi-room audio | Not a distributed system — single receiver, single display |
 | Web radio / internet streams | Receiver handles streaming via built-in services |
 | DSP / equalizer | Receiver handles audio processing |
@@ -200,13 +200,120 @@ Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| (populated by roadmapper) | | |
+| FOUND-01 | Phase 1 | Pending |
+| FOUND-02 | Phase 1 | Pending |
+| FOUND-03 | Phase 1 | Pending |
+| FOUND-04 | Phase 1 | Pending |
+| FOUND-05 | Phase 1 | Pending |
+| FOUND-06 | Phase 1 | Pending |
+| FOUND-07 | Phase 1 | Pending |
+| FOUND-08 | Phase 1 | Pending |
+| FOUND-09 | Phase 1 | Pending |
+| FOUND-10 | Phase 1 | Pending |
+| STATE-01 | Phase 2 | Pending |
+| STATE-02 | Phase 2 | Pending |
+| STATE-03 | Phase 2 | Pending |
+| STATE-04 | Phase 2 | Pending |
+| STATE-05 | Phase 2 | Pending |
+| RECV-01 | Phase 3 | Pending |
+| RECV-02 | Phase 3 | Pending |
+| RECV-03 | Phase 3 | Pending |
+| RECV-04 | Phase 3 | Pending |
+| RECV-05 | Phase 3 | Pending |
+| RECV-06 | Phase 3 | Pending |
+| RECV-07 | Phase 3 | Pending |
+| RECV-08 | Phase 3 | Pending |
+| RECV-09 | Phase 3 | Pending |
+| RECV-10 | Phase 3 | Pending |
+| RECV-11 | Phase 3 | Pending |
+| RECV-12 | Phase 3 | Pending |
+| RECV-13 | Phase 3 | Pending |
+| ORCH-03 | Phase 3 | Pending |
+| AUDIO-01 | Phase 4 | Pending |
+| AUDIO-02 | Phase 4 | Pending |
+| AUDIO-03 | Phase 4 | Pending |
+| AUDIO-04 | Phase 4 | Pending |
+| AUDIO-05 | Phase 4 | Pending |
+| AUDIO-06 | Phase 4 | Pending |
+| AUDIO-07 | Phase 4 | Pending |
+| AUDIO-08 | Phase 4 | Pending |
+| AUDIO-09 | Phase 4 | Pending |
+| CD-01 | Phase 5 | Pending |
+| CD-02 | Phase 5 | Pending |
+| CD-03 | Phase 5 | Pending |
+| CD-04 | Phase 5 | Pending |
+| CD-05 | Phase 5 | Pending |
+| CD-06 | Phase 5 | Pending |
+| CD-07 | Phase 5 | Pending |
+| CD-08 | Phase 5 | Pending |
+| CD-09 | Phase 5 | Pending |
+| CD-10 | Phase 5 | Pending |
+| CD-11 | Phase 5 | Pending |
+| CD-12 | Phase 5 | Pending |
+| FLAC-01 | Phase 6 | Pending |
+| FLAC-02 | Phase 6 | Pending |
+| FLAC-03 | Phase 6 | Pending |
+| FLAC-04 | Phase 6 | Pending |
+| FLAC-05 | Phase 6 | Pending |
+| FLAC-06 | Phase 6 | Pending |
+| FLAC-07 | Phase 6 | Pending |
+| FLAC-08 | Phase 6 | Pending |
+| GPIO-01 | Phase 7 | Pending |
+| GPIO-02 | Phase 7 | Pending |
+| GPIO-03 | Phase 7 | Pending |
+| GPIO-04 | Phase 7 | Pending |
+| GPIO-05 | Phase 7 | Pending |
+| GPIO-06 | Phase 7 | Pending |
+| SPOT-01 | Phase 8 | Pending |
+| SPOT-02 | Phase 8 | Pending |
+| SPOT-03 | Phase 8 | Pending |
+| SPOT-04 | Phase 8 | Pending |
+| SPOT-05 | Phase 8 | Pending |
+| SPOT-06 | Phase 8 | Pending |
+| SPOT-07 | Phase 8 | Pending |
+| SPOT-08 | Phase 8 | Pending |
+| DISP-01 | Phase 9 | Pending |
+| DISP-02 | Phase 9 | Pending |
+| DISP-03 | Phase 9 | Pending |
+| DISP-04 | Phase 9 | Pending |
+| DISP-05 | Phase 9 | Pending |
+| DISP-06 | Phase 9 | Pending |
+| DISP-07 | Phase 9 | Pending |
+| DISP-08 | Phase 9 | Pending |
+| API-01 | Phase 9 | Pending |
+| API-02 | Phase 9 | Pending |
+| API-03 | Phase 9 | Pending |
+| API-04 | Phase 9 | Pending |
+| API-05 | Phase 9 | Pending |
+| ORCH-01 | Phase 9 | Pending |
+| ORCH-02 | Phase 9 | Pending |
+| UI-01 | Phase 10 | Pending |
+| UI-02 | Phase 10 | Pending |
+| UI-03 | Phase 10 | Pending |
+| UI-04 | Phase 10 | Pending |
+| UI-05 | Phase 10 | Pending |
+| UI-06 | Phase 10 | Pending |
+| UI-07 | Phase 10 | Pending |
+| UI-08 | Phase 10 | Pending |
+| UI-09 | Phase 10 | Pending |
+| UI-10 | Phase 10 | Pending |
+| UI-11 | Phase 10 | Pending |
+| UI-12 | Phase 10 | Pending |
+| UI-13 | Phase 10 | Pending |
+| UI-14 | Phase 10 | Pending |
+| UI-15 | Phase 10 | Pending |
+| UI-16 | Phase 10 | Pending |
+| UI-17 | Phase 10 | Pending |
+| UI-18 | Phase 10 | Pending |
+| PROD-01 | Phase 10 | Pending |
+| PROD-02 | Phase 10 | Pending |
+| PROD-03 | Phase 10 | Pending |
 
 **Coverage:**
-- v1 requirements: 93 total
-- Mapped to phases: 0
-- Unmapped: 93
+- v1 requirements: 108 total
+- Mapped to phases: 108
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-28*
-*Last updated: 2026-02-28 after initial definition*
+*Last updated: 2026-02-28 after roadmap creation*

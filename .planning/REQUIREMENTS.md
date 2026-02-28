@@ -126,15 +126,15 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **UI-01**: Deep blue color theme (#0a1628 primary, #162844 secondary, #2e5c8a accent)
 - [x] **UI-02**: Theme.qml singleton with design tokens: colors, typography (6 sizes 12-48px), spacing (8/16/24px), touch targets (44/64px), animation durations (150/300/500ms)
 - [x] **UI-03**: Main layout: left panel (input icon + service label), right panel (NowPlaying or LibraryBrowser), top status bar
-- [ ] **UI-04**: NowPlaying: album art (front/back carousel), track info, progress bar with seek, playback controls
-- [ ] **UI-05**: InputCarousel: 3D perspective carousel with 6 inputs, 4-second auto-select timeout, encoder-driven navigation
+- [x] **UI-04**: NowPlaying: album art (front/back carousel), track info, progress bar with seek, playback controls
+- [x] **UI-05**: InputCarousel: 3D perspective carousel with 6 inputs, 4-second auto-select timeout, encoder-driven navigation
 - [x] **UI-06**: LibraryBrowser: StackView drill-down (Artists -> Albums -> Tracks), artist A-Z quick scroll sidebar, split layout on track page
 - [x] **UI-07**: SpotifySearch: fullscreen overlay with on-screen QWERTY keyboard (SimpleKeyboard), search results with album art
 - [x] **UI-08**: SpotifyTakeoverDialog: modal confirmation for session transfer
 - [x] **UI-09**: AudioErrorDialog: modal for ALSA recovery failures with retry option
 - [x] **UI-10**: ToastNotification: bottom-center 3-second auto-dismiss (info/success/error types)
-- [ ] **UI-11**: VolumeOverlay: large modal with numeric display, auto-dismiss after 2s — only shown for local user input
-- [ ] **UI-12**: VolumeIndicator: persistent top-right display with draggable slider
+- [x] **UI-11**: VolumeOverlay: large modal with numeric display, auto-dismiss after 2s — only shown for local user input
+- [x] **UI-12**: VolumeIndicator: persistent top-right display with draggable slider
 - [ ] **UI-13**: EjectButton: visible only when CD present
 - [ ] **UI-14**: SearchButton: visible only on Spotify input
 - [ ] **UI-15**: ErrorBanner: shown when receiver disconnected
@@ -290,15 +290,15 @@ Updated during roadmap creation.
 | UI-01 | Phase 10 | Complete |
 | UI-02 | Phase 10 | Complete |
 | UI-03 | Phase 10 | Complete |
-| UI-04 | Phase 10 | Pending |
-| UI-05 | Phase 10 | Pending |
+| UI-04 | Phase 10 | Complete |
+| UI-05 | Phase 10 | Complete |
 | UI-06 | Phase 10 | Complete |
 | UI-07 | Phase 10 | Complete |
 | UI-08 | Phase 10 | Complete |
 | UI-09 | Phase 10 | Complete |
 | UI-10 | Phase 10 | Complete |
-| UI-11 | Phase 10 | Pending |
-| UI-12 | Phase 10 | Pending |
+| UI-11 | Phase 10 | Complete |
+| UI-12 | Phase 10 | Complete |
 | UI-13 | Phase 10 | Pending |
 | UI-14 | Phase 10 | Pending |
 | UI-15 | Phase 10 | Pending |

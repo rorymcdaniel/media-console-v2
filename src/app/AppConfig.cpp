@@ -31,6 +31,9 @@ AppConfig AppConfig::loadFromSettings()
     // API
     config.api.port = settings.value("api/port", config.api.port).toInt();
 
+    // Audio
+    config.audio.deviceName = settings.value("audio/deviceName", config.audio.deviceName).toString();
+
     // Logging
     config.logging.filterRules = settings.value("logging/rules", config.logging.filterRules).toString();
 

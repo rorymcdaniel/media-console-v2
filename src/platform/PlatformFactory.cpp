@@ -11,11 +11,17 @@
 #include "platform/stubs/StubDisplayControl.h"
 #include "platform/stubs/StubGpioMonitor.h"
 
+#ifdef HAS_ALSA
+#include "audio/AlsaAudioOutput.h"
+#endif
+
 std::unique_ptr<IAudioOutput> PlatformFactory::createAudioOutput()
 {
-    // TODO: Phase 4+ add runtime detection:
-    // if (isLinux()) return std::make_unique<AlsaAudioOutput>();
+#ifdef HAS_ALSA
+    return std::make_unique<AlsaAudioOutput>();
+#else
     return std::make_unique<StubAudioOutput>();
+#endif
 }
 
 std::unique_ptr<ICdDrive> PlatformFactory::createCdDrive()

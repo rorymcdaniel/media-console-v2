@@ -116,7 +116,18 @@ set(LIB_SOURCES
     src/receiver/VolumeGestureController.h
     src/receiver/VolumeGestureController.cpp
     src/state/CommandSource.h
+    src/audio/AudioStream.h
 )
+
+# ALSA audio output (Linux only)
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(ALSA REQUIRED IMPORTED_TARGET alsa)
+    list(APPEND LIB_SOURCES
+        src/audio/AlsaAudioOutput.h
+        src/audio/AlsaAudioOutput.cpp
+    )
+endif()
 
 # Create static library for testing without main()
 add_library(media-console-lib STATIC ${LIB_SOURCES})
@@ -132,6 +143,12 @@ target_link_libraries(media-console-lib PUBLIC
     Qt6::Qml
     Qt6::Network
 )
+
+# Link ALSA on Linux
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    target_link_libraries(media-console-lib PUBLIC PkgConfig::ALSA)
+    target_compile_definitions(media-console-lib PUBLIC HAS_ALSA=1)
+endif()
 
 # Pass version info to C++ code
 target_compile_definitions(media-console-lib PUBLIC

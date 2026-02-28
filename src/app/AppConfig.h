@@ -39,6 +39,11 @@ struct LoggingConfig
     QString filterRules;
 };
 
+struct AudioConfig
+{
+    QString deviceName = "hw:2,0";
+};
+
 struct SpotifyConfig
 {
     QString clientId;
@@ -52,6 +57,7 @@ struct AppConfig
     DisplayConfig display;
     CdConfig cd;
     LibraryConfig library;
+    AudioConfig audio;
     ApiConfig api;
     LoggingConfig logging;
     SpotifyConfig spotify;

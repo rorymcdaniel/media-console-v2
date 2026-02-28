@@ -151,6 +151,11 @@ set(LIB_SOURCES
     # HTTP API server
     src/api/HttpApiServer.h
     src/api/HttpApiServer.cpp
+    # Orchestration
+    src/orchestration/PlaybackRouter.h
+    src/orchestration/PlaybackRouter.cpp
+    src/orchestration/AlbumArtResolver.h
+    src/orchestration/AlbumArtResolver.cpp
 )
 
 # ALSA audio output (Linux only)

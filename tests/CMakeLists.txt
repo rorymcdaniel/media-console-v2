@@ -47,6 +47,8 @@ set(TEST_SOURCES
     test_LinuxDisplayControl.cpp
     test_ScreenTimeoutController.cpp
     test_HttpApiServer.cpp
+    test_PlaybackRouter.cpp
+    test_AlbumArtResolver.cpp
 )
 
 add_executable(media-console-tests ${TEST_SOURCES})

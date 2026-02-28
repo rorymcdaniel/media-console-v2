@@ -43,6 +43,7 @@ set(TEST_SOURCES
     test_QuadratureDecoder.cpp
     test_SpotifyAuth.cpp
     test_SpotifyClient.cpp
+    test_SpotifyController.cpp
 )
 
 add_executable(media-console-tests ${TEST_SOURCES})

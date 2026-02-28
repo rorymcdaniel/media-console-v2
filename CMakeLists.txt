@@ -138,6 +138,8 @@ set(LIB_SOURCES
     # Spotify integration
     src/spotify/SpotifyAuth.h
     src/spotify/SpotifyAuth.cpp
+    src/spotify/SpotifyClient.h
+    src/spotify/SpotifyClient.cpp
 )
 
 # ALSA audio output (Linux only)

@@ -16,8 +16,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: State Layer and QML Binding Surface** - Thin reactive state objects that QML binds to, registered as singletons
 - [x] **Phase 3: Receiver Control** - eISCP TCP connection to Onkyo receiver with volume gesture coalescing and metadata parsing
 - [x] **Phase 4: Audio Pipeline** - Unified LocalPlaybackController with ALSA output, audio streams, and playback thread
-- [ ] **Phase 5: CD Subsystem** - Disc detection, paranoia extraction, three-tier async metadata lookup, and progressive display
-- [ ] **Phase 6: FLAC Library** - Directory scanning, SQLite-backed library database, hierarchical browse models, and playlist playback
+- [x] **Phase 5: CD Subsystem** - Disc detection, paranoia extraction, three-tier async metadata lookup, and progressive display
+- [x] **Phase 6: FLAC Library** - Directory scanning, SQLite-backed library database, hierarchical browse models, and playlist playback
 - [ ] **Phase 7: GPIO Hardware** - Volume encoder, input encoder, and reed switch monitors via libgpiod v2
 - [ ] **Phase 8: Spotify Integration** - OAuth PKCE flow, device transfer, search, playback control, and session takeover
 - [ ] **Phase 9: Display, HTTP API, and Orchestration** - Screen timeout state machine, REST API server, PlaybackRouter, and AlbumArtResolver
@@ -117,12 +117,13 @@ Plans:
   2. Three hierarchical QAbstractListModel subclasses provide Artist, Album, and Track data to QML for drill-down browsing
   3. Playing a track from the library produces audio through the S/PDIF HAT with correct sample rate conversion to 44100Hz
   4. Album art is extracted from FLAC picture blocks and cached to disk with correct filenames and MIME types
-**Plans**: TBD
+**Plans**: 4 plans in 3 waves
 
 Plans:
-- [ ] 06-01: TBD
-- [ ] 06-02: TBD
-- [ ] 06-03: TBD
+- [x] 06-01-PLAN.md — FlacAudioStream (libsndfile+libsamplerate) and LibraryDatabase (SQLite) (`cce6332`)
+- [x] 06-02-PLAN.md — LibraryScanner (TagLib+QtConcurrent) and LibraryAlbumArtProvider (FLAC picture blocks) (`7160ecd`)
+- [x] 06-03-PLAN.md — Three browse models (Artist, Album, Track) and FlacLibraryController orchestrator (`c608c2b`)
+- [x] 06-04-PLAN.md — Wire FlacLibraryController into AppBuilder and AppContext (`4da3730`)
 
 ### Phase 7: GPIO Hardware
 **Goal**: Physical rotary encoders and reed switch drive the application — volume knob controls volume, input knob switches sources, door controls display
@@ -203,7 +204,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 3. Receiver Control | 3/3 | Complete | 2026-02-28 |
 | 4. Audio Pipeline | 3/3 | Complete | 2026-02-28 |
 | 5. CD Subsystem | 4/4 | Complete | 2026-02-28 |
-| 6. FLAC Library | 0/3 | Not started | - |
+| 6. FLAC Library | 4/4 | Complete | 2026-02-28 |
 | 7. GPIO Hardware | 0/2 | Not started | - |
 | 8. Spotify Integration | 0/3 | Not started | - |
 | 9. Display, HTTP API, and Orchestration | 0/3 | Not started | - |

@@ -1,10 +1,12 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QStringList>
 #include <QUrl>
 #include <QtQml>
 
 #include "app/AppBuilder.h"
 #include "app/AppConfig.h"
+#include "spotify/SpotifyAuth.h"
 #include "state/ActiveView.h"
 #include "state/CommandSource.h"
 #include "state/MediaSource.h"
@@ -21,6 +23,55 @@ int main(int argc, char* argv[])
     QCoreApplication::setOrganizationName("MediaConsole");
     QCoreApplication::setApplicationName("media-console");
 
+    // CLI: --spotify-auth mode (headless OAuth flow, no QML)
+    if (app.arguments().contains(QStringLiteral("--spotify-auth")))
+    {
+        auto authConfig = AppConfig::loadFromSettings();
+
+        if (authConfig.spotify.clientId.isEmpty())
+        {
+            fprintf(stderr,
+                    "Error: spotify/client_id not set in config.\n"
+                    "Set it in the INI file first.\n");
+            return 1;
+        }
+
+        auto* auth = new SpotifyAuth(authConfig.spotify, &app);
+
+        QObject::connect(auth, &SpotifyAuth::authorizationUrlReady,
+                         [](const QUrl& url)
+                         {
+                             fprintf(stdout,
+                                     "\n"
+                                     "=== Spotify Authorization ===\n"
+                                     "Open this URL in a browser:\n\n"
+                                     "  %s\n\n"
+                                     "Waiting for authorization callback...\n",
+                                     qPrintable(url.toString()));
+                             fflush(stdout);
+                         });
+
+        QObject::connect(auth, &SpotifyAuth::authFlowComplete,
+                         [&app]()
+                         {
+                             fprintf(stdout,
+                                     "\nAuthorization successful! Tokens saved.\n"
+                                     "You can now start media-console normally.\n");
+                             QCoreApplication::quit();
+                         });
+
+        QObject::connect(auth, &SpotifyAuth::authError,
+                         [](const QString& error)
+                         {
+                             fprintf(stderr, "\nAuthorization failed: %s\n", qPrintable(error));
+                             QCoreApplication::exit(1);
+                         });
+
+        auth->startAuthFlow();
+        return app.exec();
+    }
+
+    // Normal startup: full QML application
     auto config = AppConfig::loadFromSettings();
     AppBuilder builder(&app);
     auto ctx = builder.build(config);

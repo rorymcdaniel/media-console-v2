@@ -134,6 +134,28 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     )
 endif()
 
+# CD subsystem (Linux only -- libcdio + libdiscid)
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    if(NOT TARGET PkgConfig::ALSA)
+        find_package(PkgConfig REQUIRED)
+    endif()
+    pkg_check_modules(CDIO IMPORTED_TARGET libcdio)
+    pkg_check_modules(CDIO_PARANOIA IMPORTED_TARGET libcdio_paranoia)
+    pkg_check_modules(CDIO_CDDA IMPORTED_TARGET libcdio_cdda)
+    pkg_check_modules(DISCID IMPORTED_TARGET libdiscid)
+    if(CDIO_FOUND AND CDIO_PARANOIA_FOUND AND CDIO_CDDA_FOUND AND DISCID_FOUND)
+        list(APPEND LIB_SOURCES
+            src/cd/LibcdioCdDrive.h
+            src/cd/LibcdioCdDrive.cpp
+            src/cd/CdAudioStream.h
+            src/cd/CdAudioStream.cpp
+        )
+        message(STATUS "CD subsystem: enabled (libcdio + libdiscid found)")
+    else()
+        message(STATUS "CD subsystem: disabled (libcdio/libdiscid not found)")
+    endif()
+endif()
+
 # Create static library for testing without main()
 add_library(media-console-lib STATIC ${LIB_SOURCES})
 
@@ -153,6 +175,17 @@ target_link_libraries(media-console-lib PUBLIC
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_link_libraries(media-console-lib PUBLIC PkgConfig::ALSA)
     target_compile_definitions(media-console-lib PUBLIC HAS_ALSA=1)
+endif()
+
+# Link CD subsystem libraries on Linux
+if(CDIO_FOUND AND CDIO_PARANOIA_FOUND AND CDIO_CDDA_FOUND AND DISCID_FOUND)
+    target_link_libraries(media-console-lib PUBLIC
+        PkgConfig::CDIO
+        PkgConfig::CDIO_PARANOIA
+        PkgConfig::CDIO_CDDA
+        PkgConfig::DISCID
+    )
+    target_compile_definitions(media-console-lib PUBLIC HAS_CDIO=1)
 endif()
 
 # Pass version info to C++ code

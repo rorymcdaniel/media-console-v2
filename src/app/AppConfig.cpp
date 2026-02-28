@@ -24,6 +24,7 @@ AppConfig AppConfig::loadFromSettings()
     config.cd.devicePath = settings.value("cd/device", config.cd.devicePath).toString();
     config.cd.pollIntervalMs = settings.value("cd/poll_interval_ms", config.cd.pollIntervalMs).toInt();
     config.cd.audioOnly = settings.value("cd/audio_only", config.cd.audioOnly).toBool();
+    config.cd.idleTimeoutSeconds = settings.value("cd/idle_timeout_seconds", config.cd.idleTimeoutSeconds).toInt();
 
     // Library
     config.library.rootPath = settings.value("library/root", config.library.rootPath).toString();

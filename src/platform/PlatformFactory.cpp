@@ -15,6 +15,10 @@
 #include "audio/AlsaAudioOutput.h"
 #endif
 
+#ifdef HAS_CDIO
+#include "cd/LibcdioCdDrive.h"
+#endif
+
 std::unique_ptr<IAudioOutput> PlatformFactory::createAudioOutput()
 {
 #ifdef HAS_ALSA
@@ -26,9 +30,11 @@ std::unique_ptr<IAudioOutput> PlatformFactory::createAudioOutput()
 
 std::unique_ptr<ICdDrive> PlatformFactory::createCdDrive()
 {
-    // TODO: Phase 5+ add runtime detection:
-    // if (isLinux()) return std::make_unique<LibcdioCdDrive>();
+#ifdef HAS_CDIO
+    return std::make_unique<LibcdioCdDrive>();
+#else
     return std::make_unique<StubCdDrive>();
+#endif
 }
 
 std::unique_ptr<IGpioMonitor> PlatformFactory::createGpioMonitor(QObject* parent)

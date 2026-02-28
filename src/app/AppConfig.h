@@ -22,6 +22,7 @@ struct CdConfig
     QString devicePath = "/dev/cdrom";
     int pollIntervalMs = 1000;
     bool audioOnly = true;
+    int idleTimeoutSeconds = 300;
 };
 
 struct LibraryConfig

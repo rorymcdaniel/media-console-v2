@@ -18,7 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: Audio Pipeline** - Unified LocalPlaybackController with ALSA output, audio streams, and playback thread
 - [x] **Phase 5: CD Subsystem** - Disc detection, paranoia extraction, three-tier async metadata lookup, and progressive display
 - [x] **Phase 6: FLAC Library** - Directory scanning, SQLite-backed library database, hierarchical browse models, and playlist playback
-- [ ] **Phase 7: GPIO Hardware** - Volume encoder, input encoder, and reed switch monitors via libgpiod v2
+- [x] **Phase 7: GPIO Hardware** - Volume encoder, input encoder, and reed switch monitors via libgpiod v2
 - [ ] **Phase 8: Spotify Integration** - OAuth PKCE flow, device transfer, search, playback control, and session takeover
 - [ ] **Phase 9: Display, HTTP API, and Orchestration** - Screen timeout state machine, REST API server, PlaybackRouter, and AlbumArtResolver
 - [ ] **Phase 10: QML UI and Production Deployment** - All QML components integrated, theme system, kiosk systemd service, and deployment scripts
@@ -137,9 +137,9 @@ Plans:
 **Plans**: 3 plans in 3 waves
 
 Plans:
-- [ ] 07-01-PLAN.md — IGpioMonitor interface evolution (volumeChanged delta signal), UIState doorOpen, GpioConfig, CMake libgpiodcxx
-- [ ] 07-02-PLAN.md — QuadratureDecoder and LinuxGpioMonitor implementation (libgpiod v2 edge monitoring)
-- [ ] 07-03-PLAN.md — PlatformFactory HAS_GPIOD conditional, AppBuilder GPIO signal wiring
+- [x] 07-01-PLAN.md — IGpioMonitor interface evolution (volumeChanged delta signal), UIState doorOpen, GpioConfig, CMake libgpiodcxx (`11753bb`, `45d4acb`)
+- [x] 07-02-PLAN.md — QuadratureDecoder and LinuxGpioMonitor implementation (libgpiod v2 edge monitoring) (`cb6cd1b`)
+- [x] 07-03-PLAN.md — PlatformFactory HAS_GPIOD conditional, AppBuilder GPIO signal wiring (`fcb44ca`, `626d2c1`)
 
 ### Phase 8: Spotify Integration
 **Goal**: Users can authenticate with Spotify, search for music, transfer playback to the receiver, and manage active sessions
@@ -206,7 +206,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 4. Audio Pipeline | 3/3 | Complete | 2026-02-28 |
 | 5. CD Subsystem | 4/4 | Complete | 2026-02-28 |
 | 6. FLAC Library | 4/4 | Complete | 2026-02-28 |
-| 7. GPIO Hardware | 0/3 | Not started | - |
+| 7. GPIO Hardware | 3/3 | Complete | 2026-02-28 |
 | 8. Spotify Integration | 0/3 | Not started | - |
 | 9. Display, HTTP API, and Orchestration | 0/3 | Not started | - |
 | 10. QML UI and Production Deployment | 0/4 | Not started | - |

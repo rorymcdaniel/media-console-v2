@@ -83,12 +83,12 @@ Plans:
   2. Playback controls (play, pause, stop, seek, next, previous) work from the main thread without blocking the UI
   3. ALSA EIO errors trigger automatic device close-reopen recovery with up to 3 retries, and emit audioRecoveryFailed when exhausted
   4. Only one audio source can play at a time — starting a new stream stops the current one architecturally (not by convention)
-**Plans**: TBD
+**Plans**: 3 plans in 3 waves
 
 Plans:
-- [ ] 04-01: TBD
-- [ ] 04-02: TBD
-- [ ] 04-03: TBD
+- [ ] 04-01-PLAN.md — AudioStream interface, AlsaAudioOutput, AudioConfig, PlatformFactory wiring
+- [ ] 04-02-PLAN.md — AudioRingBuffer, AudioBufferStats, LocalPlaybackController with background thread and playback controls
+- [ ] 04-03-PLAN.md — AppBuilder wiring and integration test for LocalPlaybackController
 
 ### Phase 5: CD Subsystem
 **Goal**: Users can insert a CD, see track listing immediately, watch metadata fill in progressively, and play any track with paranoia error correction

@@ -2,6 +2,7 @@
 
 #include <QSysInfo>
 
+#include "app/AppConfig.h"
 #include "platform/IAudioOutput.h"
 #include "platform/ICdDrive.h"
 #include "platform/IDisplayControl.h"
@@ -17,6 +18,10 @@
 
 #ifdef HAS_CDIO
 #include "cd/LibcdioCdDrive.h"
+#endif
+
+#ifdef HAS_GPIOD
+#include "platform/LinuxGpioMonitor.h"
 #endif
 
 std::unique_ptr<IAudioOutput> PlatformFactory::createAudioOutput()
@@ -37,11 +42,14 @@ std::unique_ptr<ICdDrive> PlatformFactory::createCdDrive()
 #endif
 }
 
-std::unique_ptr<IGpioMonitor> PlatformFactory::createGpioMonitor(QObject* parent)
+std::unique_ptr<IGpioMonitor> PlatformFactory::createGpioMonitor(const GpioConfig& config, QObject* parent)
 {
-    // TODO: Phase 7+ add runtime detection:
-    // if (isLinux()) return std::make_unique<LinuxGpioMonitor>(parent);
+#ifdef HAS_GPIOD
+    return std::make_unique<LinuxGpioMonitor>(config, parent);
+#else
+    Q_UNUSED(config)
     return std::make_unique<StubGpioMonitor>(parent);
+#endif
 }
 
 std::unique_ptr<IDisplayControl> PlatformFactory::createDisplayControl(QObject* parent)

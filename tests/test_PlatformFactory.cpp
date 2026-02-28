@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include "app/AppConfig.h"
 #include "platform/IAudioOutput.h"
 #include "platform/ICdDrive.h"
 #include "platform/IDisplayControl.h"
@@ -20,7 +21,8 @@ TEST(PlatformFactory, CreatesNonNullCdDrive)
 
 TEST(PlatformFactory, CreatesNonNullGpioMonitor)
 {
-    auto gpio = PlatformFactory::createGpioMonitor();
+    GpioConfig config;
+    auto gpio = PlatformFactory::createGpioMonitor(config);
     ASSERT_NE(gpio, nullptr);
 }
 

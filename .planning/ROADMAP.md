@@ -100,12 +100,13 @@ Plans:
   3. A previously-seen disc loads metadata instantly from SQLite cache without network requests
   4. Removing a CD stops playback and clears the track listing; reinserting triggers fresh detection
   5. All metadata network I/O (MusicBrainz, GnuDB, Discogs) runs fully async with no main thread blocking under any failure condition
-**Plans**: TBD
+**Plans**: 4 plans in 3 waves
 
 Plans:
-- [ ] 05-01: TBD
-- [ ] 05-02: TBD
-- [ ] 05-03: TBD
+- [x] 05-01-PLAN.md — LibcdioCdDrive with libcdio/libdiscid, CdAudioStream with paranoia extraction (`7a3840c`, `ffe041b`)
+- [x] 05-02-PLAN.md — CdMetadataCache SQLite, CdMetadataProvider three-tier lookup, CdAlbumArtProvider (`e4427eb`, `b927c0c`)
+- [x] 05-03-PLAN.md — CdController lifecycle orchestrator: detection, metadata chain, idle timer (`0fa594c`)
+- [x] 05-04-PLAN.md — AppBuilder wiring: CdController into composition root and AppContext (`33e4830`)
 
 ### Phase 6: FLAC Library
 **Goal**: Users can browse a local FLAC library by Artist, Album, and Track, and play any track or album with next/previous navigation
@@ -201,7 +202,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 2. State Layer and QML Binding Surface | 2/2 | Complete | 2026-02-28 |
 | 3. Receiver Control | 3/3 | Complete | 2026-02-28 |
 | 4. Audio Pipeline | 3/3 | Complete | 2026-02-28 |
-| 5. CD Subsystem | 0/3 | Not started | - |
+| 5. CD Subsystem | 4/4 | Complete | 2026-02-28 |
 | 6. FLAC Library | 0/3 | Not started | - |
 | 7. GPIO Hardware | 0/2 | Not started | - |
 | 8. Spotify Integration | 0/3 | Not started | - |

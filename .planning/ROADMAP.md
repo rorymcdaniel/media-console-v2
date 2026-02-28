@@ -134,11 +134,12 @@ Plans:
   2. Turning the input encoder steps through sources one-per-detent and the push button toggles mute on exactly one edge (no double-toggle)
   3. Reed switch state changes (door open/close) are debounced and drive display power state
   4. All GPIO monitors run in background threads and the application runs with no-op stubs on non-Linux platforms
-**Plans**: TBD
+**Plans**: 3 plans in 3 waves
 
 Plans:
-- [ ] 07-01: TBD
-- [ ] 07-02: TBD
+- [ ] 07-01-PLAN.md — IGpioMonitor interface evolution (volumeChanged delta signal), UIState doorOpen, GpioConfig, CMake libgpiodcxx
+- [ ] 07-02-PLAN.md — QuadratureDecoder and LinuxGpioMonitor implementation (libgpiod v2 edge monitoring)
+- [ ] 07-03-PLAN.md — PlatformFactory HAS_GPIOD conditional, AppBuilder GPIO signal wiring
 
 ### Phase 8: Spotify Integration
 **Goal**: Users can authenticate with Spotify, search for music, transfer playback to the receiver, and manage active sessions
@@ -205,7 +206,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 4. Audio Pipeline | 3/3 | Complete | 2026-02-28 |
 | 5. CD Subsystem | 4/4 | Complete | 2026-02-28 |
 | 6. FLAC Library | 4/4 | Complete | 2026-02-28 |
-| 7. GPIO Hardware | 0/2 | Not started | - |
+| 7. GPIO Hardware | 0/3 | Not started | - |
 | 8. Spotify Integration | 0/3 | Not started | - |
 | 9. Display, HTTP API, and Orchestration | 0/3 | Not started | - |
 | 10. QML UI and Production Deployment | 0/4 | Not started | - |

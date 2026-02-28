@@ -20,6 +20,7 @@ class UIState : public QObject
     Q_PROPERTY(bool receiverConnected READ receiverConnected WRITE setReceiverConnected NOTIFY receiverConnectedChanged)
     Q_PROPERTY(QString audioError READ audioError WRITE setAudioError NOTIFY audioErrorChanged)
     Q_PROPERTY(bool doorOpen READ doorOpen WRITE setDoorOpen NOTIFY doorOpenChanged)
+    Q_PROPERTY(bool screenDimmed READ screenDimmed WRITE setScreenDimmed NOTIFY screenDimmedChanged)
 
 public:
     explicit UIState(QObject* parent = nullptr);
@@ -33,6 +34,7 @@ public:
     bool receiverConnected() const { return m_receiverConnected; }
     QString audioError() const { return m_audioError; }
     bool doorOpen() const { return m_doorOpen; }
+    bool screenDimmed() const { return m_screenDimmed; }
 
 public slots:
     void setActiveView(ActiveView view);
@@ -44,6 +46,7 @@ public slots:
     void setReceiverConnected(bool connected);
     void setAudioError(const QString& error);
     void setDoorOpen(bool open);
+    void setScreenDimmed(bool dimmed);
 
 signals:
     void activeViewChanged(ActiveView view);
@@ -55,6 +58,7 @@ signals:
     void receiverConnectedChanged(bool connected);
     void audioErrorChanged(const QString& error);
     void doorOpenChanged(bool open);
+    void screenDimmedChanged(bool dimmed);
 
     /// Transient error signal for toast display — not a property, just an event.
     void showToast(const QString& message, const QString& type);
@@ -69,4 +73,5 @@ private:
     bool m_receiverConnected = false;
     QString m_audioError;
     bool m_doorOpen = true; // default: door open = display on
+    bool m_screenDimmed = false; // set by ScreenTimeoutController
 };

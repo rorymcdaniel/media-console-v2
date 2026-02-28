@@ -76,3 +76,11 @@ void UIState::setDoorOpen(bool open)
     m_doorOpen = open;
     emit doorOpenChanged(m_doorOpen);
 }
+
+void UIState::setScreenDimmed(bool dimmed)
+{
+    if (m_screenDimmed == dimmed)
+        return;
+    m_screenDimmed = dimmed;
+    emit screenDimmedChanged(m_screenDimmed);
+}

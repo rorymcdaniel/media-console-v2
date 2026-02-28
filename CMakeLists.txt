@@ -146,6 +146,8 @@ set(LIB_SOURCES
     # Display control
     src/display/LinuxDisplayControl.h
     src/display/LinuxDisplayControl.cpp
+    src/display/ScreenTimeoutController.h
+    src/display/ScreenTimeoutController.cpp
     # HTTP API server
     src/api/HttpApiServer.h
     src/api/HttpApiServer.cpp

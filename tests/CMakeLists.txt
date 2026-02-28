@@ -46,6 +46,7 @@ set(TEST_SOURCES
     test_SpotifyController.cpp
     test_LinuxDisplayControl.cpp
     test_ScreenTimeoutController.cpp
+    test_HttpApiServer.cpp
 )
 
 add_executable(media-console-tests ${TEST_SOURCES})

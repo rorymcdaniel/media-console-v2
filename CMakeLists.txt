@@ -6,8 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
-# Qt6 components needed in Phase 1 (minimal set, expand in later phases)
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick Qml Test)
+# Qt6 components
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick Qml Test Network)
 qt_standard_project_setup(REQUIRES 6.8)
 
 # clang-tidy integration (runs during build, does not block commits)
@@ -107,6 +107,10 @@ set(LIB_SOURCES
     src/state/PlaybackState.cpp
     src/state/UIState.h
     src/state/UIState.cpp
+    src/receiver/EiscpMessage.h
+    src/receiver/EiscpMessage.cpp
+    src/receiver/EiscpConnection.h
+    src/receiver/EiscpConnection.cpp
 )
 
 # Create static library for testing without main()
@@ -121,6 +125,7 @@ target_link_libraries(media-console-lib PUBLIC
     Qt6::Gui
     Qt6::Quick
     Qt6::Qml
+    Qt6::Network
 )
 
 # Pass version info to C++ code

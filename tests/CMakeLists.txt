@@ -24,6 +24,7 @@ set(TEST_SOURCES
     test_ReceiverState.cpp
     test_PlaybackState.cpp
     test_UIState.cpp
+    test_EiscpMessage.cpp
 )
 
 add_executable(media-console-tests ${TEST_SOURCES})

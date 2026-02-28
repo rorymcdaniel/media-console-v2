@@ -58,8 +58,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### CD Subsystem
 
-- [ ] **CD-01**: CdAudioStream wraps libcdio with paranoia error correction, implementing AudioStream interface
-- [ ] **CD-02**: TOC reading via CdDrive (libcdio wrapper) through ICdDrive interface
+- [x] **CD-01**: CdAudioStream wraps libcdio with paranoia error correction, implementing AudioStream interface
+- [x] **CD-02**: TOC reading via CdDrive (libcdio wrapper) through ICdDrive interface
 - [ ] **CD-03**: Hybrid disc presence detection: QFileSystemWatcher + ioctl polling with debounced state changes
 - [ ] **CD-04**: CD playback is ALWAYS user-initiated — no auto-play on insert or startup
 - [ ] **CD-05**: Three-tier async metadata lookup: MusicBrainz (via libdiscid) -> GnuDB (CDDB) -> Discogs (REST API) — ALL fully async, no event loop blocking
@@ -238,8 +238,8 @@ Updated during roadmap creation.
 | AUDIO-07 | Phase 4 | Complete |
 | AUDIO-08 | Phase 4 | Complete |
 | AUDIO-09 | Phase 4 | Complete |
-| CD-01 | Phase 5 | Pending |
-| CD-02 | Phase 5 | Pending |
+| CD-01 | Phase 5 | Complete |
+| CD-02 | Phase 5 | Complete |
 | CD-03 | Phase 5 | Pending |
 | CD-04 | Phase 5 | Pending |
 | CD-05 | Phase 5 | Pending |

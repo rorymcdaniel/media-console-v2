@@ -18,16 +18,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-28)
 
 **Core value:** The touchscreen kiosk must always be responsive — no freezes, no unrecoverable states. A visitor should be able to walk up, select a source, and hear music within seconds.
-**Current focus:** Phase 4: Audio Pipeline
+**Current focus:** Phase 5: CD Subsystem
 
 ## Current Position
 
-Phase: 4 of 10 (Audio Pipeline)
-Plan: 0 of 0 in current phase
-Status: Not Started
-Last activity: 2026-02-28 — Phase 3 complete (receiver control, volume gesture coalescing, metadata parsing)
+Phase: 5 of 10 (CD Subsystem)
+Plan: 1 of 4 in current phase
+Status: In Progress
+Last activity: 2026-02-28 — Plan 05-01 complete (LibcdioCdDrive, CdAudioStream)
 
-Progress: [███░░░░░░░] 30%
+Progress: [████░░░░░░] 40%
 
 ## Performance Metrics
 

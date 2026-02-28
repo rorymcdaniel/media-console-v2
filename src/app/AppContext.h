@@ -13,6 +13,10 @@ class LocalPlaybackController;
 class CdController;
 class FlacLibraryController;
 class SpotifyController;
+class ScreenTimeoutController;
+class HttpApiServer;
+class PlaybackRouter;
+class AlbumArtResolver;
 
 struct AppContext
 {
@@ -43,4 +47,10 @@ struct AppContext
 
     // Spotify -- business logic orchestrator for Spotify integration
     SpotifyController* spotifyController = nullptr;
+
+    // Phase 9: Display control, HTTP API, orchestration
+    ScreenTimeoutController* screenTimeoutController = nullptr;
+    HttpApiServer* httpApiServer = nullptr;
+    PlaybackRouter* playbackRouter = nullptr;
+    AlbumArtResolver* albumArtResolver = nullptr;
 };

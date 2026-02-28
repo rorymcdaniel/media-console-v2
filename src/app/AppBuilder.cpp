@@ -19,6 +19,10 @@
 #include "library/FlacLibraryController.h"
 #endif
 
+#include "api/HttpApiServer.h"
+#include "display/ScreenTimeoutController.h"
+#include "orchestration/AlbumArtResolver.h"
+#include "orchestration/PlaybackRouter.h"
 #include "spotify/SpotifyAuth.h"
 #include "spotify/SpotifyClient.h"
 #include "spotify/SpotifyController.h"
@@ -126,6 +130,60 @@ AppContext AppBuilder::build(const AppConfig& config)
     qCInfo(mediaApp) << "AppBuilder: Spotify controller initialized"
                      << (m_spotifyAuth->isAuthenticated() ? "(authenticated)" : "(not authenticated)");
 
+    // Phase 9: Display control, HTTP API, orchestration
+
+    // Create ScreenTimeoutController
+    m_screenTimeoutController = std::make_unique<ScreenTimeoutController>(m_displayControl.get(), m_playbackState.get(),
+                                                                          m_uiState.get(), config.display, this);
+
+    // Connect GPIO activity sources to ScreenTimeoutController
+    connect(m_gpioMonitor.get(), &IGpioMonitor::volumeChanged, m_screenTimeoutController.get(),
+            &ScreenTimeoutController::activityDetected);
+    connect(m_gpioMonitor.get(), &IGpioMonitor::inputNext, m_screenTimeoutController.get(),
+            &ScreenTimeoutController::activityDetected);
+    connect(m_gpioMonitor.get(), &IGpioMonitor::inputPrevious, m_screenTimeoutController.get(),
+            &ScreenTimeoutController::activityDetected);
+    connect(m_gpioMonitor.get(), &IGpioMonitor::inputSelect, m_screenTimeoutController.get(),
+            &ScreenTimeoutController::activityDetected);
+
+    qCInfo(mediaApp) << "AppBuilder: ScreenTimeoutController initialized";
+
+    // Create PlaybackRouter
+    m_playbackRouter
+        = std::make_unique<PlaybackRouter>(m_playbackState.get(), m_receiverController.get(), m_cdController.get(),
+#ifdef HAS_SNDFILE
+                                           m_flacLibraryController.get(),
+#else
+                                           nullptr,
+#endif
+                                           m_spotifyController.get(), this);
+
+    qCInfo(mediaApp) << "AppBuilder: PlaybackRouter initialized";
+
+    // Create AlbumArtResolver
+    m_albumArtResolver = std::make_unique<AlbumArtResolver>(m_playbackState.get(), m_receiverState.get(), this);
+
+    qCInfo(mediaApp) << "AppBuilder: AlbumArtResolver initialized";
+
+    // Create HttpApiServer
+    m_httpApiServer = std::make_unique<HttpApiServer>(m_receiverController.get(), m_receiverState.get(),
+                                                      m_playbackState.get(), m_displayControl.get(),
+                                                      m_spotifyAuth.get(), m_spotifyController.get(), config.api, this);
+
+    // Connect HTTP API activity to ScreenTimeoutController
+    connect(m_httpApiServer.get(), &HttpApiServer::activityDetected, m_screenTimeoutController.get(),
+            &ScreenTimeoutController::activityDetected);
+
+    // Start services
+    m_screenTimeoutController->start();
+
+    if (!m_httpApiServer->start())
+    {
+        qCWarning(mediaApp) << "AppBuilder: HTTP API server failed to start";
+    }
+
+    qCInfo(mediaApp) << "AppBuilder: Phase 9 services started";
+
     // Build context with non-owning pointers
     AppContext ctx;
     ctx.audioOutput = m_audioOutput.get();
@@ -143,6 +201,10 @@ AppContext AppBuilder::build(const AppConfig& config)
     ctx.flacLibraryController = m_flacLibraryController.get();
 #endif
     ctx.spotifyController = m_spotifyController.get();
+    ctx.screenTimeoutController = m_screenTimeoutController.get();
+    ctx.httpApiServer = m_httpApiServer.get();
+    ctx.playbackRouter = m_playbackRouter.get();
+    ctx.albumArtResolver = m_albumArtResolver.get();
 
     qCInfo(mediaApp) << "AppBuilder: object graph complete";
     return ctx;

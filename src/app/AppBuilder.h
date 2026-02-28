@@ -23,6 +23,10 @@ class FlacLibraryController;
 class SpotifyAuth;
 class SpotifyClient;
 class SpotifyController;
+class ScreenTimeoutController;
+class HttpApiServer;
+class PlaybackRouter;
+class AlbumArtResolver;
 
 class AppBuilder : public QObject
 {
@@ -53,4 +57,8 @@ private:
     std::unique_ptr<SpotifyAuth> m_spotifyAuth;
     std::unique_ptr<SpotifyClient> m_spotifyClient;
     std::unique_ptr<SpotifyController> m_spotifyController;
+    std::unique_ptr<ScreenTimeoutController> m_screenTimeoutController;
+    std::unique_ptr<HttpApiServer> m_httpApiServer;
+    std::unique_ptr<PlaybackRouter> m_playbackRouter;
+    std::unique_ptr<AlbumArtResolver> m_albumArtResolver;
 };

@@ -30,19 +30,19 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Receiver Control
 
-- [ ] **RECV-01**: eISCP TCP connection to Onkyo TX-8260 with auto-reconnect on network errors
-- [ ] **RECV-02**: Volume control: 0-200 range displayed as 0.0-100.0 with decimal precision
-- [ ] **RECV-03**: Volume gesture coalescing for smooth encoder: coalesce continuous events, send single absolute command after gesture ends, reconcile with receiver after
-- [ ] **RECV-04**: Optimistic UI updates: volume display updates immediately during gesture
-- [ ] **RECV-05**: 6 input sources selectable: Streaming/NET (2B), Phono (22), CD (02), Computer (05), Bluetooth (2E), Library (02)
-- [ ] **RECV-06**: Power on/off control
-- [ ] **RECV-07**: Mute toggle/on/off control (toggleMute in receiver interface, not requiring downcast)
-- [ ] **RECV-08**: State polling every 2.5s
-- [ ] **RECV-09**: Track metadata parsing from eISCP: NTM (time), NJA2 (album art URL), NFI (file info), NMS (service detection), NTI (title), NAT (artist), NAL (album)
-- [ ] **RECV-10**: Streaming service detection: Spotify, Pandora, AirPlay, Amazon Music, Chromecast
-- [ ] **RECV-11**: Playback state tracking via NST command (playing, paused, stopped)
-- [ ] **RECV-12**: Stale data detection: warn after 30s without receiver updates during active playback
-- [ ] **RECV-13**: Volume overlay appears ONLY for local user input (encoder, touchscreen). External changes (receiver auto-volume, Onkyo app, Spotify Connect) update silently.
+- [x] **RECV-01**: eISCP TCP connection to Onkyo TX-8260 with auto-reconnect on network errors
+- [x] **RECV-02**: Volume control: 0-200 range displayed as 0.0-100.0 with decimal precision
+- [x] **RECV-03**: Volume gesture coalescing for smooth encoder: coalesce continuous events, send single absolute command after gesture ends, reconcile with receiver after
+- [x] **RECV-04**: Optimistic UI updates: volume display updates immediately during gesture
+- [x] **RECV-05**: 6 input sources selectable: Streaming/NET (2B), Phono (22), CD (02), Computer (05), Bluetooth (2E), Library (02)
+- [x] **RECV-06**: Power on/off control
+- [x] **RECV-07**: Mute toggle/on/off control (toggleMute in receiver interface, not requiring downcast)
+- [x] **RECV-08**: State polling every 2.5s
+- [x] **RECV-09**: Track metadata parsing from eISCP: NTM (time), NJA2 (album art URL), NFI (file info), NMS (service detection), NTI (title), NAT (artist), NAL (album)
+- [x] **RECV-10**: Streaming service detection: Spotify, Pandora, AirPlay, Amazon Music, Chromecast
+- [x] **RECV-11**: Playback state tracking via NST command (playing, paused, stopped)
+- [x] **RECV-12**: Stale data detection: warn after 30s without receiver updates during active playback
+- [x] **RECV-13**: Volume overlay appears ONLY for local user input (encoder, touchscreen). External changes (receiver auto-volume, Onkyo app, Spotify Connect) update silently.
 
 ### Audio Pipeline
 
@@ -146,7 +146,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [ ] **ORCH-01**: PlaybackRouter owns input->controller routing, eliminating duplicated if/else chains across play/pause/stop/next/previous/seek
 - [ ] **ORCH-02**: AlbumArtResolver: receiver CGI art for streaming sources, local cached art for CD and Library
-- [ ] **ORCH-03**: VolumeGestureController: coalesces encoder events, manages optimistic UI, sends commands after gesture ends
+- [x] **ORCH-03**: VolumeGestureController: coalesces encoder events, manages optimistic UI, sends commands after gesture ends
 
 ### Production
 
@@ -215,20 +215,20 @@ Updated during roadmap creation.
 | STATE-03 | Phase 2 | Complete |
 | STATE-04 | Phase 2 | Complete |
 | STATE-05 | Phase 2 | Complete |
-| RECV-01 | Phase 3 | Pending |
-| RECV-02 | Phase 3 | Pending |
-| RECV-03 | Phase 3 | Pending |
-| RECV-04 | Phase 3 | Pending |
-| RECV-05 | Phase 3 | Pending |
-| RECV-06 | Phase 3 | Pending |
-| RECV-07 | Phase 3 | Pending |
-| RECV-08 | Phase 3 | Pending |
-| RECV-09 | Phase 3 | Pending |
-| RECV-10 | Phase 3 | Pending |
-| RECV-11 | Phase 3 | Pending |
-| RECV-12 | Phase 3 | Pending |
-| RECV-13 | Phase 3 | Pending |
-| ORCH-03 | Phase 3 | Pending |
+| RECV-01 | Phase 3 | Complete |
+| RECV-02 | Phase 3 | Complete |
+| RECV-03 | Phase 3 | Complete |
+| RECV-04 | Phase 3 | Complete |
+| RECV-05 | Phase 3 | Complete |
+| RECV-06 | Phase 3 | Complete |
+| RECV-07 | Phase 3 | Complete |
+| RECV-08 | Phase 3 | Complete |
+| RECV-09 | Phase 3 | Complete |
+| RECV-10 | Phase 3 | Complete |
+| RECV-11 | Phase 3 | Complete |
+| RECV-12 | Phase 3 | Complete |
+| RECV-13 | Phase 3 | Complete |
+| ORCH-03 | Phase 3 | Complete |
 | AUDIO-01 | Phase 4 | Pending |
 | AUDIO-02 | Phase 4 | Pending |
 | AUDIO-03 | Phase 4 | Pending |

@@ -3,12 +3,12 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-02-28T12:00:00.000Z"
+last_updated: "2026-02-28T14:08:20.267Z"
 progress:
-  total_phases: 2
-  completed_phases: 2
-  total_plans: 5
-  completed_plans: 5
+  total_phases: 3
+  completed_phases: 3
+  total_plans: 8
+  completed_plans: 8
 ---
 
 # Project State
@@ -18,23 +18,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-28)
 
 **Core value:** The touchscreen kiosk must always be responsive — no freezes, no unrecoverable states. A visitor should be able to walk up, select a source, and hear music within seconds.
-**Current focus:** Phase 3: Receiver Control
+**Current focus:** Phase 4: Audio Pipeline
 
 ## Current Position
 
-Phase: 3 of 10 (Receiver Control)
+Phase: 4 of 10 (Audio Pipeline)
 Plan: 0 of 0 in current phase
 Status: Not Started
-Last activity: 2026-02-28 — Phase 2 complete (state layer and QML binding surface)
+Last activity: 2026-02-28 — Phase 3 complete (receiver control, volume gesture coalescing, metadata parsing)
 
-Progress: [██░░░░░░░░] 20%
+Progress: [███░░░░░░░] 30%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
-- Average duration: ~9 min
-- Total execution time: ~48 min
+- Total plans completed: 8
+- Average duration: ~8 min
+- Total execution time: ~63 min
 
 **By Phase:**
 
@@ -42,9 +42,10 @@ Progress: [██░░░░░░░░] 20%
 |-------|-------|-------|----------|
 | 1. Foundation | 3/3 | ~40 min | ~13 min |
 | 2. State Layer | 2/2 | ~8 min | ~4 min |
+| 3. Receiver Control | 3/3 | ~15 min | ~5 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (~15m), 01-02 (~10m), 01-03 (~15m), 02-01 (~5m), 02-02 (~3m)
+- Last 5 plans: 01-03 (~15m), 02-01 (~5m), 02-02 (~3m), 03-01 (~5m), 03-02 (~5m), 03-03 (~5m)
 - Trend: Accelerating
 
 *Updated after each plan completion*
@@ -70,6 +71,12 @@ Recent decisions affecting current work:
 - [Phase 2]: State objects parented to AppBuilder via make_unique, non-owning pointers in AppContext
 - [Phase 2]: qmlRegisterSingletonInstance for state objects, qmlRegisterUncreatableType for enums
 - [Phase 2]: MediaConsole 1.0 as QML module URI for all state types
+- [Phase 3]: eISCP binary protocol: 16-byte header + "!1" + command + "\r" payload
+- [Phase 3]: Exponential backoff reconnect: 1s initial, 2x multiplier, 30s cap
+- [Phase 3]: Gesture timeout: 300ms — responsive yet coalesces fast encoder ticks
+- [Phase 3]: External volume updates suppressed during active gesture, pass through when idle
+- [Phase 3]: NJA2 (4-char prefix) checked before NJA (3-char) in response parsing
+- [Phase 3]: CommandSource enum (Local/External/API) for volume overlay visibility control
 
 ### Pending Todos
 
@@ -84,5 +91,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-28
-Stopped at: Phase 2 complete, ready for Phase 3
+Stopped at: Phase 3 complete, ready for Phase 4
 Resume file: None

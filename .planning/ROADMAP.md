@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation and Build Infrastructure** - Project skeleton with CMake, interfaces, platform abstraction, composition root, and test framework
 - [x] **Phase 2: State Layer and QML Binding Surface** - Thin reactive state objects that QML binds to, registered as singletons
-- [ ] **Phase 3: Receiver Control** - eISCP TCP connection to Onkyo receiver with volume gesture coalescing and metadata parsing
+- [x] **Phase 3: Receiver Control** - eISCP TCP connection to Onkyo receiver with volume gesture coalescing and metadata parsing
 - [ ] **Phase 4: Audio Pipeline** - Unified LocalPlaybackController with ALSA output, audio streams, and playback thread
 - [ ] **Phase 5: CD Subsystem** - Disc detection, paranoia extraction, three-tier async metadata lookup, and progressive display
 - [ ] **Phase 6: FLAC Library** - Directory scanning, SQLite-backed library database, hierarchical browse models, and playlist playback
@@ -67,12 +67,12 @@ Plans:
   3. All 6 input sources can be selected and the receiver switches to the correct input
   4. Track metadata (title, artist, album, art URL, playback state) from streaming sources populates ReceiverState and is visible in the UI
   5. Volume overlay appears only for local user input (encoder, touchscreen) and does not appear for external volume changes (Spotify Connect, Onkyo app)
-**Plans**: TBD
+**Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
-- [ ] 03-03: TBD
+- [x] 03-01-PLAN.md — eISCP transport layer: packet framing and TCP auto-reconnect (`0c52870`)
+- [x] 03-02-PLAN.md — ReceiverController: command/response parsing, state updates, stale detection (`5aa5f59`)
+- [x] 03-03-PLAN.md — VolumeGestureController, CommandSource enum, AppBuilder wiring (`4e9b91e`)
 
 ### Phase 4: Audio Pipeline
 **Goal**: A unified playback controller that accepts any audio stream (CD or FLAC) and outputs bit-perfect audio through the S/PDIF HAT with robust error recovery
@@ -199,7 +199,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 |-------|----------------|--------|-----------|
 | 1. Foundation and Build Infrastructure | 3/3 | Complete | 2026-02-28 |
 | 2. State Layer and QML Binding Surface | 2/2 | Complete | 2026-02-28 |
-| 3. Receiver Control | 0/3 | Not started | - |
+| 3. Receiver Control | 3/3 | Complete | 2026-02-28 |
 | 4. Audio Pipeline | 0/3 | Not started | - |
 | 5. CD Subsystem | 0/3 | Not started | - |
 | 6. FLAC Library | 0/3 | Not started | - |

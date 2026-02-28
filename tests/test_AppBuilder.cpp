@@ -95,3 +95,12 @@ TEST_F(AppBuilderTest, ContextHasUIState)
 
     ASSERT_NE(ctx.uiState, nullptr);
 }
+
+TEST_F(AppBuilderTest, ContextHasLocalPlaybackController)
+{
+    AppConfig config;
+    AppBuilder builder;
+    auto ctx = builder.build(config);
+
+    ASSERT_NE(ctx.localPlaybackController, nullptr);
+}

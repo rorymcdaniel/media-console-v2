@@ -9,6 +9,7 @@ class PlaybackState;
 class UIState;
 class ReceiverController;
 class VolumeGestureController;
+class LocalPlaybackController;
 
 struct AppContext
 {
@@ -27,4 +28,7 @@ struct AppContext
     // Receiver control -- eISCP communication and volume gestures
     ReceiverController* receiverController = nullptr;
     VolumeGestureController* volumeGestureController = nullptr;
+
+    // Audio playback -- unified controller for any AudioStream source
+    LocalPlaybackController* localPlaybackController = nullptr;
 };

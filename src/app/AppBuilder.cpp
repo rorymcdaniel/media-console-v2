@@ -5,6 +5,9 @@
 #include "platform/IDisplayControl.h"
 #include "platform/IGpioMonitor.h"
 #include "platform/PlatformFactory.h"
+#include "receiver/EiscpConnection.h"
+#include "receiver/ReceiverController.h"
+#include "receiver/VolumeGestureController.h"
 #include "state/PlaybackState.h"
 #include "state/ReceiverState.h"
 #include "state/UIState.h"
@@ -39,6 +42,21 @@ AppContext AppBuilder::build(const AppConfig& config)
 
     qCInfo(mediaApp) << "AppBuilder: state layer initialized";
 
+    // Create receiver control stack
+    m_eiscpConnection = std::make_unique<EiscpConnection>(this);
+    m_receiverController = std::make_unique<ReceiverController>(m_eiscpConnection.get(), m_receiverState.get(),
+                                                                m_playbackState.get(), m_uiState.get(), this);
+    m_volumeGestureController = std::make_unique<VolumeGestureController>(m_receiverState.get(), m_uiState.get(), this);
+
+    // Wire gesture controller: gestureEnded -> setVolume on receiver
+    connect(m_volumeGestureController.get(), &VolumeGestureController::gestureEnded, m_receiverController.get(),
+            &ReceiverController::setVolume);
+
+    // Start receiver connection
+    m_receiverController->start(config.receiver.host, config.receiver.port);
+
+    qCInfo(mediaApp) << "AppBuilder: receiver control initialized";
+
     // Build context with non-owning pointers
     AppContext ctx;
     ctx.audioOutput = m_audioOutput.get();
@@ -48,6 +66,8 @@ AppContext AppBuilder::build(const AppConfig& config)
     ctx.receiverState = m_receiverState.get();
     ctx.playbackState = m_playbackState.get();
     ctx.uiState = m_uiState.get();
+    ctx.receiverController = m_receiverController.get();
+    ctx.volumeGestureController = m_volumeGestureController.get();
 
     qCInfo(mediaApp) << "AppBuilder: object graph complete";
     return ctx;

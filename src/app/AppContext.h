@@ -7,6 +7,8 @@ class IDisplayControl;
 class ReceiverState;
 class PlaybackState;
 class UIState;
+class ReceiverController;
+class VolumeGestureController;
 
 struct AppContext
 {
@@ -21,4 +23,8 @@ struct AppContext
     ReceiverState* receiverState = nullptr;
     PlaybackState* playbackState = nullptr;
     UIState* uiState = nullptr;
+
+    // Receiver control -- eISCP communication and volume gestures
+    ReceiverController* receiverController = nullptr;
+    VolumeGestureController* volumeGestureController = nullptr;
 };

@@ -6,6 +6,7 @@
 #include "app/AppBuilder.h"
 #include "app/AppConfig.h"
 #include "state/ActiveView.h"
+#include "state/CommandSource.h"
 #include "state/MediaSource.h"
 #include "state/PlaybackMode.h"
 #include "state/PlaybackState.h"
@@ -32,6 +33,8 @@ int main(int argc, char* argv[])
     qmlRegisterUncreatableType<ActiveViewEnum>("MediaConsole", 1, 0, "ActiveView", "ActiveView is an enum type");
     qmlRegisterUncreatableType<StreamingServiceEnum>("MediaConsole", 1, 0, "StreamingService",
                                                      "StreamingService is an enum type");
+    qmlRegisterUncreatableType<CommandSourceEnum>("MediaConsole", 1, 0, "CommandSource",
+                                                  "CommandSource is an enum type");
 
     // Register state object singletons (MUST be before engine.load())
     qmlRegisterSingletonInstance("MediaConsole", 1, 0, "ReceiverState", ctx.receiverState);

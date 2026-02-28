@@ -26,6 +26,7 @@ set(TEST_SOURCES
     test_UIState.cpp
     test_EiscpMessage.cpp
     test_ReceiverController.cpp
+    test_VolumeGestureController.cpp
 )
 
 add_executable(media-console-tests ${TEST_SOURCES})

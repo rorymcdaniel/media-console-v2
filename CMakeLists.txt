@@ -113,6 +113,9 @@ set(LIB_SOURCES
     src/receiver/EiscpConnection.cpp
     src/receiver/ReceiverController.h
     src/receiver/ReceiverController.cpp
+    src/receiver/VolumeGestureController.h
+    src/receiver/VolumeGestureController.cpp
+    src/state/CommandSource.h
 )
 
 # Create static library for testing without main()

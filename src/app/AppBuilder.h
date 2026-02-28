@@ -14,6 +14,9 @@ class IDisplayControl;
 class ReceiverState;
 class PlaybackState;
 class UIState;
+class EiscpConnection;
+class ReceiverController;
+class VolumeGestureController;
 
 class AppBuilder : public QObject
 {
@@ -33,4 +36,7 @@ private:
     std::unique_ptr<ReceiverState> m_receiverState;
     std::unique_ptr<PlaybackState> m_playbackState;
     std::unique_ptr<UIState> m_uiState;
+    std::unique_ptr<EiscpConnection> m_eiscpConnection;
+    std::unique_ptr<ReceiverController> m_receiverController;
+    std::unique_ptr<VolumeGestureController> m_volumeGestureController;
 };

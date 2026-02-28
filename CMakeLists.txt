@@ -8,6 +8,7 @@ set(CMAKE_AUTORCC ON)
 
 # Qt6 components
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick Qml Test Network Sql Concurrent NetworkAuth)
+find_package(Qt6 QUIET COMPONENTS HttpServer)
 qt_standard_project_setup(REQUIRES 6.8)
 
 # clang-tidy integration (runs during build, does not block commits)
@@ -142,6 +143,12 @@ set(LIB_SOURCES
     src/spotify/SpotifyClient.cpp
     src/spotify/SpotifyController.h
     src/spotify/SpotifyController.cpp
+    # Display control
+    src/display/LinuxDisplayControl.h
+    src/display/LinuxDisplayControl.cpp
+    # HTTP API server
+    src/api/HttpApiServer.h
+    src/api/HttpApiServer.cpp
 )
 
 # ALSA audio output (Linux only)
@@ -205,6 +212,16 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     endif()
 endif()
 
+# DDC/CI display control (Linux only -- ddcutil)
+if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    find_program(DDCUTIL_EXE NAMES ddcutil)
+    if(DDCUTIL_EXE)
+        message(STATUS "DDC/CI display: enabled (ddcutil found at ${DDCUTIL_EXE})")
+    else()
+        message(STATUS "DDC/CI display: disabled (ddcutil not found)")
+    endif()
+endif()
+
 # GPIO subsystem (Linux only -- libgpiod v2)
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
     if(NOT TARGET PkgConfig::ALSA)
@@ -255,6 +272,20 @@ if(CDIO_FOUND AND CDIO_PARANOIA_FOUND AND CDIO_CDDA_FOUND AND DISCID_FOUND)
         PkgConfig::DISCID
     )
     target_compile_definitions(media-console-lib PUBLIC HAS_CDIO=1)
+endif()
+
+# Qt6 HttpServer (optional -- available on Linux/Pi, not always on macOS dev)
+if(Qt6HttpServer_FOUND)
+    target_link_libraries(media-console-lib PUBLIC Qt6::HttpServer)
+    target_compile_definitions(media-console-lib PUBLIC HAS_QT_HTTPSERVER=1)
+    message(STATUS "HTTP API server: enabled (Qt6::HttpServer found)")
+else()
+    message(STATUS "HTTP API server: disabled (Qt6::HttpServer not found)")
+endif()
+
+# DDC/CI display define on Linux
+if(DDCUTIL_EXE)
+    target_compile_definitions(media-console-lib PUBLIC HAS_DDCUTIL=1)
 endif()
 
 # Link GPIO subsystem on Linux

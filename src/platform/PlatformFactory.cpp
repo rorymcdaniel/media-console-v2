@@ -24,6 +24,10 @@
 #include "platform/LinuxGpioMonitor.h"
 #endif
 
+#ifdef HAS_DDCUTIL
+#include "display/LinuxDisplayControl.h"
+#endif
+
 std::unique_ptr<IAudioOutput> PlatformFactory::createAudioOutput()
 {
 #ifdef HAS_ALSA
@@ -54,9 +58,11 @@ std::unique_ptr<IGpioMonitor> PlatformFactory::createGpioMonitor(const GpioConfi
 
 std::unique_ptr<IDisplayControl> PlatformFactory::createDisplayControl(QObject* parent)
 {
-    // TODO: Phase 9+ add runtime detection:
-    // if (isLinux()) return std::make_unique<DdcDisplayControl>(parent);
+#ifdef HAS_DDCUTIL
+    return std::make_unique<LinuxDisplayControl>(parent);
+#else
     return std::make_unique<StubDisplayControl>(parent);
+#endif
 }
 
 bool PlatformFactory::isLinux()

@@ -44,6 +44,7 @@ set(TEST_SOURCES
     test_SpotifyAuth.cpp
     test_SpotifyClient.cpp
     test_SpotifyController.cpp
+    test_LinuxDisplayControl.cpp
 )
 
 add_executable(media-console-tests ${TEST_SOURCES})

@@ -1,0 +1,37 @@
+[Unit]
+Description=Media Console Kiosk Application
+Documentation=https://github.com/rorymcgrath/media-console-v2
+After=graphical.target
+Wants=graphical.target
+
+[Service]
+Type=simple
+User=rory
+Group=rory
+
+# Environment for EGLFS Qt platform
+Environment=QT_QPA_PLATFORM=eglfs
+Environment=QT_QPA_EGLFS_INTEGRATION=eglfs_kms
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+Environment=QT_LOGGING_RULES=media.*=true
+
+# Application binary
+ExecStart=/usr/local/bin/media-console
+
+# Auto-restart on crash (PROD-01)
+Restart=always
+RestartSec=3
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+# Resource limits
+Nice=-5
+MemoryMax=512M
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=media-console
+
+[Install]
+WantedBy=graphical.target

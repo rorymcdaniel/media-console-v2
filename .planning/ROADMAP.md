@@ -12,7 +12,7 @@ A 10-phase ground-up rewrite of the Qt6/QML music console application, structure
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation and Build Infrastructure** - Project skeleton with CMake, interfaces, platform abstraction, composition root, and test framework
+- [x] **Phase 1: Foundation and Build Infrastructure** - Project skeleton with CMake, interfaces, platform abstraction, composition root, and test framework
 - [ ] **Phase 2: State Layer and QML Binding Surface** - Thin reactive state objects that QML binds to, registered as singletons
 - [ ] **Phase 3: Receiver Control** - eISCP TCP connection to Onkyo receiver with volume gesture coalescing and metadata parsing
 - [ ] **Phase 4: Audio Pipeline** - Unified LocalPlaybackController with ALSA output, audio streams, and playback thread
@@ -38,9 +38,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans in 2 waves
 
 Plans:
-- [ ] 01-01-PLAN.md — CMake project skeleton, code quality tooling, logging categories, coding standards
-- [ ] 01-02-PLAN.md — Platform abstraction interfaces, stub implementations, PlatformFactory
-- [ ] 01-03-PLAN.md — AppConfig typed configuration, AppBuilder composition root, Google Test suite
+- [x] 01-01-PLAN.md — CMake project skeleton, code quality tooling, logging categories, coding standards (`e561041`)
+- [x] 01-02-PLAN.md — Platform abstraction interfaces, stub implementations, PlatformFactory (`d36a6a4`)
+- [x] 01-03-PLAN.md — AppConfig typed configuration, AppBuilder composition root, Google Test suite (`be964a6`)
 
 ### Phase 2: State Layer and QML Binding Surface
 **Goal**: QML has a stable, reactive binding surface with thin state objects that expose all properties the UI will need
@@ -197,7 +197,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation and Build Infrastructure | 0/3 | Not started | - |
+| 1. Foundation and Build Infrastructure | 3/3 | Complete | 2026-02-28 |
 | 2. State Layer and QML Binding Surface | 0/2 | Not started | - |
 | 3. Receiver Control | 0/3 | Not started | - |
 | 4. Audio Pipeline | 0/3 | Not started | - |

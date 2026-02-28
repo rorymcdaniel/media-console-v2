@@ -36,7 +36,7 @@ AppContext AppBuilder::build(const AppConfig& config)
     // Create platform implementations via factory
     m_audioOutput = PlatformFactory::createAudioOutput();
     m_cdDrive = PlatformFactory::createCdDrive();
-    m_gpioMonitor = PlatformFactory::createGpioMonitor(this);
+    m_gpioMonitor = PlatformFactory::createGpioMonitor(config.gpio, this);
     m_displayControl = PlatformFactory::createDisplayControl(this);
 
     qCInfo(mediaApp) << "AppBuilder: platform:" << (PlatformFactory::isLinux() ? "Linux (real)" : "non-Linux (stubs)");
@@ -58,10 +58,34 @@ AppContext AppBuilder::build(const AppConfig& config)
     connect(m_volumeGestureController.get(), &VolumeGestureController::gestureEnded, m_receiverController.get(),
             &ReceiverController::setVolume);
 
+    // Wire GPIO monitor signals
+    // Volume encoder -> VolumeGestureController (pre-scaled delta)
+    connect(m_gpioMonitor.get(), &IGpioMonitor::volumeChanged, m_volumeGestureController.get(),
+            &VolumeGestureController::onEncoderTick);
+
+    // Input encoder navigation -> receiver input cycling
+    connect(m_gpioMonitor.get(), &IGpioMonitor::inputNext, m_receiverController.get(), &ReceiverController::inputNext);
+    connect(m_gpioMonitor.get(), &IGpioMonitor::inputPrevious, m_receiverController.get(),
+            &ReceiverController::inputPrevious);
+
+    // Push button -> mute toggle (context-dependent routing deferred to Phase 10
+    // when InputCarousel exists; for now, push always toggles mute)
+    connect(m_gpioMonitor.get(), &IGpioMonitor::inputSelect, m_receiverController.get(),
+            &ReceiverController::toggleMute);
+
+    // Reed switch -> UIState.doorOpen (Phase 9 DisplayController reacts to state changes)
+    connect(m_gpioMonitor.get(), &IGpioMonitor::reedSwitchChanged, m_uiState.get(), &UIState::setDoorOpen);
+
+    // Start GPIO monitoring (non-fatal on failure)
+    if (!m_gpioMonitor->start())
+    {
+        qCWarning(mediaApp) << "AppBuilder: GPIO monitor failed to start (continuing with no hardware input)";
+    }
+
     // Start receiver connection
     m_receiverController->start(config.receiver.host, config.receiver.port);
 
-    qCInfo(mediaApp) << "AppBuilder: receiver control initialized";
+    qCInfo(mediaApp) << "AppBuilder: receiver and GPIO control initialized";
 
     // Create audio playback controller
     m_localPlaybackController = std::make_unique<LocalPlaybackController>(m_audioOutput.get(), m_playbackState.get(),

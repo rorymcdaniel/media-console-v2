@@ -67,6 +67,49 @@ void ReceiverController::toggleMute()
     m_connection->sendCommand("AMTTG");
 }
 
+void ReceiverController::inputNext()
+{
+    // Source cycling order: Streaming, Phono, CD, Computer, Bluetooth, Library
+    static constexpr MediaSource kSourceOrder[]
+        = { MediaSource::Streaming, MediaSource::Phono,     MediaSource::CD,
+            MediaSource::Computer,  MediaSource::Bluetooth, MediaSource::Library };
+    static constexpr int kSourceCount = sizeof(kSourceOrder) / sizeof(kSourceOrder[0]);
+
+    MediaSource current = m_receiverState->currentInput();
+    int idx = 0;
+    for (int i = 0; i < kSourceCount; ++i)
+    {
+        if (kSourceOrder[i] == current)
+        {
+            idx = i;
+            break;
+        }
+    }
+    int nextIdx = (idx + 1) % kSourceCount;
+    selectInput(kSourceOrder[nextIdx]);
+}
+
+void ReceiverController::inputPrevious()
+{
+    static constexpr MediaSource kSourceOrder[]
+        = { MediaSource::Streaming, MediaSource::Phono,     MediaSource::CD,
+            MediaSource::Computer,  MediaSource::Bluetooth, MediaSource::Library };
+    static constexpr int kSourceCount = sizeof(kSourceOrder) / sizeof(kSourceOrder[0]);
+
+    MediaSource current = m_receiverState->currentInput();
+    int idx = 0;
+    for (int i = 0; i < kSourceCount; ++i)
+    {
+        if (kSourceOrder[i] == current)
+        {
+            idx = i;
+            break;
+        }
+    }
+    int prevIdx = (idx - 1 + kSourceCount) % kSourceCount;
+    selectInput(kSourceOrder[prevIdx]);
+}
+
 void ReceiverController::queryAll()
 {
     m_connection->sendCommand("MVLQSTN");

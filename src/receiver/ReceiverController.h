@@ -33,6 +33,12 @@ public slots:
     void selectInput(MediaSource source);
     void toggleMute();
 
+    /// Cycle to the next input source (wraps around). Order: Streaming, Phono, CD, Computer, Bluetooth, Library.
+    void inputNext();
+
+    /// Cycle to the previous input source (wraps around). Order: Library, Bluetooth, Computer, CD, Phono, Streaming.
+    void inputPrevious();
+
     /// Query all receiver state (MVL, PWR, AMT, SLI). Called on connect and by poll timer.
     void queryAll();
 

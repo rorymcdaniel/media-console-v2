@@ -122,6 +122,8 @@ set(LIB_SOURCES
     src/audio/AudioRingBuffer.cpp
     src/audio/LocalPlaybackController.h
     src/audio/LocalPlaybackController.cpp
+    src/cd/CdAudioStream.h
+    src/cd/CdAudioStream.cpp
 )
 
 # ALSA audio output (Linux only)
@@ -147,8 +149,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
         list(APPEND LIB_SOURCES
             src/cd/LibcdioCdDrive.h
             src/cd/LibcdioCdDrive.cpp
-            src/cd/CdAudioStream.h
-            src/cd/CdAudioStream.cpp
         )
         message(STATUS "CD subsystem: enabled (libcdio + libdiscid found)")
     else()

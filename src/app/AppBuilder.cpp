@@ -15,6 +15,10 @@
 #include "state/UIState.h"
 #include "utils/Logging.h"
 
+#ifdef HAS_SNDFILE
+#include "library/FlacLibraryController.h"
+#endif
+
 AppBuilder::AppBuilder(QObject* parent)
     : QObject(parent)
 {
@@ -72,6 +76,16 @@ AppContext AppBuilder::build(const AppConfig& config)
 
     qCInfo(mediaApp) << "AppBuilder: CD controller initialized";
 
+    // Create FLAC library controller (Linux only with libsndfile/taglib)
+#ifdef HAS_SNDFILE
+    m_flacLibraryController = std::make_unique<FlacLibraryController>(m_localPlaybackController.get(),
+                                                                      m_playbackState.get(), config.library, this);
+    m_flacLibraryController->start();
+    qCInfo(mediaApp) << "AppBuilder: FLAC library controller initialized";
+#else
+    qCInfo(mediaApp) << "AppBuilder: FLAC library disabled (no libsndfile)";
+#endif
+
     // Build context with non-owning pointers
     AppContext ctx;
     ctx.audioOutput = m_audioOutput.get();
@@ -85,6 +99,9 @@ AppContext AppBuilder::build(const AppConfig& config)
     ctx.volumeGestureController = m_volumeGestureController.get();
     ctx.localPlaybackController = m_localPlaybackController.get();
     ctx.cdController = m_cdController.get();
+#ifdef HAS_SNDFILE
+    ctx.flacLibraryController = m_flacLibraryController.get();
+#endif
 
     qCInfo(mediaApp) << "AppBuilder: object graph complete";
     return ctx;

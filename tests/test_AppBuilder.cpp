@@ -113,3 +113,18 @@ TEST_F(AppBuilderTest, ContextHasCdController)
 
     ASSERT_NE(ctx.cdController, nullptr);
 }
+
+TEST_F(AppBuilderTest, ContextHasFlacLibraryControllerOnLinux)
+{
+    AppConfig config;
+    AppBuilder builder;
+    auto ctx = builder.build(config);
+
+    // On macOS: flacLibraryController is nullptr (HAS_SNDFILE not defined)
+    // On Linux: flacLibraryController is non-null
+#ifdef HAS_SNDFILE
+    EXPECT_NE(ctx.flacLibraryController, nullptr);
+#else
+    EXPECT_EQ(ctx.flacLibraryController, nullptr);
+#endif
+}

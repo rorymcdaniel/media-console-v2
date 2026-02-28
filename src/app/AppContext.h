@@ -11,6 +11,7 @@ class ReceiverController;
 class VolumeGestureController;
 class LocalPlaybackController;
 class CdController;
+class FlacLibraryController;
 
 struct AppContext
 {
@@ -35,4 +36,7 @@ struct AppContext
 
     // CD subsystem -- lifecycle orchestrator for disc detection, metadata, playback
     CdController* cdController = nullptr;
+
+    // FLAC Library -- lifecycle orchestrator for scanning, browsing, playback
+    FlacLibraryController* flacLibraryController = nullptr;
 };

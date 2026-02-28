@@ -19,6 +19,7 @@ class ReceiverController;
 class VolumeGestureController;
 class LocalPlaybackController;
 class CdController;
+class FlacLibraryController;
 
 class AppBuilder : public QObject
 {
@@ -43,4 +44,7 @@ private:
     std::unique_ptr<VolumeGestureController> m_volumeGestureController;
     std::unique_ptr<LocalPlaybackController> m_localPlaybackController;
     std::unique_ptr<CdController> m_cdController;
+#ifdef HAS_SNDFILE
+    std::unique_ptr<FlacLibraryController> m_flacLibraryController;
+#endif
 };

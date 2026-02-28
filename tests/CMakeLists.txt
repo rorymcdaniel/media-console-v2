@@ -31,6 +31,7 @@ set(TEST_SOURCES
     test_AudioRingBuffer.cpp
     test_LocalPlaybackController.cpp
     test_CdAudioStream.cpp
+    test_CdMetadataCache.cpp
 )
 
 add_executable(media-console-tests ${TEST_SOURCES})

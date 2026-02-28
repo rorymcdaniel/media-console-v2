@@ -7,7 +7,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 # Qt6 components
-find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick Qml Test Network)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Quick Qml Test Network Sql)
 qt_standard_project_setup(REQUIRES 6.8)
 
 # clang-tidy integration (runs during build, does not block commits)
@@ -124,6 +124,8 @@ set(LIB_SOURCES
     src/audio/LocalPlaybackController.cpp
     src/cd/CdAudioStream.h
     src/cd/CdAudioStream.cpp
+    src/cd/CdMetadataCache.h
+    src/cd/CdMetadataCache.cpp
 )
 
 # ALSA audio output (Linux only)
@@ -169,6 +171,7 @@ target_link_libraries(media-console-lib PUBLIC
     Qt6::Quick
     Qt6::Qml
     Qt6::Network
+    Qt6::Sql
 )
 
 # Link ALSA on Linux

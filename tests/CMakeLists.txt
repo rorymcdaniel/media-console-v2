@@ -40,6 +40,7 @@ set(TEST_SOURCES
     test_LibraryAlbumArtProvider.cpp
     test_LibraryModels.cpp
     test_FlacLibraryController.cpp
+    test_QuadratureDecoder.cpp
 )
 
 add_executable(media-console-tests ${TEST_SOURCES})

@@ -81,6 +81,7 @@ set(LIB_SOURCES
     src/platform/ICdDrive.h
     src/platform/IGpioMonitor.h
     src/platform/IDisplayControl.h
+    src/platform/QuadratureDecoder.h
     src/platform/PlatformFactory.h
     src/platform/PlatformFactory.cpp
     src/platform/stubs/StubAudioOutput.h

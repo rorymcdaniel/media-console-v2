@@ -93,7 +93,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Spotify
 
-- [ ] **SPOT-01**: OAuth 2.0 PKCE Authorization Code flow with token persistence and auto-refresh (5 min pre-expiry)
+- [x] **SPOT-01**: OAuth 2.0 PKCE Authorization Code flow with token persistence and auto-refresh (5 min pre-expiry)
 - [ ] **SPOT-02**: Device discovery and playback transfer by device name
 - [ ] **SPOT-03**: Playback control: play, pause, next, previous, play by URI, context-aware playback
 - [ ] **SPOT-04**: Full-text search via Spotify Web API (tracks, artists, albums)
@@ -264,7 +264,7 @@ Updated during roadmap creation.
 | GPIO-04 | Phase 7 | Complete |
 | GPIO-05 | Phase 7 | Complete |
 | GPIO-06 | Phase 7 | Complete |
-| SPOT-01 | Phase 8 | Pending |
+| SPOT-01 | Phase 8 | Complete |
 | SPOT-02 | Phase 8 | Pending |
 | SPOT-03 | Phase 8 | Pending |
 | SPOT-04 | Phase 8 | Pending |

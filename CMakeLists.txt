@@ -111,6 +111,8 @@ set(LIB_SOURCES
     src/receiver/EiscpMessage.cpp
     src/receiver/EiscpConnection.h
     src/receiver/EiscpConnection.cpp
+    src/receiver/ReceiverController.h
+    src/receiver/ReceiverController.cpp
 )
 
 # Create static library for testing without main()

@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 8
-status: In Progress
-last_updated: "2026-02-28T19:52:19Z"
+status: Phase Complete
+last_updated: "2026-02-28T20:00:32Z"
 progress:
   total_phases: 10
-  completed_phases: 7
+  completed_phases: 8
   total_plans: 25
-  completed_plans: 24
+  completed_plans: 25
 ---
 
 # Session State
@@ -22,8 +22,8 @@ See: .planning/PROJECT.md
 
 **Milestone:** v1.0 milestone
 **Current phase:** 8 (Spotify Integration)
-**Current plan:** 3 of 3
-**Status:** In Progress
+**Current plan:** 3 of 3 (complete)
+**Status:** Phase Complete
 
 ## Decisions
 
@@ -33,6 +33,9 @@ See: .planning/PROJECT.md
 - Static buildUrl method for testable URL construction without live HTTP calls
 - Three reply handler patterns: JsonObject, JsonArray (with key extraction), and Command (204 success)
 - sendCustomRequest with POST verb for next/previous/addToQueue (QNetworkAccessManager has no post-with-empty-body)
+- Null-safe SpotifyController construction for defensive coding (all pointers guarded)
+- Album art for active playback from receiver CGI, not Spotify API (SPOT-08)
+- Session takeover via findAndTransferToDevice (getDevices + name match) not cached device IDs
 
 ## Session Log
 
@@ -43,3 +46,5 @@ See: .planning/PROJECT.md
 - 2026-02-28: Plan 07-03 complete - PlatformFactory HAS_GPIOD, AppBuilder GPIO wiring, ReceiverController input cycling
 - 2026-02-28: Plan 08-01 complete - SpotifyAuth OAuth 2.0 PKCE S256, token persistence, CLI --spotify-auth
 - 2026-02-28: Plan 08-02 complete - SpotifyClient REST API wrapper, 15 endpoint methods, 8 tests
+- 2026-02-28: Plan 08-03 complete - SpotifyController orchestrator, search debounce, device transfer, session takeover, AppBuilder wiring
+- 2026-02-28: Phase 8 (Spotify Integration) complete - 3 plans, all 297 tests pass

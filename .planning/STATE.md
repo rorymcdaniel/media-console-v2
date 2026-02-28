@@ -23,11 +23,11 @@ See: .planning/PROJECT.md (updated 2026-02-28)
 ## Current Position
 
 Phase: 2 of 10 (State Layer and QML Binding Surface)
-Plan: 0 of 2 in current phase
-Status: Ready to plan
-Last activity: 2026-02-28 — Phase 1 complete (3/3 plans executed)
+Plan: 1 of 2 in current phase
+Status: Executing
+Last activity: 2026-02-28 — Plan 02-01 complete (state enums + Q_PROPERTY bags)
 
-Progress: [█░░░░░░░░░] 10%
+Progress: [██░░░░░░░░] 15%
 
 ## Performance Metrics
 
@@ -64,6 +64,9 @@ Recent decisions affecting current work:
 - [Phase 1]: Nested config structs mapping to QSettings INI groups
 - [Phase 1]: AppBuilder owns objects via unique_ptr, AppContext holds non-owning pointers
 - [Phase 1]: Only AppConfig.cpp includes QSettings directly
+- [Phase 2]: Enum classes hosted in QObject with Q_ENUM for QML registration, type aliases for C++ usage
+- [Phase 2]: Q_PROPERTY bag pattern: inline getters, guarded setters, per-property change signals
+- [Phase 2]: State objects parented to AppBuilder via make_unique, non-owning pointers in AppContext
 
 ### Pending Todos
 
@@ -78,5 +81,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-28
-Stopped at: Phase 1 complete, ready to plan Phase 2
+Stopped at: Completed 02-01-PLAN.md, executing 02-02-PLAN.md next
 Resume file: None

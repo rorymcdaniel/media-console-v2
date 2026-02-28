@@ -69,4 +69,5 @@ private:
     int m_brightnessStep = 4;
 
     bool m_playbackSuppressing = false;
+    bool m_doorCloseMode = false; // When true, use short off delay after dimming
 };

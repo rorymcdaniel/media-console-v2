@@ -115,11 +115,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### HTTP API
 
-- [ ] **API-01**: REST API via Qt HttpServer on configurable port (default 8080)
-- [ ] **API-02**: Endpoints: volume set, input switch, status query, display power
-- [ ] **API-03**: Spotify OAuth setup page and callback endpoint
-- [ ] **API-04**: Spotify search endpoint
-- [ ] **API-05**: Optional HTTPS via auto-generated self-signed certificate
+- [x] **API-01**: REST API via Qt HttpServer on configurable port (default 8080)
+- [x] **API-02**: Endpoints: volume set, input switch, status query, display power
+- [x] **API-03**: Spotify OAuth setup page and callback endpoint
+- [x] **API-04**: Spotify search endpoint
+- [x] **API-05**: Optional HTTPS via auto-generated self-signed certificate
 
 ### QML UI
 
@@ -280,11 +280,11 @@ Updated during roadmap creation.
 | DISP-06 | Phase 9 | Pending |
 | DISP-07 | Phase 9 | Pending |
 | DISP-08 | Phase 9 | Pending |
-| API-01 | Phase 9 | Pending |
-| API-02 | Phase 9 | Pending |
-| API-03 | Phase 9 | Pending |
-| API-04 | Phase 9 | Pending |
-| API-05 | Phase 9 | Pending |
+| API-01 | Phase 9 | Complete |
+| API-02 | Phase 9 | Complete |
+| API-03 | Phase 9 | Complete |
+| API-04 | Phase 9 | Complete |
+| API-05 | Phase 9 | Complete |
 | ORCH-01 | Phase 9 | Pending |
 | ORCH-02 | Phase 9 | Pending |
 | UI-01 | Phase 10 | Pending |

@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 current_phase: 9 (Display, HTTP API, and Orchestration)
-current_plan: Not started
-status: Ready to plan
-last_updated: "2026-02-28T20:10:00.000Z"
+current_plan: 3 of 3
+status: executing
+last_updated: "2026-02-28T20:34:39.435Z"
 progress:
   total_phases: 10
   completed_phases: 8
-  total_plans: 25
-  completed_plans: 24
+  total_plans: 27
+  completed_plans: 26
 ---
 
 # Session State
@@ -26,8 +26,8 @@ See: .planning/PROJECT.md (updated 2026-02-28)
 
 **Milestone:** v1.0 milestone
 **Current phase:** 9 (Display, HTTP API, and Orchestration)
-**Current plan:** Not started
-**Status:** Ready to plan
+**Current plan:** 3 of 3
+**Status:** In progress
 
 ## Decisions
 
@@ -40,6 +40,9 @@ See: .planning/PROJECT.md (updated 2026-02-28)
 - Null-safe SpotifyController construction for defensive coding (all pointers guarded)
 - Album art for active playback from receiver CGI, not Spotify API (SPOT-08)
 - Session takeover via findAndTransferToDevice (getDevices + name match) not cached device IDs
+- HAS_QT_HTTPSERVER compile guard for optional Qt6::HttpServer dependency
+- Static inputStringToMediaSource for testable input mapping without HttpServer
+- activityDetected signal on all API requests for ScreenTimeoutController integration
 
 ## Session Log
 
@@ -53,3 +56,5 @@ See: .planning/PROJECT.md (updated 2026-02-28)
 - 2026-02-28: Plan 08-03 complete - SpotifyController orchestrator, search debounce, device transfer, session takeover, AppBuilder wiring
 - 2026-02-28: Phase 8 (Spotify Integration) complete - 3 plans, all 297 tests pass
 - 2026-02-28: Transition to Phase 9 (Display, HTTP API, and Orchestration)
+- 2026-02-28: Plan 09-01 complete - LinuxDisplayControl ddcutil, ScreenTimeoutController state machine
+- 2026-02-28: Plan 09-02 complete - HttpApiServer REST API, 9 endpoints, 26 tests, optional HTTPS

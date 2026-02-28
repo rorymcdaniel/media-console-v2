@@ -50,6 +50,7 @@ struct SpotifyConfig
     QString clientId;
     QString clientSecret;
     QString desiredDeviceName = "Voice of Music";
+    int redirectPort = 8888;
 };
 
 struct GpioConfig

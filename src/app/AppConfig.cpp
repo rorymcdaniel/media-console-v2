@@ -43,6 +43,7 @@ AppConfig AppConfig::loadFromSettings()
     config.spotify.clientSecret = settings.value("spotify/client_secret", config.spotify.clientSecret).toString();
     config.spotify.desiredDeviceName
         = settings.value("spotify/desired_device_name", config.spotify.desiredDeviceName).toString();
+    config.spotify.redirectPort = settings.value("spotify/redirect_port", config.spotify.redirectPort).toInt();
 
     // GPIO
     config.gpio.chipPath = settings.value("gpio/chip_path", config.gpio.chipPath).toString();

@@ -41,6 +41,7 @@ set(TEST_SOURCES
     test_LibraryModels.cpp
     test_FlacLibraryController.cpp
     test_QuadratureDecoder.cpp
+    test_SpotifyAuth.cpp
 )
 
 add_executable(media-console-tests ${TEST_SOURCES})

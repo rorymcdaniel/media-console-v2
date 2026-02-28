@@ -12,18 +12,17 @@ The touchscreen kiosk must always be responsive — no freezes, no unrecoverable
 
 ### Validated
 
-(None yet — ship to validate)
+- ✓ Receiver control via eISCP protocol (volume, input, power, mute, metadata) — Phase 3
+- ✓ CD playback with native ALSA/libcdio audio streaming — Phase 4
+- ✓ CD metadata lookup (MusicBrainz → GnuDB → Discogs) with progressive display — Phase 5
+- ✓ CD disc monitoring with hybrid detection — Phase 5
+- ✓ FLAC library browsing (Artist → Album → Track) and playback — Phase 6
+- ✓ GPIO hardware integration (volume encoder, input encoder, reed switch) — Phase 7
+- ✓ Spotify integration (OAuth, device transfer, search, playback control) — Phase 8
 
 ### Active
 
-- [ ] Receiver control via eISCP protocol (volume, input, power, mute, metadata)
-- [ ] CD playback with native ALSA/libcdio audio streaming
-- [ ] CD metadata lookup (MusicBrainz → GnuDB → Discogs) with progressive display
-- [ ] CD disc monitoring with hybrid detection
-- [ ] FLAC library browsing (Artist → Album → Track) and playback
-- [ ] Spotify integration (OAuth, device transfer, search, playback control)
 - [ ] Bluetooth input with receiver-provided metadata display
-- [ ] GPIO hardware integration (volume encoder, input encoder, reed switch)
 - [ ] Display control (DDC/CI power, dimming, screen timeout state machine)
 - [ ] HTTP API server (volume, input, status, display, Spotify OAuth)
 - [ ] QML UI with full touch interface on 1920x720 display
@@ -99,6 +98,9 @@ The original working codebase is at `~/Code/media-console` (~15,400 lines C++, ~
 | Platform abstraction via runtime injection | Enables testing on macOS, replaces #ifdef guards | — Pending |
 | Google Test + mock interfaces | Platform-independent testing of hardware-dependent code | — Pending |
 | Research receiver telnet server | May solve volume overlay problem and enable event-driven updates | — Pending |
+| Qt6::NetworkAuth PKCE for Spotify OAuth | Native Qt OAuth support with PKCE S256, avoids third-party libs | Shipped Phase 8 |
+| Album art via receiver CGI not Spotify API | Spotify albumArtUrl deferred — receiver already provides art via NJA2 | Shipped Phase 8 |
+| Session takeover by device name match | getDevices→match→transfer instead of caching device IDs (IDs change) | Shipped Phase 8 |
 
 ---
-*Last updated: 2026-02-28 after initialization*
+*Last updated: 2026-02-28 after Phase 8*

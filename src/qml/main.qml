@@ -298,20 +298,18 @@ Window {
             width: parent.width - Theme.leftPanelWidth
             height: parent.height
 
-            // View loader — switches based on UIState.activeView
-            // Placeholder content — components created in Plans 10-02 and 10-03
-            Text {
-                anchors.centerIn: parent
-                text: {
+            // View loader — switches component based on UIState.activeView
+            Loader {
+                id: viewLoader
+                anchors.fill: parent
+                source: {
                     switch (UIState.activeView) {
-                        case ActiveView.NowPlaying: return "Now Playing"
-                        case ActiveView.LibraryBrowser: return "Library Browser"
-                        case ActiveView.SpotifySearch: return "Spotify Search"
-                        default: return "Now Playing"
+                        case ActiveView.NowPlaying: return "components/NowPlaying.qml"
+                        case ActiveView.LibraryBrowser: return "components/LibraryBrowser.qml"
+                        case ActiveView.SpotifySearch: return "components/SpotifySearch.qml"
+                        default: return "components/NowPlaying.qml"
                     }
                 }
-                color: Theme.textPrimary
-                font.pixelSize: Theme.fontSizeXLarge
             }
         }
     }

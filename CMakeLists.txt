@@ -77,6 +77,20 @@ endif()
 set(LIB_SOURCES
     src/utils/Logging.h
     src/utils/Logging.cpp
+    src/platform/IAudioOutput.h
+    src/platform/ICdDrive.h
+    src/platform/IGpioMonitor.h
+    src/platform/IDisplayControl.h
+    src/platform/PlatformFactory.h
+    src/platform/PlatformFactory.cpp
+    src/platform/stubs/StubAudioOutput.h
+    src/platform/stubs/StubAudioOutput.cpp
+    src/platform/stubs/StubCdDrive.h
+    src/platform/stubs/StubCdDrive.cpp
+    src/platform/stubs/StubGpioMonitor.h
+    src/platform/stubs/StubGpioMonitor.cpp
+    src/platform/stubs/StubDisplayControl.h
+    src/platform/stubs/StubDisplayControl.cpp
 )
 
 # Create static library for testing without main()

@@ -123,9 +123,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### QML UI
 
-- [ ] **UI-01**: Deep blue color theme (#0a1628 primary, #162844 secondary, #2e5c8a accent)
-- [ ] **UI-02**: Theme.qml singleton with design tokens: colors, typography (6 sizes 12-48px), spacing (8/16/24px), touch targets (44/64px), animation durations (150/300/500ms)
-- [ ] **UI-03**: Main layout: left panel (input icon + service label), right panel (NowPlaying or LibraryBrowser), top status bar
+- [x] **UI-01**: Deep blue color theme (#0a1628 primary, #162844 secondary, #2e5c8a accent)
+- [x] **UI-02**: Theme.qml singleton with design tokens: colors, typography (6 sizes 12-48px), spacing (8/16/24px), touch targets (44/64px), animation durations (150/300/500ms)
+- [x] **UI-03**: Main layout: left panel (input icon + service label), right panel (NowPlaying or LibraryBrowser), top status bar
 - [ ] **UI-04**: NowPlaying: album art (front/back carousel), track info, progress bar with seek, playback controls
 - [ ] **UI-05**: InputCarousel: 3D perspective carousel with 6 inputs, 4-second auto-select timeout, encoder-driven navigation
 - [ ] **UI-06**: LibraryBrowser: StackView drill-down (Artists -> Albums -> Tracks), artist A-Z quick scroll sidebar, split layout on track page
@@ -138,9 +138,9 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **UI-13**: EjectButton: visible only when CD present
 - [ ] **UI-14**: SearchButton: visible only on Spotify input
 - [ ] **UI-15**: ErrorBanner: shown when receiver disconnected
-- [ ] **UI-16**: TimeDisplay: current time, updates every minute
-- [ ] **UI-17**: PowerButton, MuteButton with visual state indicators
-- [ ] **UI-18**: Global MouseArea for touch activity detection (resets screen timeout)
+- [x] **UI-16**: TimeDisplay: current time, updates every minute
+- [x] **UI-17**: PowerButton, MuteButton with visual state indicators
+- [x] **UI-18**: Global MouseArea for touch activity detection (resets screen timeout)
 
 ### Orchestration
 
@@ -287,9 +287,9 @@ Updated during roadmap creation.
 | API-05 | Phase 9 | Complete |
 | ORCH-01 | Phase 9 | Complete |
 | ORCH-02 | Phase 9 | Complete |
-| UI-01 | Phase 10 | Pending |
-| UI-02 | Phase 10 | Pending |
-| UI-03 | Phase 10 | Pending |
+| UI-01 | Phase 10 | Complete |
+| UI-02 | Phase 10 | Complete |
+| UI-03 | Phase 10 | Complete |
 | UI-04 | Phase 10 | Pending |
 | UI-05 | Phase 10 | Pending |
 | UI-06 | Phase 10 | Pending |
@@ -302,9 +302,9 @@ Updated during roadmap creation.
 | UI-13 | Phase 10 | Pending |
 | UI-14 | Phase 10 | Pending |
 | UI-15 | Phase 10 | Pending |
-| UI-16 | Phase 10 | Pending |
-| UI-17 | Phase 10 | Pending |
-| UI-18 | Phase 10 | Pending |
+| UI-16 | Phase 10 | Complete |
+| UI-17 | Phase 10 | Complete |
+| UI-18 | Phase 10 | Complete |
 | PROD-01 | Phase 10 | Pending |
 | PROD-02 | Phase 10 | Pending |
 | PROD-03 | Phase 10 | Pending |

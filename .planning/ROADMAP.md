@@ -188,7 +188,7 @@ Plans:
 **Plans**: TBD
 
 Plans:
-- [ ] 10-01: TBD
+- [x] 10-01-PLAN.md --- Theme.qml singleton, production main.qml layout, QML singleton registrations (`c17da97`)
 - [ ] 10-02: TBD
 - [ ] 10-03: TBD
 - [ ] 10-04: TBD
@@ -207,6 +207,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 5. CD Subsystem | 4/4 | Complete | 2026-02-28 |
 | 6. FLAC Library | 4/4 | Complete | 2026-02-28 |
 | 7. GPIO Hardware | 3/3 | Complete | 2026-02-28 |
-| 8. Spotify Integration | 0/3 | Not started | - |
-| 9. Display, HTTP API, and Orchestration | 0/3 | Not started | - |
-| 10. QML UI and Production Deployment | 0/4 | Not started | - |
+| 8. Spotify Integration | 3/3 | Complete | 2026-02-28 |
+| 9. Display, HTTP API, and Orchestration | 3/3 | Complete | 2026-02-28 |
+| 10. QML UI and Production Deployment | 1/4 | In Progress|  |

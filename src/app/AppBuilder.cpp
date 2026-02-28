@@ -1,6 +1,7 @@
 #include "AppBuilder.h"
 
 #include "audio/LocalPlaybackController.h"
+#include "cd/CdController.h"
 #include "platform/IAudioOutput.h"
 #include "platform/ICdDrive.h"
 #include "platform/IDisplayControl.h"
@@ -64,6 +65,13 @@ AppContext AppBuilder::build(const AppConfig& config)
 
     qCInfo(mediaApp) << "AppBuilder: audio playback controller initialized";
 
+    // Create CD subsystem controller
+    m_cdController = std::make_unique<CdController>(m_cdDrive.get(), m_localPlaybackController.get(),
+                                                    m_playbackState.get(), config.cd, this);
+    m_cdController->start();
+
+    qCInfo(mediaApp) << "AppBuilder: CD controller initialized";
+
     // Build context with non-owning pointers
     AppContext ctx;
     ctx.audioOutput = m_audioOutput.get();
@@ -76,6 +84,7 @@ AppContext AppBuilder::build(const AppConfig& config)
     ctx.receiverController = m_receiverController.get();
     ctx.volumeGestureController = m_volumeGestureController.get();
     ctx.localPlaybackController = m_localPlaybackController.get();
+    ctx.cdController = m_cdController.get();
 
     qCInfo(mediaApp) << "AppBuilder: object graph complete";
     return ctx;

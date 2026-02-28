@@ -104,3 +104,12 @@ TEST_F(AppBuilderTest, ContextHasLocalPlaybackController)
 
     ASSERT_NE(ctx.localPlaybackController, nullptr);
 }
+
+TEST_F(AppBuilderTest, ContextHasCdController)
+{
+    AppConfig config;
+    AppBuilder builder;
+    auto ctx = builder.build(config);
+
+    ASSERT_NE(ctx.cdController, nullptr);
+}

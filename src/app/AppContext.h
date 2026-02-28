@@ -10,6 +10,7 @@ class UIState;
 class ReceiverController;
 class VolumeGestureController;
 class LocalPlaybackController;
+class CdController;
 
 struct AppContext
 {
@@ -31,4 +32,7 @@ struct AppContext
 
     // Audio playback -- unified controller for any AudioStream source
     LocalPlaybackController* localPlaybackController = nullptr;
+
+    // CD subsystem -- lifecycle orchestrator for disc detection, metadata, playback
+    CdController* cdController = nullptr;
 };

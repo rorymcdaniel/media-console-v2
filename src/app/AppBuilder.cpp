@@ -19,6 +19,10 @@
 #include "library/FlacLibraryController.h"
 #endif
 
+#include "spotify/SpotifyAuth.h"
+#include "spotify/SpotifyClient.h"
+#include "spotify/SpotifyController.h"
+
 AppBuilder::AppBuilder(QObject* parent)
     : QObject(parent)
 {
@@ -110,6 +114,18 @@ AppContext AppBuilder::build(const AppConfig& config)
     qCInfo(mediaApp) << "AppBuilder: FLAC library disabled (no libsndfile)";
 #endif
 
+    // Create Spotify integration
+    m_spotifyAuth = std::make_unique<SpotifyAuth>(config.spotify, this);
+    m_spotifyAuth->restoreTokens(); // Attempt to restore saved tokens
+
+    m_spotifyClient = std::make_unique<SpotifyClient>(this);
+
+    m_spotifyController = std::make_unique<SpotifyController>(
+        m_spotifyAuth.get(), m_spotifyClient.get(), m_playbackState.get(), m_uiState.get(), config.spotify, this);
+
+    qCInfo(mediaApp) << "AppBuilder: Spotify controller initialized"
+                     << (m_spotifyAuth->isAuthenticated() ? "(authenticated)" : "(not authenticated)");
+
     // Build context with non-owning pointers
     AppContext ctx;
     ctx.audioOutput = m_audioOutput.get();
@@ -126,6 +142,7 @@ AppContext AppBuilder::build(const AppConfig& config)
 #ifdef HAS_SNDFILE
     ctx.flacLibraryController = m_flacLibraryController.get();
 #endif
+    ctx.spotifyController = m_spotifyController.get();
 
     qCInfo(mediaApp) << "AppBuilder: object graph complete";
     return ctx;

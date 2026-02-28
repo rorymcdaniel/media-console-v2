@@ -20,6 +20,9 @@ class VolumeGestureController;
 class LocalPlaybackController;
 class CdController;
 class FlacLibraryController;
+class SpotifyAuth;
+class SpotifyClient;
+class SpotifyController;
 
 class AppBuilder : public QObject
 {
@@ -47,4 +50,7 @@ private:
 #ifdef HAS_SNDFILE
     std::unique_ptr<FlacLibraryController> m_flacLibraryController;
 #endif
+    std::unique_ptr<SpotifyAuth> m_spotifyAuth;
+    std::unique_ptr<SpotifyClient> m_spotifyClient;
+    std::unique_ptr<SpotifyController> m_spotifyController;
 };

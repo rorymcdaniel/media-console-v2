@@ -12,6 +12,7 @@ class VolumeGestureController;
 class LocalPlaybackController;
 class CdController;
 class FlacLibraryController;
+class SpotifyController;
 
 struct AppContext
 {
@@ -39,4 +40,7 @@ struct AppContext
 
     // FLAC Library -- lifecycle orchestrator for scanning, browsing, playback
     FlacLibraryController* flacLibraryController = nullptr;
+
+    // Spotify -- business logic orchestrator for Spotify integration
+    SpotifyController* spotifyController = nullptr;
 };

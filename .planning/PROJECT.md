@@ -20,11 +20,12 @@ The touchscreen kiosk must always be responsive — no freezes, no unrecoverable
 - ✓ GPIO hardware integration (volume encoder, input encoder, reed switch) — Phase 7
 - ✓ Spotify integration (OAuth, device transfer, search, playback control) — Phase 8
 
+- ✓ Display control (DDC/CI power, dimming, screen timeout state machine) — Phase 9
+- ✓ HTTP API server (volume, input, status, display, Spotify OAuth, search) — Phase 9
+
 ### Active
 
 - [ ] Bluetooth input with receiver-provided metadata display
-- [ ] Display control (DDC/CI power, dimming, screen timeout state machine)
-- [ ] HTTP API server (volume, input, status, display, Spotify OAuth)
 - [ ] QML UI with full touch interface on 1920x720 display
 - [ ] Production deployment with kiosk mode systemd service
 
@@ -101,6 +102,10 @@ The original working codebase is at `~/Code/media-console` (~15,400 lines C++, ~
 | Qt6::NetworkAuth PKCE for Spotify OAuth | Native Qt OAuth support with PKCE S256, avoids third-party libs | Shipped Phase 8 |
 | Album art via receiver CGI not Spotify API | Spotify albumArtUrl deferred — receiver already provides art via NJA2 | Shipped Phase 8 |
 | Session takeover by device name match | getDevices→match→transfer instead of caching device IDs (IDs change) | Shipped Phase 8 |
+| ddcutil subprocess for DDC/CI control | Platform-independent (QProcess), HAS_DDCUTIL for PlatformFactory routing | Shipped Phase 9 |
+| ScreenTimeoutController state machine | ACTIVE→DIMMING→DIMMED→OFF with playback suppression and door-close immediate off | Shipped Phase 9 |
+| PlaybackRouter unified dispatch | Source-switch-based routing eliminates duplicated if/else chains | Shipped Phase 9 |
+| AlbumArtResolver per-source art selection | Receiver CGI for streaming/BT, local providers for CD/Library | Shipped Phase 9 |
 
 ---
-*Last updated: 2026-02-28 after Phase 8*
+*Last updated: 2026-02-28 after Phase 9*

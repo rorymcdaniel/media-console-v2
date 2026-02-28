@@ -20,6 +20,7 @@ set(TEST_SOURCES
     test_StubDisplayControl.cpp
     test_AppConfig.cpp
     test_AppBuilder.cpp
+    test_MediaSource.cpp
 )
 
 add_executable(media-console-tests ${TEST_SOURCES})

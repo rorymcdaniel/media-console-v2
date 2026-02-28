@@ -96,6 +96,11 @@ set(LIB_SOURCES
     src/app/AppContext.h
     src/app/AppBuilder.h
     src/app/AppBuilder.cpp
+    src/state/MediaSource.h
+    src/state/MediaSource.cpp
+    src/state/StreamingService.h
+    src/state/PlaybackMode.h
+    src/state/ActiveView.h
 )
 
 # Create static library for testing without main()

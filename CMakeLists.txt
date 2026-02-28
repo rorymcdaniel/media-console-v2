@@ -337,8 +337,12 @@ qt_add_qml_module(media-console
         src/qml/main.qml
         src/qml/Theme.qml
         src/qml/components/InputCarousel.qml
+        src/qml/components/NowPlaying.qml
+        src/qml/components/PlaybackControls.qml
         src/qml/components/LibraryBrowser.qml
+        src/qml/components/SpotifySearch.qml
         src/qml/controls/AlphabetSidebar.qml
+        src/qml/controls/SimpleKeyboard.qml
     RESOURCES
         src/qml/qmldir
 )

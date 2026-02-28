@@ -144,8 +144,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Orchestration
 
-- [ ] **ORCH-01**: PlaybackRouter owns input->controller routing, eliminating duplicated if/else chains across play/pause/stop/next/previous/seek
-- [ ] **ORCH-02**: AlbumArtResolver: receiver CGI art for streaming sources, local cached art for CD and Library
+- [x] **ORCH-01**: PlaybackRouter owns input->controller routing, eliminating duplicated if/else chains across play/pause/stop/next/previous/seek
+- [x] **ORCH-02**: AlbumArtResolver: receiver CGI art for streaming sources, local cached art for CD and Library
 - [x] **ORCH-03**: VolumeGestureController: coalesces encoder events, manages optimistic UI, sends commands after gesture ends
 
 ### Production
@@ -285,8 +285,8 @@ Updated during roadmap creation.
 | API-03 | Phase 9 | Complete |
 | API-04 | Phase 9 | Complete |
 | API-05 | Phase 9 | Complete |
-| ORCH-01 | Phase 9 | Pending |
-| ORCH-02 | Phase 9 | Pending |
+| ORCH-01 | Phase 9 | Complete |
+| ORCH-02 | Phase 9 | Complete |
 | UI-01 | Phase 10 | Pending |
 | UI-02 | Phase 10 | Pending |
 | UI-03 | Phase 10 | Pending |

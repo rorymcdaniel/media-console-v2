@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 current_phase: 9 (Display, HTTP API, and Orchestration)
 current_plan: 3 of 3
-status: executing
-last_updated: "2026-02-28T20:36:59.084Z"
+status: phase-complete
+last_updated: "2026-02-28T20:46:41Z"
 progress:
   total_phases: 9
-  completed_phases: 7
+  completed_phases: 9
   total_plans: 28
-  completed_plans: 23
+  completed_plans: 26
 ---
 
 # Session State
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-02-28)
 **Milestone:** v1.0 milestone
 **Current phase:** 9 (Display, HTTP API, and Orchestration)
 **Current plan:** 3 of 3
-**Status:** In progress
+**Status:** Phase complete
 
 ## Decisions
 
@@ -45,6 +45,9 @@ See: .planning/PROJECT.md (updated 2026-02-28)
 - activityDetected signal on all API requests for ScreenTimeoutController integration
 - [Phase 09]: LinuxDisplayControl compiled unconditionally (uses only QProcess), HAS_DDCUTIL controls PlatformFactory routing
 - [Phase 09]: ScreenTimeoutController seconds-to-ms conversion from DisplayConfig, 20-step dimming animation, doorCloseMode flag for immediate off
+- [Phase 09]: HAS_SNDFILE guard for FlacLibraryController method calls in PlaybackRouter (macOS portability)
+- [Phase 09]: CD/Library play/pause no-op in PlaybackRouter (user-initiated via track selection)
+- [Phase 09]: AlbumArtResolver initial resolve() in constructor for correct state on creation
 
 ## Session Log
 
@@ -60,3 +63,5 @@ See: .planning/PROJECT.md (updated 2026-02-28)
 - 2026-02-28: Transition to Phase 9 (Display, HTTP API, and Orchestration)
 - 2026-02-28: Plan 09-01 complete - LinuxDisplayControl ddcutil, ScreenTimeoutController state machine
 - 2026-02-28: Plan 09-02 complete - HttpApiServer REST API, 9 endpoints, 26 tests, optional HTTPS
+- 2026-02-28: Plan 09-03 complete - PlaybackRouter, AlbumArtResolver, AppBuilder Phase 9 wiring, 21 new tests
+- 2026-02-28: Phase 9 (Display, HTTP API, and Orchestration) complete - 3 plans, all 364 tests pass

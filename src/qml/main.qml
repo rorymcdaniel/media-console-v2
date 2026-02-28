@@ -310,6 +310,12 @@ Window {
                         default: return "components/NowPlaying.qml"
                     }
                 }
+
+                // Smooth crossfade when switching views
+                opacity: status === Loader.Ready ? 1.0 : 0.0
+                Behavior on opacity {
+                    NumberAnimation { duration: Theme.animMedium; easing.type: Easing.OutCubic }
+                }
             }
         }
     }
@@ -329,7 +335,7 @@ Window {
         opacity: visible ? 1.0 : 0.0
 
         Behavior on opacity {
-            NumberAnimation { duration: Theme.animFast }
+            NumberAnimation { duration: Theme.animFast; easing.type: Easing.OutCubic }
         }
 
         Column {
@@ -386,7 +392,7 @@ Window {
         opacity: visible ? 1.0 : 0.0
 
         Behavior on opacity {
-            NumberAnimation { duration: Theme.animFast }
+            NumberAnimation { duration: Theme.animFast; easing.type: Easing.OutCubic }
         }
 
         Text {
@@ -421,6 +427,10 @@ Window {
         color: Qt.rgba(0, 0, 0, 0.6)
         visible: false
         z: 600
+        opacity: visible ? 1.0 : 0.0
+        Behavior on opacity {
+            NumberAnimation { duration: Theme.animMedium; easing.type: Easing.OutCubic }
+        }
 
         property string deviceName: ""
         property string trackTitle: ""
@@ -539,6 +549,10 @@ Window {
         color: Qt.rgba(0, 0, 0, 0.6)
         visible: UIState.audioError !== ""
         z: 600
+        opacity: visible ? 1.0 : 0.0
+        Behavior on opacity {
+            NumberAnimation { duration: Theme.animMedium; easing.type: Easing.OutCubic }
+        }
 
         MouseArea {
             anchors.fill: parent

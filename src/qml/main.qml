@@ -11,6 +11,10 @@ Window {
     title: "Media Console"
     color: Theme.primaryBg
 
+    // Eject confirmation modal visibility (UI-13)
+    // Set to true when eject is tapped while CD is playing — shows Yes/No dialog
+    property bool ejectConfirmVisible: false
+
     // Global touch activity detection (UI-18)
     // Covers the entire window, forwards all press events to ScreenTimeoutController
     // without consuming them so child elements still receive input.
@@ -98,7 +102,12 @@ Window {
                         id: ejectMa
                         anchors.fill: parent
                         onClicked: {
-                            // CD eject — CdController.eject() if available
+                            // CD eject (UI-13): show confirmation if playing, eject immediately if not
+                            if (PlaybackState.playbackMode === PlaybackMode.Playing) {
+                                ejectConfirmVisible = true
+                            } else {
+                                CdController.eject()
+                            }
                         }
                     }
                 }
@@ -620,7 +629,7 @@ Window {
 
                         Text {
                             anchors.centerIn: parent
-                            text: "Retry"
+                            text: "Restart Now"
                             color: Theme.textPrimary
                             font.pixelSize: Theme.fontSizeBody
                         }
@@ -629,8 +638,107 @@ Window {
                             id: retryErrorMa
                             anchors.fill: parent
                             onClicked: {
+                                // AUDIO-07: Pluggable restart action — wired to QCoreApplication::quit() in main.cpp
+                                // systemd will restart the process automatically
                                 UIState.setAudioError("")
-                                PlaybackRouter.play()
+                                UIState.restartRequested()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // ========== Eject Confirmation Modal (UI-13) ==========
+    Rectangle {
+        id: ejectConfirmDialog
+        anchors.fill: parent
+        color: Qt.rgba(0, 0, 0, 0.6)
+        visible: ejectConfirmVisible
+        z: 500
+        opacity: visible ? 1.0 : 0.0
+        Behavior on opacity {
+            NumberAnimation { duration: Theme.animMedium; easing.type: Easing.OutCubic }
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {} // Consume clicks on backdrop
+        }
+
+        Rectangle {
+            anchors.centerIn: parent
+            width: 400
+            height: 180
+            radius: Theme.radiusLarge
+            color: Theme.secondaryBg
+            border.color: Theme.glassBorder
+            border.width: 1
+
+            Column {
+                anchors.centerIn: parent
+                spacing: Theme.spacingMedium
+                width: parent.width - 60
+
+                Text {
+                    text: "Eject Disc?"
+                    color: Theme.textPrimary
+                    font.pixelSize: Theme.fontSizeLarge
+                    font.bold: true
+                }
+
+                Text {
+                    text: "Playback is active. Stop and eject the disc?"
+                    color: Theme.textSecondary
+                    font.pixelSize: Theme.fontSizeBody
+                    wrapMode: Text.Wrap
+                    width: parent.width
+                }
+
+                Row {
+                    spacing: Theme.spacingMedium
+                    anchors.horizontalCenter: parent.horizontalCenter
+
+                    Rectangle {
+                        width: 150
+                        height: Theme.touchTargetLarge
+                        radius: Theme.radiusMedium
+                        color: cancelEjectMa.pressed ? Theme.accent : Theme.glassBg
+
+                        Text {
+                            anchors.centerIn: parent
+                            text: "Cancel"
+                            color: Theme.textSecondary
+                            font.pixelSize: Theme.fontSizeBody
+                        }
+
+                        MouseArea {
+                            id: cancelEjectMa
+                            anchors.fill: parent
+                            onClicked: ejectConfirmVisible = false
+                        }
+                    }
+
+                    Rectangle {
+                        width: 150
+                        height: Theme.touchTargetLarge
+                        radius: Theme.radiusMedium
+                        color: confirmEjectMa.pressed ? Theme.accentLight : Theme.accent
+
+                        Text {
+                            anchors.centerIn: parent
+                            text: "Eject"
+                            color: Theme.textPrimary
+                            font.pixelSize: Theme.fontSizeBody
+                        }
+
+                        MouseArea {
+                            id: confirmEjectMa
+                            anchors.fill: parent
+                            onClicked: {
+                                ejectConfirmVisible = false
+                                CdController.eject()
                             }
                         }
                     }

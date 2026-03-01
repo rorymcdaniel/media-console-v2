@@ -88,23 +88,30 @@ QCoreApplication* ReceiverControllerTest::m_app = nullptr;
 
 // --- Response Parsing Tests ---
 
-TEST_F(ReceiverControllerTest, ParseMvlSetsVolume)
+// MVL now emits volumeReceivedFromReceiver instead of directly setting ReceiverState.
+// The VolumeGestureController (wired in AppBuilder) applies the value; test the signal.
+TEST_F(ReceiverControllerTest, ParseMvlEmitsVolumeSignal)
 {
+    QSignalSpy spy(m_controller, &ReceiverController::volumeReceivedFromReceiver);
     m_connection->simulateMessage("MVL64"); // 0x64 = 100
-    EXPECT_EQ(m_receiverState->volume(), 100);
+    ASSERT_EQ(spy.count(), 1);
+    EXPECT_EQ(spy.at(0).at(0).toInt(), 100);
 }
 
-TEST_F(ReceiverControllerTest, ParseMvlMaxVolume)
+TEST_F(ReceiverControllerTest, ParseMvlMaxVolumeSignal)
 {
+    QSignalSpy spy(m_controller, &ReceiverController::volumeReceivedFromReceiver);
     m_connection->simulateMessage("MVLC8"); // 0xC8 = 200
-    EXPECT_EQ(m_receiverState->volume(), 200);
+    ASSERT_EQ(spy.count(), 1);
+    EXPECT_EQ(spy.at(0).at(0).toInt(), 200);
 }
 
-TEST_F(ReceiverControllerTest, ParseMvlMinVolume)
+TEST_F(ReceiverControllerTest, ParseMvlMinVolumeSignal)
 {
-    m_receiverState->setVolume(50);
+    QSignalSpy spy(m_controller, &ReceiverController::volumeReceivedFromReceiver);
     m_connection->simulateMessage("MVL00");
-    EXPECT_EQ(m_receiverState->volume(), 0);
+    ASSERT_EQ(spy.count(), 1);
+    EXPECT_EQ(spy.at(0).at(0).toInt(), 0);
 }
 
 TEST_F(ReceiverControllerTest, ParsePwrOnSetsPowered)

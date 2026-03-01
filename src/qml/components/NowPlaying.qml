@@ -197,9 +197,116 @@ Item {
                 NumberAnimation { duration: Theme.animMedium }
             }
 
+            // ========== CD Track List (UI-13) ==========
+            // Visible when CD source is active and TOC is available.
+            // Positioned at the bottom of the info panel so track info + controls
+            // remain visible above it.
+            Item {
+                id: cdTrackListContainer
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                anchors.margins: Theme.spacingMedium
+                height: Math.min(parent.height * 0.45, 200)
+                visible: PlaybackState.activeSource === MediaSource.CD && CdController.toc.length > 0
+
+                Rectangle {
+                    anchors.fill: parent
+                    color: Theme.glassBg
+                    radius: Theme.radiusMedium
+                    border.color: Theme.glassBorder
+                    border.width: 1
+                }
+
+                ListView {
+                    id: trackListView
+                    anchors.fill: parent
+                    anchors.margins: 4
+                    clip: true
+                    model: CdController.toc
+
+                    delegate: Item {
+                        width: trackListView.width
+                        height: Theme.touchTargetSmall
+
+                        Rectangle {
+                            anchors.fill: parent
+                            anchors.margins: 2
+                            radius: Theme.radiusSmall
+                            color: trackItemMa.pressed
+                                   ? Theme.accent
+                                   : (PlaybackState.trackNumber === modelData.trackNumber
+                                      ? Qt.rgba(Theme.accent.r, Theme.accent.g, Theme.accent.b, 0.25)
+                                      : "transparent")
+                        }
+
+                        Row {
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.left: parent.left
+                            anchors.right: parent.right
+                            anchors.leftMargin: Theme.spacingSmall
+                            anchors.rightMargin: Theme.spacingSmall
+                            spacing: Theme.spacingSmall
+
+                            Text {
+                                text: modelData.trackNumber
+                                color: PlaybackState.trackNumber === modelData.trackNumber
+                                       ? Theme.dynamicAccent
+                                       : Theme.textDimmed
+                                font.pixelSize: Theme.fontSizeSmall
+                                width: 24
+                                horizontalAlignment: Text.AlignRight
+                            }
+
+                            Text {
+                                text: modelData.title !== "" ? modelData.title : ("Track " + modelData.trackNumber)
+                                color: PlaybackState.trackNumber === modelData.trackNumber
+                                       ? Theme.textPrimary
+                                       : Theme.textSecondary
+                                font.pixelSize: Theme.fontSizeBody
+                                elide: Text.ElideRight
+                                width: parent.width - 24 - Theme.spacingSmall * 2 - durationText.implicitWidth
+                            }
+
+                            Text {
+                                id: durationText
+                                text: {
+                                    var s = modelData.durationSeconds
+                                    var m = Math.floor(s / 60)
+                                    s = s % 60
+                                    return m + ":" + (s < 10 ? "0" : "") + s
+                                }
+                                color: Theme.textDimmed
+                                font.pixelSize: Theme.fontSizeSmall
+                            }
+                        }
+
+                        MouseArea {
+                            id: trackItemMa
+                            anchors.fill: parent
+                            onClicked: CdController.playTrack(modelData.trackNumber)
+                        }
+                    }
+                }
+            }
+
+            Item {
+                id: infoColumnWrapper
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.topMargin: Theme.spacingLarge
+                anchors.leftMargin: Theme.spacingLarge
+                anchors.rightMargin: Theme.spacingLarge
+                // When CD track list is visible, leave room for it at the bottom
+                anchors.bottom: PlaybackState.activeSource === MediaSource.CD && CdController.toc.length > 0
+                                ? cdTrackListContainer.top
+                                : parent.bottom
+
             Column {
-                anchors.centerIn: parent
-                width: parent.width - Theme.spacingLarge * 2
+                anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.right: parent.right
                 spacing: Theme.spacingMedium
 
                 // Idle message
@@ -333,6 +440,7 @@ Item {
                     visible: !root.isIdle
                 }
             }
+            } // infoColumnWrapper
         }
     }
 

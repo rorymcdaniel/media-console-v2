@@ -164,7 +164,7 @@ int main(int argc, char* argv[])
 #endif
 
     QQmlApplicationEngine engine;
-    const QUrl url(QStringLiteral("qrc:/MediaConsole/src/qml/main.qml"));
+    const QUrl url(QStringLiteral("qrc:/qt/qml/MediaConsole/src/qml/main.qml"));
     QObject::connect(
         &engine, &QQmlApplicationEngine::objectCreated, &app,
         [url](QObject* obj, const QUrl& objUrl)

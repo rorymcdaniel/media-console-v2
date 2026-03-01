@@ -9,14 +9,13 @@ Type=simple
 User=rory
 Group=rory
 
-# Environment for EGLFS Qt platform
-Environment=QT_QPA_PLATFORM=eglfs
-Environment=QT_QPA_EGLFS_INTEGRATION=eglfs_kms
+Environment=QT_QPA_PLATFORM=wayland
+Environment=WAYLAND_DISPLAY=wayland-0
 Environment=XDG_RUNTIME_DIR=/run/user/1000
 Environment=QT_LOGGING_RULES=media.*=true
 
 # Application binary
-ExecStart=/usr/local/bin/media-console
+ExecStart=/home/rory/Code/media-console-v2/build/media-console
 
 # Auto-restart on crash (PROD-01)
 Restart=always

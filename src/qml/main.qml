@@ -8,6 +8,7 @@ Window {
     width: 1920
     height: 720
     visible: true
+    visibility: Window.FullScreen
     title: "Media Console"
     color: Theme.primaryBg
 

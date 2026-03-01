@@ -6,7 +6,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SERVICE_FILE="$SCRIPT_DIR/media-console.service"
-BINARY="/usr/local/bin/media-console"
+BINARY="/home/rory/Code/media-console-v2/build/media-console"
 USER="rory"
 
 echo "=== Media Console Kiosk Install ==="
@@ -18,8 +18,7 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 if [[ ! -f "$BINARY" ]]; then
-    echo "Error: $BINARY not found. Build and install first:"
-    echo "  cmake --build build --target install"
+    echo "Error: $BINARY not found. Run pi-build.sh first."
     exit 1
 fi
 

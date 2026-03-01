@@ -1,8 +1,12 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QSocketNotifier>
 #include <QStringList>
+#include <QTextStream>
 #include <QUrl>
 #include <QtQml>
+
+#include <unistd.h>
 
 #include "app/AppBuilder.h"
 #include "app/AppConfig.h"
@@ -11,6 +15,7 @@
 #include "orchestration/AlbumArtResolver.h"
 #include "orchestration/PlaybackRouter.h"
 #include "receiver/ReceiverController.h"
+#include "spotify/CliOAuthReplyHandler.h"
 #include "spotify/SpotifyAuth.h"
 #include "spotify/SpotifyController.h"
 #include "state/ActiveView.h"
@@ -50,6 +55,7 @@ int main(int argc, char* argv[])
         }
 
         auto* auth = new SpotifyAuth(authConfig.spotify, &app);
+        auto* cliHandler = auth->useCliReplyHandler(QStringLiteral("https://localhost:8888/callback"));
 
         QObject::connect(auth, &SpotifyAuth::authorizationUrlReady,
                          [](const QUrl& url)
@@ -57,15 +63,36 @@ int main(int argc, char* argv[])
                              fprintf(stdout,
                                      "\n"
                                      "=== Spotify Authorization ===\n"
-                                     "Open this URL in a browser:\n\n"
-                                     "  %s\n\n"
-                                     "Waiting for authorization callback...\n",
+                                     "1. Open this URL in your browser:\n\n"
+                                     "   %s\n\n"
+                                     "2. Authorize the app.\n"
+                                     "3. The browser will fail to connect — that's expected.\n"
+                                     "   Copy the full URL from the address bar.\n\n"
+                                     "Paste the redirect URL and press Enter:\n> ",
                                      qPrintable(url.toString()));
                              fflush(stdout);
                          });
 
+        auto* notifier = new QSocketNotifier(STDIN_FILENO, QSocketNotifier::Read, &app);
+        QObject::connect(notifier, &QSocketNotifier::activated,
+                         [notifier, cliHandler](QSocketDescriptor)
+                         {
+                             notifier->setEnabled(false);
+                             QTextStream in(stdin);
+                             const QString line = in.readLine().trimmed();
+                             if (!line.isEmpty())
+                             {
+                                 cliHandler->handleRedirectUrl(QUrl(line));
+                             }
+                             else
+                             {
+                                 fprintf(stderr, "No URL provided.\n");
+                                 QCoreApplication::exit(1);
+                             }
+                         });
+
         QObject::connect(auth, &SpotifyAuth::authFlowComplete,
-                         [&app]()
+                         []()
                          {
                              fprintf(stdout,
                                      "\nAuthorization successful! Tokens saved.\n"

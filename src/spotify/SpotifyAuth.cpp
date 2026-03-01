@@ -1,9 +1,11 @@
 #include "SpotifyAuth.h"
 
 #include <QDateTime>
+#include <QOAuthHttpServerReplyHandler>
 #include <QSettings>
 
 #include "app/AppConfig.h"
+#include "spotify/CliOAuthReplyHandler.h"
 #include "utils/Logging.h"
 
 SpotifyAuth::SpotifyAuth(const SpotifyConfig& config, QObject* parent)
@@ -35,10 +37,11 @@ void SpotifyAuth::setupOAuth(const SpotifyConfig& config)
     m_oauth.setRefreshLeadTime(std::chrono::seconds(300));
 
     // Localhost redirect handler for OAuth callback
-    m_replyHandler = new QOAuthHttpServerReplyHandler(static_cast<quint16>(config.redirectPort), this);
-    m_replyHandler->setCallbackText(
+    auto* httpHandler = new QOAuthHttpServerReplyHandler(static_cast<quint16>(config.redirectPort), this);
+    httpHandler->setCallbackText(
         QStringLiteral("Authorization complete. You can close this tab and return to your terminal."));
-    m_oauth.setReplyHandler(m_replyHandler);
+    m_replyHandler = httpHandler;
+    m_oauth.setReplyHandler(httpHandler);
 
     // Connect signals
     connect(&m_oauth, &QAbstractOAuth::authorizeWithBrowser, this, &SpotifyAuth::authorizationUrlReady);
@@ -59,11 +62,25 @@ QString SpotifyAuth::accessToken() const
     return m_oauth.token();
 }
 
+CliOAuthReplyHandler* SpotifyAuth::useCliReplyHandler(const QString& redirectUri)
+{
+    if (auto* httpHandler = qobject_cast<QOAuthHttpServerReplyHandler*>(m_replyHandler))
+        httpHandler->close();
+
+    m_replyHandler->deleteLater();
+    auto* cliHandler = new CliOAuthReplyHandler(redirectUri, this);
+    m_replyHandler = cliHandler;
+    m_oauth.setReplyHandler(cliHandler);
+    qCInfo(mediaSpotify) << "Switched to CLI reply handler, redirect URI:" << redirectUri;
+    return cliHandler;
+}
+
 void SpotifyAuth::startAuthFlow()
 {
-    if (m_replyHandler && !m_replyHandler->isListening())
+    if (auto* httpHandler = qobject_cast<QOAuthHttpServerReplyHandler*>(m_replyHandler))
     {
-        qCWarning(mediaSpotify) << "Reply handler not listening, auth flow may fail";
+        if (!httpHandler->isListening())
+            qCWarning(mediaSpotify) << "Reply handler not listening, auth flow may fail";
     }
 
     qCInfo(mediaSpotify) << "Starting OAuth authorization flow";
@@ -148,11 +165,9 @@ void SpotifyAuth::onGranted()
     emit authStateChanged(true);
     emit authFlowComplete();
 
-    // Close the reply handler server after successful auth
-    if (m_replyHandler)
-    {
-        m_replyHandler->close();
-    }
+    // Close the HTTP server reply handler after successful auth (no-op for CLI handler)
+    if (auto* httpHandler = qobject_cast<QOAuthHttpServerReplyHandler*>(m_replyHandler))
+        httpHandler->close();
 }
 
 void SpotifyAuth::onRefreshTokenChanged(const QString& refreshToken)

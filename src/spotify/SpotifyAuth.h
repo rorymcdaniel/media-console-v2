@@ -1,9 +1,10 @@
 #pragma once
 
+#include <QAbstractOAuthReplyHandler>
 #include <QOAuth2AuthorizationCodeFlow>
-#include <QOAuthHttpServerReplyHandler>
 #include <QObject>
 
+class CliOAuthReplyHandler;
 struct SpotifyConfig;
 
 class SpotifyAuth : public QObject
@@ -16,6 +17,7 @@ public:
     bool isAuthenticated() const;
     QString accessToken() const;
     void startAuthFlow();
+    CliOAuthReplyHandler* useCliReplyHandler(const QString& redirectUri);
     bool restoreTokens();
     void saveTokens();
     void clearTokens();
@@ -34,6 +36,6 @@ private:
     void setupOAuth(const SpotifyConfig& config);
 
     QOAuth2AuthorizationCodeFlow m_oauth;
-    QOAuthHttpServerReplyHandler* m_replyHandler = nullptr;
+    QAbstractOAuthReplyHandler* m_replyHandler = nullptr;
     bool m_authenticated = false;
 };

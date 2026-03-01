@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            cmake ninja-build pkg-config \
+            libasound2-dev \
+            libcdio-dev \
+            libcdio-paranoia-dev \
+            libdiscid-dev \
+            libsndfile1-dev \
+            libsamplerate0-dev \
+            libtag1-dev \
+            libgpiod-dev
+
+      - name: Install Qt 6.8
+        run: |
+          pip3 install aqtinstall
+          aqt install-qt linux desktop 6.8.2 -m qtnetworkauth --outputdir /opt/qt
+
+      - name: Configure
+        run: |
+          cmake -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_PREFIX_PATH=/opt/qt/6.8.2/gcc_64
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Test
+        run: ctest --test-dir build --output-on-failure

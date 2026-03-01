@@ -35,3 +35,7 @@ Testing/
 # OS
 .DS_Store
 Thumbs.db
+
+# GSD planning scratch files
+.planning/*.bak-*
+.planning/agent-history.json

@@ -10,8 +10,6 @@
 /// this handler parses the OAuth params and emits callbackReceived().
 class CliOAuthReplyHandler : public QAbstractOAuthReplyHandler
 {
-    Q_OBJECT
-
 public:
     explicit CliOAuthReplyHandler(const QString& redirectUri, QObject* parent = nullptr)
         : QAbstractOAuthReplyHandler(parent)

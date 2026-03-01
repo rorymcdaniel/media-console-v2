@@ -22,7 +22,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] **Phase 8: Spotify Integration** - OAuth PKCE flow, device transfer, search, playback control, and session takeover
 - [ ] **Phase 9: Display, HTTP API, and Orchestration** - Screen timeout state machine, REST API server, PlaybackRouter, and AlbumArtResolver
 - [x] **Phase 10: QML UI and Production Deployment** - All QML components integrated, theme system, kiosk systemd service, and deployment scripts (completed 2026-02-28)
-- [ ] **Phase 11: Integration Wiring Fixes** - Fix cross-phase integration bugs: Q_INVOKABLE, signal wiring, QML singleton registration, seek routing, volume reconciliation
+- [x] **Phase 11: Integration Wiring Fixes** - Fix cross-phase integration bugs: Q_INVOKABLE, signal wiring, QML singleton registration, seek routing, volume reconciliation (completed 2026-03-01)
 - [ ] **Phase 12: Verification and Traceability Completion** - Write VERIFICATION.md for Phases 1/2/4/5/6, create Phase 6 SUMMARYs, reconcile REQUIREMENTS.md traceability
 
 ## Phase Details
@@ -243,5 +243,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 8. Spotify Integration | 3/3 | Complete | 2026-02-28 |
 | 9. Display, HTTP API, and Orchestration | 3/3 | Complete | 2026-02-28 |
 | 10. QML UI and Production Deployment | 4/4 | Complete    | 2026-02-28 |
-| 11. Integration Wiring Fixes | 0/? | Planned | — |
+| 11. Integration Wiring Fixes | 0/? | Complete    | 2026-03-01 |
 | 12. Verification and Traceability Completion | 0/? | Planned | — |

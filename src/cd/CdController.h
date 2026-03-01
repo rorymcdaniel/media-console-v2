@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QTimer>
+#include <QVariant>
 #include <QVector>
 
 #include <memory>
@@ -25,6 +26,10 @@ class CdController : public QObject
 {
     Q_OBJECT
 
+    /// QML-bindable track list. Each entry: {trackNumber:int, durationSeconds:int, title:string}
+    /// Notified by tocReady (on disc insert) and metadataReady (when titles load from GnuDB).
+    Q_PROPERTY(QVariantList toc READ tocAsVariantList NOTIFY tocReady)
+
 public:
     CdController(ICdDrive* drive, LocalPlaybackController* playbackController, PlaybackState* playbackState,
                  const CdConfig& config, QObject* parent = nullptr);
@@ -34,11 +39,12 @@ public:
     void stop();
 
     // User-initiated playback (CD-04: ALWAYS user-initiated, never auto-play)
-    void playTrack(int trackNumber);
-    void eject();
+    Q_INVOKABLE void playTrack(int trackNumber);
+    Q_INVOKABLE void eject();
 
     // Accessors for UI binding
     QVector<TocEntry> currentToc() const;
+    QVariantList tocAsVariantList() const; // Returns toc as QML-compatible list
     CdMetadata currentMetadata() const;
     bool isDiscPresent() const;
 

@@ -2,6 +2,7 @@
 
 #include <QNetworkAccessManager>
 #include <QStandardPaths>
+#include <QVariant>
 
 #include "app/AppConfig.h"
 #include "audio/LocalPlaybackController.h"
@@ -177,6 +178,8 @@ void CdController::onMetadataReady(const CdMetadata& metadata)
     m_currentMetadata = metadata;
     m_cache->store(metadata);
     emit metadataReady(metadata);
+    // Re-emit tocReady so QML toc Q_PROPERTY re-evaluates with track titles from metadata
+    emit tocReady(m_currentToc);
     qCInfo(mediaCd) << "CdController: metadata ready -" << metadata.artist << "/" << metadata.album;
 
     // Start album art download if MusicBrainz release ID available
@@ -264,6 +267,34 @@ void CdController::eject()
 QVector<TocEntry> CdController::currentToc() const
 {
     return m_currentToc;
+}
+
+QVariantList CdController::tocAsVariantList() const
+{
+    QVariantList result;
+    const QVector<CdTrackInfo>& trackInfo = m_currentMetadata.tracks;
+
+    for (const TocEntry& entry : m_currentToc)
+    {
+        QVariantMap item;
+        item[QStringLiteral("trackNumber")] = entry.trackNumber;
+        item[QStringLiteral("durationSeconds")] = entry.durationSeconds;
+
+        // Look up title from metadata if available (tracks are 1-indexed like TOC)
+        QString title;
+        for (const CdTrackInfo& info : trackInfo)
+        {
+            if (info.trackNumber == entry.trackNumber)
+            {
+                title = info.title;
+                break;
+            }
+        }
+        item[QStringLiteral("title")] = title; // empty string if metadata not yet loaded
+
+        result.append(item);
+    }
+    return result;
 }
 
 CdMetadata CdController::currentMetadata() const

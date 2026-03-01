@@ -63,6 +63,11 @@ signals:
     /// Transient error signal for toast display — not a property, just an event.
     void showToast(const QString& message, const QString& type);
 
+    /// Emitted by QML Restart Now button in AudioErrorDialog (AUDIO-07).
+    /// Wired to QCoreApplication::quit() in main.cpp so the action is pluggable
+    /// (can later be changed to systemctl reboot without modifying QML).
+    void restartRequested();
+
 private:
     ActiveView m_activeView = ActiveView::NowPlaying;
     bool m_volumeOverlayVisible = false;

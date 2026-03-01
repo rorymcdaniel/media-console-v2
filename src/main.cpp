@@ -6,6 +6,7 @@
 
 #include "app/AppBuilder.h"
 #include "app/AppConfig.h"
+#include "cd/CdController.h"
 #include "display/ScreenTimeoutController.h"
 #include "orchestration/AlbumArtResolver.h"
 #include "orchestration/PlaybackRouter.h"
@@ -90,6 +91,18 @@ int main(int argc, char* argv[])
 
     qCInfo(mediaApp) << "Media Console" << VERSION_STRING << "starting";
 
+    // Bug 2 (AUDIO-07): Wire Restart Now button action — pluggable restart mechanism.
+    // QML calls UIState.restartRequested(); this slot performs the actual quit.
+    // Using quit() so systemd restarts the process. Can be changed to systemctl reboot
+    // later without any QML changes.
+    QObject::connect(ctx.uiState, &UIState::restartRequested, &app,
+                     []()
+                     {
+                         qCCritical(mediaApp)
+                             << "Restart requested from AudioErrorDialog — exiting for systemd restart";
+                         QCoreApplication::quit();
+                     });
+
     // Register enum types as uncreatable (QML can reference values but not instantiate)
     qmlRegisterUncreatableType<MediaSourceEnum>("MediaConsole", 1, 0, "MediaSource", "MediaSource is an enum type");
     qmlRegisterUncreatableType<PlaybackModeEnum>("MediaConsole", 1, 0, "PlaybackMode", "PlaybackMode is an enum type");
@@ -110,6 +123,9 @@ int main(int argc, char* argv[])
     qmlRegisterSingletonInstance("MediaConsole", 1, 0, "SpotifyController", ctx.spotifyController);
     qmlRegisterSingletonInstance("MediaConsole", 1, 0, "ReceiverController", ctx.receiverController);
     qmlRegisterSingletonInstance("MediaConsole", 1, 0, "ScreenTimeoutController", ctx.screenTimeoutController);
+
+    // Register Phase 11 controller singletons (UI-13: CdController QML access)
+    qmlRegisterSingletonInstance("MediaConsole", 1, 0, "CdController", ctx.cdController);
 
 #ifdef HAS_SNDFILE
     qmlRegisterSingletonInstance("MediaConsole", 1, 0, "FlacLibraryController", ctx.flacLibraryController);

@@ -1,12 +1,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QSocketNotifier>
 #include <QStringList>
-#include <QTextStream>
+#include <QThread>
 #include <QUrl>
 #include <QtQml>
-
-#include <unistd.h>
 
 #include "app/AppBuilder.h"
 #include "app/AppConfig.h"
@@ -73,23 +70,29 @@ int main(int argc, char* argv[])
                              fflush(stdout);
                          });
 
-        auto* notifier = new QSocketNotifier(STDIN_FILENO, QSocketNotifier::Read, &app);
-        QObject::connect(notifier, &QSocketNotifier::activated,
-                         [notifier, cliHandler](QSocketDescriptor)
-                         {
-                             notifier->setEnabled(false);
-                             QTextStream in(stdin);
-                             const QString line = in.readLine().trimmed();
-                             if (!line.isEmpty())
-                             {
-                                 cliHandler->handleRedirectUrl(QUrl(line));
-                             }
-                             else
-                             {
-                                 fprintf(stderr, "No URL provided.\n");
-                                 QCoreApplication::exit(1);
-                             }
-                         });
+        auto* stdinThread = QThread::create(
+            [cliHandler]()
+            {
+                char buf[4096] = {};
+                if (fgets(buf, sizeof(buf), stdin))
+                {
+                    const QString line = QString::fromLocal8Bit(buf).trimmed();
+                    QMetaObject::invokeMethod(
+                        qApp,
+                        [cliHandler, line]()
+                        {
+                            if (!line.isEmpty())
+                                cliHandler->handleRedirectUrl(QUrl(line));
+                            else
+                            {
+                                fprintf(stderr, "No URL provided.\n");
+                                QCoreApplication::exit(1);
+                            }
+                        },
+                        Qt::QueuedConnection);
+                }
+            });
+        stdinThread->start();
 
         QObject::connect(auth, &SpotifyAuth::authFlowComplete,
                          []()

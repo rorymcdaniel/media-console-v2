@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
         }
 
         auto* auth = new SpotifyAuth(authConfig.spotify, &app);
-        auto* cliHandler = auth->useCliReplyHandler(QStringLiteral("https://localhost:8888/callback"));
+        auto* cliHandler = auth->useCliReplyHandler(QStringLiteral("https://127.0.0.1:8888/callback"));
 
         QObject::connect(auth, &SpotifyAuth::authorizationUrlReady,
                          [](const QUrl& url)

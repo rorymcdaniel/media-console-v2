@@ -47,6 +47,14 @@ void SpotifyAuth::setupOAuth(const SpotifyConfig& config)
     connect(&m_oauth, &QAbstractOAuth::authorizeWithBrowser, this, &SpotifyAuth::authorizationUrlReady);
     connect(&m_oauth, &QAbstractOAuth::granted, this, &SpotifyAuth::onGranted);
     connect(&m_oauth, &QAbstractOAuth2::refreshTokenChanged, this, &SpotifyAuth::onRefreshTokenChanged);
+    connect(&m_oauth, &QAbstractOAuth::requestFailed, this,
+            [this](QAbstractOAuth::Error error)
+            {
+                const QString msg
+                    = QStringLiteral("Token request failed (OAuth error %1)").arg(static_cast<int>(error));
+                qCWarning(mediaSpotify) << msg;
+                emit authError(msg);
+            });
 
     qCInfo(mediaSpotify) << "SpotifyAuth configured: PKCE S256, auto-refresh 300s lead time, redirect port"
                          << config.redirectPort;

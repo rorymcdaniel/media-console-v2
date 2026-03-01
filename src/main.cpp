@@ -1,7 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QStringList>
-#include <QThread>
 #include <QUrl>
 #include <QtQml>
 
@@ -54,51 +53,52 @@ int main(int argc, char* argv[])
         auto* auth = new SpotifyAuth(authConfig.spotify, &app);
         auto* cliHandler = auth->useCliReplyHandler(QStringLiteral("https://127.0.0.1:8888/callback"));
 
+        // PKCE URL generation is entirely local — grant() emits authorizationUrlReady
+        // synchronously before returning. Capture the URL, then block on stdin before
+        // entering the event loop (which handles the async token exchange request).
+        QUrl capturedUrl;
         QObject::connect(auth, &SpotifyAuth::authorizationUrlReady,
-                         [](const QUrl& url)
-                         {
-                             fprintf(stdout,
-                                     "\n"
-                                     "=== Spotify Authorization ===\n"
-                                     "1. Open this URL in your browser:\n\n"
-                                     "   %s\n\n"
-                                     "2. Authorize the app.\n"
-                                     "3. The browser will fail to connect — that's expected.\n"
-                                     "   Copy the full URL from the address bar.\n\n"
-                                     "Paste the redirect URL and press Enter:\n> ",
-                                     qPrintable(url.toString()));
-                             fflush(stdout);
-                         });
+                         [&capturedUrl](const QUrl& url) { capturedUrl = url; });
 
-        auto* stdinThread = QThread::create(
-            [cliHandler]()
-            {
-                char buf[4096] = {};
-                if (fgets(buf, sizeof(buf), stdin))
-                {
-                    const QString line = QString::fromLocal8Bit(buf).trimmed();
-                    QMetaObject::invokeMethod(
-                        qApp,
-                        [cliHandler, line]()
-                        {
-                            if (!line.isEmpty())
-                                cliHandler->handleRedirectUrl(QUrl(line));
-                            else
-                            {
-                                fprintf(stderr, "No URL provided.\n");
-                                QCoreApplication::exit(1);
-                            }
-                        },
-                        Qt::QueuedConnection);
-                }
-            });
-        stdinThread->start();
+        auth->startAuthFlow();
+
+        if (capturedUrl.isEmpty())
+        {
+            fprintf(stderr, "Failed to generate authorization URL.\n");
+            return 1;
+        }
+
+        fprintf(stdout,
+                "\n"
+                "=== Spotify Authorization ===\n"
+                "1. Open this URL in your browser:\n\n"
+                "   %s\n\n"
+                "2. Authorize the app.\n"
+                "3. The browser will fail to connect — that's expected.\n"
+                "   Copy the full URL from the address bar.\n\n"
+                "Paste the redirect URL and press Enter:\n> ",
+                qPrintable(capturedUrl.toString()));
+        fflush(stdout);
+
+        // Blocking read before the event loop — no threads, no notifiers.
+        char buf[4096] = {};
+        if (!fgets(buf, sizeof(buf), stdin) || buf[0] == '\n' || buf[0] == '\0')
+        {
+            fprintf(stderr, "No URL provided.\n");
+            return 1;
+        }
+        const QString redirectUrl = QString::fromLocal8Bit(buf).trimmed();
+
+        fprintf(stdout, "\nExchanging code for tokens...\n");
+        fflush(stdout);
+
+        cliHandler->handleRedirectUrl(QUrl(redirectUrl));
 
         QObject::connect(auth, &SpotifyAuth::authFlowComplete,
                          []()
                          {
                              fprintf(stdout,
-                                     "\nAuthorization successful! Tokens saved.\n"
+                                     "Authorization successful! Tokens saved.\n"
                                      "You can now start media-console normally.\n");
                              QCoreApplication::quit();
                          });
@@ -106,11 +106,10 @@ int main(int argc, char* argv[])
         QObject::connect(auth, &SpotifyAuth::authError,
                          [](const QString& error)
                          {
-                             fprintf(stderr, "\nAuthorization failed: %s\n", qPrintable(error));
+                             fprintf(stderr, "Authorization failed: %s\n", qPrintable(error));
                              QCoreApplication::exit(1);
                          });
 
-        auth->startAuthFlow();
         return app.exec();
     }
 

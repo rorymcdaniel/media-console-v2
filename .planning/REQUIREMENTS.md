@@ -9,24 +9,24 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Foundation
 
-- [ ] **FOUND-01**: Project builds with CMake/Ninja targeting Qt6 6.8.2 on Raspberry Pi OS Trixie (aarch64)
-- [ ] **FOUND-02**: clang-format enforced via .clang-format config with pre-commit hook
-- [ ] **FOUND-03**: clang-tidy integrated into CMake build with modernize-*, bugprone-*, performance-*, readability-* checks
-- [ ] **FOUND-04**: Google Test framework integrated with CTest, test discovery via gtest_discover_tests()
-- [ ] **FOUND-05**: Platform abstraction interfaces defined (IAudioOutput, IGpioMonitor, ICdDrive, IDisplayControl) with stub implementations
-- [ ] **FOUND-06**: PlatformFactory provides real or stub implementations based on runtime detection
-- [ ] **FOUND-07**: AppConfig struct loaded once at startup from QSettings INI, passed by const reference — no scattered QSettings reads
-- [ ] **FOUND-08**: Composition root (AppBuilder) constructs full object graph with clear ownership and signal/slot wiring
-- [ ] **FOUND-09**: CODING_STANDARDS.md created and enforced from first commit
-- [ ] **FOUND-10**: Logging categories defined (media.app, media.spotify, media.receiver, media.audio, media.http, media.lidarr, media.gpio, media.cd) with configurable levels
+- [x] **FOUND-01**: Project builds with CMake/Ninja targeting Qt6 6.8.2 on Raspberry Pi OS Trixie (aarch64)
+- [x] **FOUND-02**: clang-format enforced via .clang-format config with pre-commit hook
+- [x] **FOUND-03**: clang-tidy integrated into CMake build with modernize-*, bugprone-*, performance-*, readability-* checks
+- [x] **FOUND-04**: Google Test framework integrated with CTest, test discovery via gtest_discover_tests()
+- [x] **FOUND-05**: Platform abstraction interfaces defined (IAudioOutput, IGpioMonitor, ICdDrive, IDisplayControl) with stub implementations
+- [x] **FOUND-06**: PlatformFactory provides real or stub implementations based on runtime detection
+- [x] **FOUND-07**: AppConfig struct loaded once at startup from QSettings INI, passed by const reference — no scattered QSettings reads
+- [x] **FOUND-08**: Composition root (AppBuilder) constructs full object graph with clear ownership and signal/slot wiring
+- [x] **FOUND-09**: CODING_STANDARDS.md created and enforced from first commit
+- [x] **FOUND-10**: Logging categories defined (media.app, media.spotify, media.receiver, media.audio, media.http, media.lidarr, media.gpio, media.cd) with configurable levels
 
 ### State Layer
 
-- [ ] **STATE-01**: ReceiverState as thin Q_PROPERTY bag exposing volume, input, power, mute, metadata — no business logic
-- [ ] **STATE-02**: PlaybackState as thin Q_PROPERTY bag exposing playback mode, position, duration, track info — no business logic
-- [ ] **STATE-03**: UIState as thin Q_PROPERTY bag exposing overlay visibility, active view, error states — no business logic
-- [ ] **STATE-04**: MediaSource enum separates user-facing sources from receiver input hex codes
-- [ ] **STATE-05**: All state objects registered as QML singletons via qmlRegisterSingletonInstance()
+- [x] **STATE-01**: ReceiverState as thin Q_PROPERTY bag exposing volume, input, power, mute, metadata — no business logic
+- [x] **STATE-02**: PlaybackState as thin Q_PROPERTY bag exposing playback mode, position, duration, track info — no business logic
+- [x] **STATE-03**: UIState as thin Q_PROPERTY bag exposing overlay visibility, active view, error states — no business logic
+- [x] **STATE-04**: MediaSource enum separates user-facing sources from receiver input hex codes
+- [x] **STATE-05**: All state objects registered as QML singletons via qmlRegisterSingletonInstance()
 
 ### Receiver Control
 
@@ -46,40 +46,40 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Audio Pipeline
 
-- [ ] **AUDIO-01**: AudioStream interface (open, readFrames, totalFrames, close, seek) implemented by CdAudioStream and FlacAudioStream
-- [ ] **AUDIO-02**: Single LocalPlaybackController parameterized by AudioStream — replaces separate CD and FLAC controllers
-- [ ] **AUDIO-03**: ALSA PCM output to S/PDIF device (hw:2,0) at 44100Hz, 16-bit, stereo via IAudioOutput interface
-- [ ] **AUDIO-04**: Background thread playback loop with atomic flag control (stop, pause, pending track, pending seek)
-- [ ] **AUDIO-05**: Intelligent audio buffering: 8-second buffer, 1-second prefill target, max 3 retries with 50ms backoff
+- [x] **AUDIO-01**: AudioStream interface (open, readFrames, totalFrames, close, seek) implemented by CdAudioStream and FlacAudioStream
+- [x] **AUDIO-02**: Single LocalPlaybackController parameterized by AudioStream — replaces separate CD and FLAC controllers
+- [x] **AUDIO-03**: ALSA PCM output to S/PDIF device (hw:2,0) at 44100Hz, 16-bit, stereo via IAudioOutput interface
+- [x] **AUDIO-04**: Background thread playback loop with atomic flag control (stop, pause, pending track, pending seek)
+- [x] **AUDIO-05**: Intelligent audio buffering: 8-second buffer, 1-second prefill target, max 3 retries with 50ms backoff
 - [ ] **AUDIO-06**: Buffer statistics: xrun tracking, per-read latency (avg/max microseconds), read error counting
 - [ ] **AUDIO-07**: EIO recovery: close and reopen ALSA device on I/O errors, emit audioRecoveryFailed when exhausted
-- [ ] **AUDIO-08**: Full playback control: play, pause, stop, next, previous, seek (sector-based for CD, sample-based for FLAC)
-- [ ] **AUDIO-09**: ALSA device exclusivity enforced architecturally — one controller, one device, mutually exclusive sources
+- [x] **AUDIO-08**: Full playback control: play, pause, stop, next, previous, seek (sector-based for CD, sample-based for FLAC)
+- [x] **AUDIO-09**: ALSA device exclusivity enforced architecturally — one controller, one device, mutually exclusive sources
 
 ### CD Subsystem
 
 - [x] **CD-01**: CdAudioStream wraps libcdio with paranoia error correction, implementing AudioStream interface
 - [x] **CD-02**: TOC reading via CdDrive (libcdio wrapper) through ICdDrive interface
-- [ ] **CD-03**: Hybrid disc presence detection: QFileSystemWatcher + ioctl polling with debounced state changes
-- [ ] **CD-04**: CD playback is ALWAYS user-initiated — no auto-play on insert or startup
-- [ ] **CD-05**: Three-tier async metadata lookup: MusicBrainz (via libdiscid) -> GnuDB (CDDB) -> Discogs (REST API) — ALL fully async, no event loop blocking
-- [ ] **CD-06**: Progressive metadata display: show TOC immediately (Track 1, Track 2 with durations), fill in titles/artist/album art asynchronously
-- [ ] **CD-07**: SQLite metadata cache: instant lookup for previously-seen discs by disc ID
-- [ ] **CD-08**: Album art downloading from CoverArtArchive and Discogs, cached to disk with front and back cover support
-- [ ] **CD-09**: GnuDB response validation before caching — reject malformed responses
-- [ ] **CD-10**: Graceful degradation: fall back to generic "Audio CD" metadata if all sources fail
-- [ ] **CD-11**: Idle timer stops CD spindle after period of inactivity
-- [ ] **CD-12**: Spin-up timer handles drive spin-up delay on play
+- [x] **CD-03**: Hybrid disc presence detection: QFileSystemWatcher + ioctl polling with debounced state changes
+- [x] **CD-04**: CD playback is ALWAYS user-initiated — no auto-play on insert or startup
+- [x] **CD-05**: Three-tier async metadata lookup: MusicBrainz (via libdiscid) -> GnuDB (CDDB) -> Discogs (REST API) — ALL fully async, no event loop blocking
+- [x] **CD-06**: Progressive metadata display: show TOC immediately (Track 1, Track 2 with durations), fill in titles/artist/album art asynchronously
+- [x] **CD-07**: SQLite metadata cache: instant lookup for previously-seen discs by disc ID
+- [x] **CD-08**: Album art downloading from CoverArtArchive and Discogs, cached to disk with front and back cover support
+- [x] **CD-09**: GnuDB response validation before caching — reject malformed responses
+- [x] **CD-10**: Graceful degradation: fall back to generic "Audio CD" metadata if all sources fail
+- [x] **CD-11**: Idle timer stops CD spindle after period of inactivity
+- [x] **CD-12**: Spin-up timer handles drive spin-up delay on play
 
 ### FLAC Library
 
-- [ ] **FLAC-01**: FlacAudioStream wraps libsndfile decoding + libsamplerate resampling to 44100Hz/16-bit/stereo, implementing AudioStream interface
-- [ ] **FLAC-02**: Recursive directory scanner using TagLib for metadata extraction
-- [ ] **FLAC-03**: SQLite database indexing: title, artist, album artist, album, track/disc number, year, genre, duration, sample rate, bit depth, file path, modification time
-- [ ] **FLAC-04**: Incremental scanning: skip unchanged files based on mtime
-- [ ] **FLAC-05**: Album art extraction from FLAC picture blocks, cached via SHA-1(artist+album) filename with MIME type auto-detection
-- [ ] **FLAC-06**: Async scanning via QtConcurrent
-- [ ] **FLAC-07**: Three hierarchical QAbstractListModel subclasses: LibraryArtistModel, LibraryAlbumModel, LibraryTrackBrowseModel
+- [x] **FLAC-01**: FlacAudioStream wraps libsndfile decoding + libsamplerate resampling to 44100Hz/16-bit/stereo, implementing AudioStream interface
+- [x] **FLAC-02**: Recursive directory scanner using TagLib for metadata extraction
+- [x] **FLAC-03**: SQLite database indexing: title, artist, album artist, album, track/disc number, year, genre, duration, sample rate, bit depth, file path, modification time
+- [x] **FLAC-04**: Incremental scanning: skip unchanged files based on mtime
+- [x] **FLAC-05**: Album art extraction from FLAC picture blocks, cached via SHA-1(artist+album) filename with MIME type auto-detection
+- [x] **FLAC-06**: Async scanning via QtConcurrent
+- [x] **FLAC-07**: Three hierarchical QAbstractListModel subclasses: LibraryArtistModel, LibraryAlbumModel, LibraryTrackBrowseModel
 - [ ] **FLAC-08**: Playlist-based playback with next/previous navigation and associated LibraryTrack metadata
 
 ### GPIO Hardware
@@ -131,11 +131,11 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **UI-06**: LibraryBrowser: StackView drill-down (Artists -> Albums -> Tracks), artist A-Z quick scroll sidebar, split layout on track page
 - [x] **UI-07**: SpotifySearch: fullscreen overlay with on-screen QWERTY keyboard (SimpleKeyboard), search results with album art
 - [x] **UI-08**: SpotifyTakeoverDialog: modal confirmation for session transfer
-- [ ] **UI-09**: AudioErrorDialog: modal for ALSA recovery failures with retry option
+- [x] **UI-09**: AudioErrorDialog: modal for ALSA recovery failures with retry option
 - [x] **UI-10**: ToastNotification: bottom-center 3-second auto-dismiss (info/success/error types)
 - [x] **UI-11**: VolumeOverlay: large modal with numeric display, auto-dismiss after 2s — only shown for local user input
 - [x] **UI-12**: VolumeIndicator: persistent top-right display with draggable slider
-- [ ] **UI-13**: EjectButton: visible only when CD present
+- [x] **UI-13**: EjectButton: visible only when CD present
 - [x] **UI-14**: SearchButton: visible only on Spotify input
 - [x] **UI-15**: ErrorBanner: shown when receiver disconnected
 - [x] **UI-16**: TimeDisplay: current time, updates every minute
@@ -146,7 +146,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **ORCH-01**: PlaybackRouter owns input->controller routing, eliminating duplicated if/else chains across play/pause/stop/next/previous/seek
 - [x] **ORCH-02**: AlbumArtResolver: receiver CGI art for streaming sources, local cached art for CD and Library
-- [ ] **ORCH-03**: VolumeGestureController: coalesces encoder events, manages optimistic UI, sends commands after gesture ends
+- [x] **ORCH-03**: VolumeGestureController: coalesces encoder events, manages optimistic UI, sends commands after gesture ends
 
 ### Production
 

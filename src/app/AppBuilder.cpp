@@ -66,6 +66,13 @@ AppContext AppBuilder::build(const AppConfig& config)
     connect(m_volumeGestureController.get(), &VolumeGestureController::gestureEnded, m_receiverController.get(),
             &ReceiverController::setVolume);
 
+    // Bug 5 (ORCH-03): ReceiverController volume → VolumeGestureController (gesture-aware reconciliation)
+    // Previously: ReceiverController called m_receiverState->setVolume() directly, bypassing gesture suppression.
+    // Now: ReceiverController emits volumeReceivedFromReceiver; VolumeGestureController applies update
+    // only when no gesture is active, then calls m_receiverState->setVolume().
+    connect(m_receiverController.get(), &ReceiverController::volumeReceivedFromReceiver,
+            m_volumeGestureController.get(), &VolumeGestureController::onExternalVolumeUpdate);
+
     // Wire GPIO monitor signals
     // Volume encoder -> VolumeGestureController (pre-scaled delta)
     connect(m_gpioMonitor.get(), &IGpioMonitor::volumeChanged, m_volumeGestureController.get(),
@@ -100,6 +107,13 @@ AppContext AppBuilder::build(const AppConfig& config)
                                                                           config.audio.deviceName, this);
 
     qCInfo(mediaApp) << "AppBuilder: audio playback controller initialized";
+
+    // Bug 2 (AUDIO-06): ALSA recovery failure → audio error dialog
+    // LocalPlaybackController emits audioRecoveryFailed after exhausting all ALSA EIO retries.
+    // UIState.setAudioError() sets UIState.audioError property, which triggers the AudioErrorDialog
+    // in main.qml. The dialog is already wired (visible: UIState.audioError !== "").
+    connect(m_localPlaybackController.get(), &LocalPlaybackController::audioRecoveryFailed, m_uiState.get(), [this]()
+            { m_uiState->setAudioError(QStringLiteral("Audio Error encountered, please restart the application")); });
 
     // Create CD subsystem controller
     m_cdController = std::make_unique<CdController>(m_cdDrive.get(), m_localPlaybackController.get(),
@@ -156,7 +170,7 @@ AppContext AppBuilder::build(const AppConfig& config)
 #else
                                            nullptr,
 #endif
-                                           m_spotifyController.get(), this);
+                                           m_spotifyController.get(), m_localPlaybackController.get(), this);
 
     qCInfo(mediaApp) << "AppBuilder: PlaybackRouter initialized";
 

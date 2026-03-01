@@ -1,5 +1,6 @@
 #include "orchestration/PlaybackRouter.h"
 
+#include "audio/LocalPlaybackController.h"
 #include "cd/CdController.h"
 #include "receiver/ReceiverController.h"
 #include "spotify/SpotifyController.h"
@@ -39,13 +40,15 @@ QString sourceDisplayName(MediaSource source)
 
 PlaybackRouter::PlaybackRouter(PlaybackState* playbackState, ReceiverController* receiverController,
                                CdController* cdController, FlacLibraryController* flacLibraryController,
-                               SpotifyController* spotifyController, QObject* parent)
+                               SpotifyController* spotifyController, LocalPlaybackController* localPlaybackController,
+                               QObject* parent)
     : QObject(parent)
     , m_playbackState(playbackState)
     , m_receiverController(receiverController)
     , m_cdController(cdController)
     , m_flacLibraryController(flacLibraryController)
     , m_spotifyController(spotifyController)
+    , m_localPlaybackController(localPlaybackController)
 {
     if (m_playbackState)
     {
@@ -223,10 +226,10 @@ void PlaybackRouter::seek(int ms)
         // Spotify seek not implemented in Phase 8 controller
         break;
     case MediaSource::CD:
-        // Seek handled by LocalPlaybackController internally via CdController
-        break;
     case MediaSource::Library:
-        // Seek handled by LocalPlaybackController internally via FlacLibraryController
+        // Route seek to LocalPlaybackController for local audio sources (ORCH-03)
+        if (m_localPlaybackController)
+            m_localPlaybackController->seek(static_cast<qint64>(ms));
         break;
     case MediaSource::Phono:
     case MediaSource::Bluetooth:

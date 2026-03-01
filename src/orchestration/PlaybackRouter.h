@@ -9,6 +9,7 @@ class PlaybackState;
 class ReceiverController;
 class CdController;
 class FlacLibraryController;
+class LocalPlaybackController;
 class SpotifyController;
 
 /// Centralizes source-aware playback command dispatch.
@@ -21,7 +22,7 @@ class PlaybackRouter : public QObject
 public:
     PlaybackRouter(PlaybackState* playbackState, ReceiverController* receiverController, CdController* cdController,
                    FlacLibraryController* flacLibraryController, SpotifyController* spotifyController,
-                   QObject* parent = nullptr);
+                   LocalPlaybackController* localPlaybackController, QObject* parent = nullptr);
 
     Q_INVOKABLE void play();
     Q_INVOKABLE void pause();
@@ -39,5 +40,6 @@ private:
     CdController* m_cdController;
     FlacLibraryController* m_flacLibraryController;
     SpotifyController* m_spotifyController;
+    LocalPlaybackController* m_localPlaybackController;
     MediaSource m_previousSource = MediaSource::None;
 };

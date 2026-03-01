@@ -31,9 +31,9 @@ public:
     void stop();
 
     // User-initiated playback (FLAC-08)
-    void playTrack(int trackModelIndex);
-    void next();
-    void previous();
+    Q_INVOKABLE void playTrack(int trackModelIndex);
+    Q_INVOKABLE void next();
+    Q_INVOKABLE void previous();
 
     // Accessors for models (QML binding in Phase 10)
     LibraryArtistModel* artistModel() const;

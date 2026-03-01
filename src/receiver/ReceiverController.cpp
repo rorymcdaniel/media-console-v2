@@ -201,7 +201,10 @@ void ReceiverController::parseResponse(const QString& message)
         int vol = hexToVolume(payload);
         if (vol >= 0)
         {
-            m_receiverState->setVolume(vol);
+            // Route through VolumeGestureController (gesture suppression + reconciliation snap).
+            // VolumeGestureController::onExternalVolumeUpdate() calls m_receiverState->setVolume()
+            // after checking whether a gesture is active (gesture has priority).
+            emit volumeReceivedFromReceiver(vol);
         }
     }
     else if (cmd == "PWR")

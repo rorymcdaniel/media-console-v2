@@ -46,6 +46,10 @@ signals:
     /// Emitted when stale data is detected (no messages for 30s during playback).
     void staleDataDetected(bool stale);
 
+    /// Emitted when receiver reports a volume update (MVL response).
+    /// Connected to VolumeGestureController::onExternalVolumeUpdate in AppBuilder.
+    void volumeReceivedFromReceiver(int volume);
+
 private slots:
     void onConnected();
     void onDisconnected();

@@ -35,7 +35,7 @@ protected:
 // Test 1: Construction with all nullptr controllers doesn't crash
 TEST_F(PlaybackRouterTest, ConstructWithNullControllers)
 {
-    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr);
+    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr, nullptr);
     // Should not crash
     EXPECT_TRUE(true);
 }
@@ -43,7 +43,7 @@ TEST_F(PlaybackRouterTest, ConstructWithNullControllers)
 // Test 2: play() with None source is no-op (doesn't crash)
 TEST_F(PlaybackRouterTest, PlayWithNoneSourceIsNoOp)
 {
-    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr);
+    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr, nullptr);
     m_playbackState->setActiveSource(MediaSource::None);
     router.play(); // Should not crash
     EXPECT_TRUE(true);
@@ -52,7 +52,7 @@ TEST_F(PlaybackRouterTest, PlayWithNoneSourceIsNoOp)
 // Test 3: play() with Phono source is no-op (receiver handles)
 TEST_F(PlaybackRouterTest, PlayWithPhonoIsNoOp)
 {
-    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr);
+    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr, nullptr);
     m_playbackState->setActiveSource(MediaSource::Phono);
     router.play(); // Should not crash
     EXPECT_TRUE(true);
@@ -61,7 +61,7 @@ TEST_F(PlaybackRouterTest, PlayWithPhonoIsNoOp)
 // Test 4: play() with Bluetooth source is no-op
 TEST_F(PlaybackRouterTest, PlayWithBluetoothIsNoOp)
 {
-    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr);
+    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr, nullptr);
     m_playbackState->setActiveSource(MediaSource::Bluetooth);
     router.play(); // Should not crash
     EXPECT_TRUE(true);
@@ -70,7 +70,7 @@ TEST_F(PlaybackRouterTest, PlayWithBluetoothIsNoOp)
 // Test 5: play() with Computer source is no-op
 TEST_F(PlaybackRouterTest, PlayWithComputerIsNoOp)
 {
-    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr);
+    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr, nullptr);
     m_playbackState->setActiveSource(MediaSource::Computer);
     router.play(); // Should not crash
     EXPECT_TRUE(true);
@@ -79,7 +79,7 @@ TEST_F(PlaybackRouterTest, PlayWithComputerIsNoOp)
 // Test 6: Dispatch to CD - play() should not crash with nullptr cdController
 TEST_F(PlaybackRouterTest, PlayWithCdAndNullControllerDoesNotCrash)
 {
-    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr);
+    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr, nullptr);
     m_playbackState->setActiveSource(MediaSource::CD);
     router.play(); // Should not crash due to null check
     EXPECT_TRUE(true);
@@ -88,7 +88,7 @@ TEST_F(PlaybackRouterTest, PlayWithCdAndNullControllerDoesNotCrash)
 // Test 7: Dispatch to Library - play() should not crash with nullptr flacController
 TEST_F(PlaybackRouterTest, PlayWithLibraryAndNullControllerDoesNotCrash)
 {
-    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr);
+    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr, nullptr);
     m_playbackState->setActiveSource(MediaSource::Library);
     router.play(); // Should not crash due to null check
     EXPECT_TRUE(true);
@@ -97,7 +97,7 @@ TEST_F(PlaybackRouterTest, PlayWithLibraryAndNullControllerDoesNotCrash)
 // Test 8: Dispatch to Streaming - play() should not crash with nullptr spotifyController
 TEST_F(PlaybackRouterTest, PlayWithStreamingAndNullControllerDoesNotCrash)
 {
-    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr);
+    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr, nullptr);
     m_playbackState->setActiveSource(MediaSource::Streaming);
     router.play(); // Should not crash due to null check
     EXPECT_TRUE(true);
@@ -106,7 +106,7 @@ TEST_F(PlaybackRouterTest, PlayWithStreamingAndNullControllerDoesNotCrash)
 // Test 9: pause(), stop(), next(), previous(), seek() all safe with no controllers
 TEST_F(PlaybackRouterTest, AllCommandsSafeWithNullControllers)
 {
-    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr);
+    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr, nullptr);
     m_playbackState->setActiveSource(MediaSource::CD);
     router.pause();
     router.stop();
@@ -124,7 +124,7 @@ TEST_F(PlaybackRouterTest, AllCommandsSafeWithNullControllers)
 // connects to activeSourceChanged signal by checking m_previousSource tracking.
 TEST_F(PlaybackRouterTest, SourceChangeConnectsToActiveSourceChanged)
 {
-    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr);
+    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr, nullptr);
 
     // Change active source -- should be received by router
     m_playbackState->setActiveSource(MediaSource::CD);
@@ -142,7 +142,7 @@ TEST_F(PlaybackRouterTest, SourceChangeConnectsToActiveSourceChanged)
 // Test 11: Multiple rapid source changes don't crash
 TEST_F(PlaybackRouterTest, RapidSourceChangesAreSafe)
 {
-    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr);
+    PlaybackRouter router(m_playbackState.get(), nullptr, nullptr, nullptr, nullptr, nullptr);
     m_playbackState->setPlaybackMode(PlaybackMode::Playing);
 
     m_playbackState->setActiveSource(MediaSource::CD);

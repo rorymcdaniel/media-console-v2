@@ -33,7 +33,7 @@ private:
 
     GpioConfig m_config;
     std::unique_ptr<gpiod::line_request> m_request;
-    QThread m_thread;
+    std::unique_ptr<QThread> m_thread;
     std::atomic<bool> m_stopRequested { false };
 
     QuadratureDecoder m_volumeDecoder;

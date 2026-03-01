@@ -8,8 +8,8 @@
 #include <memory>
 
 #include "cd/CdMetadataCache.h" // for CdMetadata, CdTrackInfo, CdAlbumArtInfo
+#include "platform/ICdDrive.h" // for TocEntry (full definition required by MOC)
 
-struct TocEntry;
 struct CdConfig;
 class ICdDrive;
 class CdMetadataProvider;

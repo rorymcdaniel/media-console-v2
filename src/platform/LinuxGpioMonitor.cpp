@@ -94,9 +94,9 @@ bool LinuxGpioMonitor::start()
 
         // Start monitoring thread
         m_stopRequested.store(false);
-        m_thread = *QThread::create([this]() { monitorLoop(); });
-        m_thread.setObjectName("GpioMonitor");
-        m_thread.start();
+        m_thread.reset(QThread::create([this]() { monitorLoop(); }));
+        m_thread->setObjectName("GpioMonitor");
+        m_thread->start();
 
         qCInfo(mediaGpio) << "LinuxGpioMonitor: started monitoring" << 7 << "GPIO lines";
         return true;
@@ -110,11 +110,11 @@ bool LinuxGpioMonitor::start()
 
 void LinuxGpioMonitor::stop()
 {
-    if (!m_thread.isRunning())
+    if (!m_thread || !m_thread->isRunning())
         return;
 
     m_stopRequested.store(true);
-    m_thread.wait();
+    m_thread->wait();
     m_request.reset();
     m_stopRequested.store(false);
 

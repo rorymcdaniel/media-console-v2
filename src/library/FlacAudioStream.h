@@ -4,11 +4,8 @@
 
 #include "audio/AudioStream.h"
 
-// Forward declarations to avoid header pollution
-struct SNDFILE_tag;
-typedef struct SNDFILE_tag SNDFILE;
-struct SRC_STATE_tag;
-typedef struct SRC_STATE_tag SRC_STATE;
+#include <sndfile.h>
+#include <samplerate.h>
 
 /// AudioStream implementation that decodes FLAC files using libsndfile
 /// and resamples to 44100Hz/16-bit/stereo using libsamplerate.

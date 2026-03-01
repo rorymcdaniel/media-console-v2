@@ -17,6 +17,7 @@ echo "[$(TIMESTAMP)] Ninja:     $(ninja --version)"
 
 echo "[$(TIMESTAMP)] Configuring..."
 cmake -B "$BUILD_DIR" \
+  -DQt6_DIR=/opt/Qt/6.9.2/gcc_arm64/lib/cmake/Qt6 \
   -G Ninja \
   -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_TESTS=OFF

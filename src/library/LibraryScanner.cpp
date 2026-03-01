@@ -173,7 +173,10 @@ bool LibraryScanner::extractMetadata(const QString& filePath, LibraryTrack& trac
     {
         track.durationSeconds = audio->lengthInSeconds();
         track.sampleRate = audio->sampleRate();
-        track.bitDepth = audio->bitsPerSample();
+        if (auto* flacProps = dynamic_cast<TagLib::FLAC::Properties*>(audio))
+            track.bitDepth = flacProps->bitsPerSample();
+        else
+            track.bitDepth = 0;
     }
 
     return true;

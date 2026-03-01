@@ -25,9 +25,7 @@ The touchscreen kiosk must always be responsive — no freezes, no unrecoverable
 
 ### Active
 
-- [ ] Bluetooth input with receiver-provided metadata display
-- [ ] QML UI with full touch interface on 1920x720 display
-- [ ] Production deployment with kiosk mode systemd service
+- [ ] UI quality matching or exceeding the original: fluid animations, polished visuals, responsive touch feedback
 
 ### Out of Scope
 
@@ -85,7 +83,7 @@ The original working codebase is at `~/Code/media-console` (~15,400 lines C++, ~
 - **Architecture**: Decomposed AppState, unified playback controller, composition root, platform abstraction via runtime injection
 - **Testing**: Google Test required, mock interfaces for hardware deps
 - **Code quality**: clang-format, clang-tidy, no business logic in AppState
-- **Scope**: Structural rewrite only — no feature expansion
+- **Scope (v1.1)**: UI quality — no new backend features, no new data sources
 
 ## Key Decisions
 
@@ -107,5 +105,16 @@ The original working codebase is at `~/Code/media-console` (~15,400 lines C++, ~
 | PlaybackRouter unified dispatch | Source-switch-based routing eliminates duplicated if/else chains | Shipped Phase 9 |
 | AlbumArtResolver per-source art selection | Receiver CGI for streaming/BT, local providers for CD/Library | Shipped Phase 9 |
 
+## Current Milestone: v1.1 UI Polish
+
+**Goal:** Make the interface feel as fluid and polished as the original — matching or exceeding the original's ~5,200-line QML in animation quality, visual design, and touch responsiveness.
+
+**Target features:**
+- Fluid InputCarousel rotation with natural snap and momentum
+- NowPlaying view polish: album art, track info layout, playback controls
+- Smooth animated transitions between all views
+- Responsive touch feedback on every interactive element
+- Visual design review against original reference implementation
+
 ---
-*Last updated: 2026-02-28 after Phase 9*
+*Last updated: 2026-03-01 after v1.0 complete, v1.1 started*

@@ -248,10 +248,12 @@ Plans:
   2. Releasing a carousel gesture snaps to the nearest input with a deceleration curve that feels physically natural (not instant, not elastic)
   3. Non-selected inputs are visibly smaller and less opaque than the active input, reinforcing the 3D wheel illusion at a glance
   4. Turning the physical encoder updates the carousel position with no perceptible lag — one encoder event, one immediate visual step
-**Plans**: TBD
+**Plans**: 3 plans in 3 waves
 
 Plans:
-- [ ] 13-01: TBD
+- [ ] 13-01-PLAN.md — UIState signal bridge and AppBuilder GPIO rewiring
+- [ ] 13-02-PLAN.md — InputCarousel QML rewrite (horizontal PathView overlay) and left panel replacement
+- [ ] 13-03-PLAN.md — Human verification on Pi 5 device (CAR-01 through CAR-04)
 
 ### Phase 14: Now Playing Polish
 **Goal**: The NowPlaying view presents album art, track information, and controls with the quality of the original reference implementation

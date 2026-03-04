@@ -84,3 +84,16 @@ void UIState::setScreenDimmed(bool dimmed)
     m_screenDimmed = dimmed;
     emit screenDimmedChanged(m_screenDimmed);
 }
+
+void UIState::requestInputNext()
+{
+    emit inputNextRequested();
+}
+void UIState::requestInputPrevious()
+{
+    emit inputPreviousRequested();
+}
+void UIState::requestInputSelect()
+{
+    emit inputSelectRequested();
+}

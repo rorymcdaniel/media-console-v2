@@ -48,6 +48,12 @@ public slots:
     void setDoorOpen(bool open);
     void setScreenDimmed(bool dimmed);
 
+    /// Bridge slots: GPIO encoder events routed through UIState so QML carousel
+    /// can intercept before changing input. Emit-only, no state change.
+    Q_INVOKABLE void requestInputNext();
+    Q_INVOKABLE void requestInputPrevious();
+    Q_INVOKABLE void requestInputSelect();
+
 signals:
     void activeViewChanged(ActiveView view);
     void volumeOverlayVisibleChanged(bool visible);
@@ -67,6 +73,13 @@ signals:
     /// Wired to QCoreApplication::quit() in main.cpp so the action is pluggable
     /// (can later be changed to systemctl reboot without modifying QML).
     void restartRequested();
+
+    /// Transient bridge signals for GPIO encoder navigation events.
+    /// QML InputCarousel connects to these to intercept encoder turns before
+    /// any input change is committed. No backing property — pure event bus.
+    void inputNextRequested();
+    void inputPreviousRequested();
+    void inputSelectRequested();
 
 private:
     ActiveView m_activeView = ActiveView::NowPlaying;

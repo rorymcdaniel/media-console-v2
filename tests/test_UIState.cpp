@@ -177,3 +177,33 @@ TEST_F(UIStateTest, DoorOpenChangeGuardConsecutiveSame)
 
     EXPECT_EQ(spy.count(), 0);
 }
+
+TEST_F(UIStateTest, InputNextRequestedEmits)
+{
+    UIState state;
+    QSignalSpy spy(&state, &UIState::inputNextRequested);
+
+    state.requestInputNext();
+
+    ASSERT_EQ(spy.count(), 1);
+}
+
+TEST_F(UIStateTest, InputPreviousRequestedEmits)
+{
+    UIState state;
+    QSignalSpy spy(&state, &UIState::inputPreviousRequested);
+
+    state.requestInputPrevious();
+
+    ASSERT_EQ(spy.count(), 1);
+}
+
+TEST_F(UIStateTest, InputSelectRequestedEmits)
+{
+    UIState state;
+    QSignalSpy spy(&state, &UIState::inputSelectRequested);
+
+    state.requestInputSelect();
+
+    ASSERT_EQ(spy.count(), 1);
+}

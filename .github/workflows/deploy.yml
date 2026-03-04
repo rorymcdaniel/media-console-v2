@@ -101,6 +101,7 @@ jobs:
             set -e
             cd /home/rory/Code/media-console-v2
             git fetch origin --tags
+            git checkout -- .
             git checkout $DEPLOY_TAG
             bash deploy/pi-build.sh
           ENDSSH

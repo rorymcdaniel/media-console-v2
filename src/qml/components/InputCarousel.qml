@@ -5,6 +5,9 @@ Item {
     id: root
     anchors.fill: parent
 
+    signal libraryRequested()
+    signal inputSelected()
+
     // === Data model: 6 input sources ===
     ListModel {
         id: sourceModel
@@ -55,7 +58,13 @@ Item {
             if (autoSelectProgress >= 1.0) {
                 autoSelectTimer.stop()
                 autoSelectProgress = 1.0
-                ReceiverController.selectInput(indexToSource(focusedIndex))
+                var source = indexToSource(focusedIndex)
+                if (source === MediaSource.Library) {
+                    root.libraryRequested()
+                } else {
+                    root.inputSelected()
+                    ReceiverController.selectInput(source)
+                }
                 carouselOverlay.hide()
             }
         }
@@ -77,7 +86,15 @@ Item {
         autoSelectTimer.stop()
         autoSelectProgress = 0.0
         focusedIndex = index
-        ReceiverController.selectInput(indexToSource(index))
+        var source = indexToSource(index)
+        if (source === MediaSource.Library) {
+            root.libraryRequested()
+            carouselOverlay.hide()
+        } else {
+            root.inputSelected()
+            ReceiverController.selectInput(source)
+            carouselOverlay.hide()
+        }
     }
 
     // Public show() function — called by main.qml left panel on tap
@@ -103,7 +120,6 @@ Item {
                 carouselOverlay.show()
             } else {
                 root.selectImmediately(carousel.currentIndex)
-                carouselOverlay.hide()
             }
         }
     }
@@ -311,10 +327,7 @@ Item {
                 // Tap to select immediately and close
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: {
-                        root.selectImmediately(delegateItem.index)
-                        carouselOverlay.hide()
-                    }
+                    onClicked: root.selectImmediately(delegateItem.index)
                 }
             }
         }

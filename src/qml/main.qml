@@ -1,5 +1,4 @@
 import QtQuick
-import QtQuick.Layouts
 import QtQuick.Controls
 import MediaConsole 1.0
 
@@ -12,37 +11,10 @@ Window {
     title: "Media Console"
     color: Theme.primaryBg
 
-    // Eject confirmation modal visibility (UI-13)
-    // Set to true when eject is tapped while CD is playing — shows Yes/No dialog
+    property bool showLibraryBrowser: false
     property bool ejectConfirmVisible: false
 
-    // Helper functions for left panel static current-input display
-    function currentInputIconText() {
-        switch (ReceiverState.currentInput) {
-            case MediaSource.Streaming:  return "\u266B"
-            case MediaSource.Phono:      return "\u25CE"
-            case MediaSource.CD:         return "\u25CF"
-            case MediaSource.Computer:   return "\u2338"
-            case MediaSource.Bluetooth:  return "\u2261"
-            case MediaSource.Library:    return "\u2630"
-            default:                     return "\u2022"
-        }
-    }
-    function currentInputLabelText() {
-        switch (ReceiverState.currentInput) {
-            case MediaSource.Streaming:  return "Streaming"
-            case MediaSource.Phono:      return "Phono"
-            case MediaSource.CD:         return "CD"
-            case MediaSource.Computer:   return "Computer"
-            case MediaSource.Bluetooth:  return "Bluetooth"
-            case MediaSource.Library:    return "Library"
-            default:                     return "Unknown"
-        }
-    }
-
     // Global touch activity detection (UI-18)
-    // Covers the entire window, forwards all press events to ScreenTimeoutController
-    // without consuming them so child elements still receive input.
     MouseArea {
         anchors.fill: parent
         z: 1000
@@ -56,212 +28,179 @@ Window {
         onClicked: function(mouse) { mouse.accepted = false }
     }
 
-    // ========== Top Status Bar (UI-03) ==========
+    // ========== Top Status Bar (transparent spacer) ==========
     Rectangle {
         id: statusBar
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
         height: Theme.statusBarHeight
+        color: "transparent"
+    }
+
+    // ========== Floating Status Bar Controls ==========
+
+    // Input indicator button (top-left)
+    Rectangle {
+        id: inputIndicator
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.topMargin: Theme.spacingSmall
+        anchors.leftMargin: Theme.spacingLarge
+        width: 180; height: 52; z: 10
         color: Theme.secondaryBg
-        z: 10
+        radius: Theme.radiusMedium
+        border.color: Theme.accent; border.width: 1
 
-        // Bottom separator line
+        Image {
+            source: "qrc:/MediaConsole/icons/input.png"
+            width: 40; height: 40
+            fillMode: Image.PreserveAspectFit
+            smooth: true
+            anchors.centerIn: parent
+        }
         Rectangle {
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
-            anchors.right: parent.right
-            height: 1
-            color: Theme.glassBorder
+            anchors.fill: parent; radius: Theme.radiusMedium
+            color: Theme.accent
+            opacity: inputIndicatorMa.containsMouse ? 0.15 : 0.0
+            Behavior on opacity { NumberAnimation { duration: Theme.animFast } }
         }
+        MouseArea {
+            id: inputIndicatorMa; anchors.fill: parent
+            hoverEnabled: true; cursorShape: Qt.PointingHandCursor
+            onClicked: inputCarousel.show()
+        }
+    }
 
-        RowLayout {
-            anchors.fill: parent
-            anchors.leftMargin: Theme.spacingMedium
-            anchors.rightMargin: Theme.spacingMedium
+    // Eject button (top-left, right of InputIndicator)
+    Rectangle {
+        id: ejectBtn
+        anchors.top: parent.top
+        anchors.left: inputIndicator.right
+        anchors.topMargin: Theme.spacingSmall
+        anchors.leftMargin: Theme.spacingSmall
+        width: Theme.touchTargetSmall; height: Theme.touchTargetSmall
+        radius: Theme.radiusSmall; z: 10
+        color: ejectMa.pressed ? Theme.glassBg : "transparent"
+        visible: PlaybackState.activeSource === MediaSource.CD
 
-            // Left: Connection status indicator
-            Row {
-                spacing: Theme.spacingSmall
-                Layout.fillHeight: true
+        Text { anchors.centerIn: parent; text: "\u23CF"; color: Theme.textPrimary; font.pixelSize: Theme.fontSizeMedium }
+
+        MouseArea {
+            id: ejectMa; anchors.fill: parent
+            onClicked: {
+                if (PlaybackState.playbackMode === PlaybackMode.Playing) { ejectConfirmVisible = true }
+                else { CdController.eject() }
+            }
+        }
+    }
+
+    // Time display (top-center)
+    Text {
+        id: timeDisplay
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: Theme.spacingSmall + 4
+        color: Theme.textSecondary; font.pixelSize: Theme.fontSizeBody; z: 10
+
+        Timer {
+            interval: 60000; running: true; repeat: true; triggeredOnStart: true
+            onTriggered: timeDisplay.text = Qt.formatTime(new Date(), "h:mm AP")
+        }
+    }
+
+    // Volume slider row (top-right)
+    Row {
+        id: volumeRow
+        anchors.top: parent.top
+        anchors.right: parent.right
+        anchors.topMargin: Theme.spacingSmall
+        anchors.rightMargin: Theme.spacingLarge
+        spacing: Theme.spacingSmall; z: 10
+
+        Slider {
+            id: volumeSlider
+            width: 100
+            height: Theme.touchTargetSmall
+            from: 0
+            to: 200
+            value: ReceiverState.volume
+            onMoved: ReceiverController.setVolume(Math.round(value))
+
+            background: Rectangle {
+                x: volumeSlider.leftPadding
+                y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
+                width: volumeSlider.availableWidth
+                height: 4
+                radius: 2
+                color: Theme.glassBg
 
                 Rectangle {
-                    width: 8
-                    height: 8
-                    radius: 4
-                    color: UIState.receiverConnected ? Theme.successColor : Theme.errorColor
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-
-                Text {
-                    text: UIState.receiverConnected ? "Connected" : "Disconnected"
-                    color: UIState.receiverConnected ? Theme.textDimmed : Theme.errorColor
-                    font.pixelSize: Theme.fontSizeSmall
-                    anchors.verticalCenter: parent.verticalCenter
+                    width: volumeSlider.visualPosition * parent.width
+                    height: parent.height
+                    radius: 2
+                    color: Theme.accent
                 }
             }
 
-            // Spacer
-            Item { Layout.fillWidth: true }
-
-            // Right side controls
-            RowLayout {
-                spacing: Theme.spacingMedium
-
-                // Eject button (UI-13) — visible only when CD is active source
-                Rectangle {
-                    width: Theme.touchTargetSmall
-                    height: Theme.touchTargetSmall
-                    radius: Theme.radiusSmall
-                    color: ejectMa.pressed ? Theme.glassBg : "transparent"
-                    visible: PlaybackState.activeSource === MediaSource.CD
-
-                    Text {
-                        anchors.centerIn: parent
-                        text: "\u23CF"
-                        color: Theme.textPrimary
-                        font.pixelSize: Theme.fontSizeMedium
-                    }
-
-                    MouseArea {
-                        id: ejectMa
-                        anchors.fill: parent
-                        onClicked: {
-                            // CD eject (UI-13): show confirmation if playing, eject immediately if not
-                            if (PlaybackState.playbackMode === PlaybackMode.Playing) {
-                                ejectConfirmVisible = true
-                            } else {
-                                CdController.eject()
-                            }
-                        }
-                    }
-                }
-
-                // Search button (UI-14) — visible only on Streaming input
-                Rectangle {
-                    width: Theme.touchTargetSmall
-                    height: Theme.touchTargetSmall
-                    radius: Theme.radiusSmall
-                    color: searchMa.pressed ? Theme.glassBg : "transparent"
-                    visible: ReceiverState.currentInput === MediaSource.Streaming
-
-                    Text {
-                        anchors.centerIn: parent
-                        text: "\u2315"
-                        color: Theme.textPrimary
-                        font.pixelSize: Theme.fontSizeMedium
-                    }
-
-                    MouseArea {
-                        id: searchMa
-                        anchors.fill: parent
-                        onClicked: UIState.setActiveView(ActiveView.SpotifySearch)
-                    }
-                }
-
-                // Volume indicator with slider (UI-12)
-                Row {
-                    spacing: Theme.spacingSmall
-
-                    Slider {
-                        id: volumeSlider
-                        width: 100
-                        height: Theme.touchTargetSmall
-                        from: 0
-                        to: 200
-                        value: ReceiverState.volume
-                        onMoved: ReceiverController.setVolume(Math.round(value))
-
-                        background: Rectangle {
-                            x: volumeSlider.leftPadding
-                            y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
-                            width: volumeSlider.availableWidth
-                            height: 4
-                            radius: 2
-                            color: Theme.glassBg
-
-                            Rectangle {
-                                width: volumeSlider.visualPosition * parent.width
-                                height: parent.height
-                                radius: 2
-                                color: Theme.accent
-                            }
-                        }
-
-                        handle: Rectangle {
-                            x: volumeSlider.leftPadding + volumeSlider.visualPosition * (volumeSlider.availableWidth - width)
-                            y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
-                            width: 16
-                            height: 16
-                            radius: 8
-                            color: volumeSlider.pressed ? Theme.accentLight : Theme.accent
-                        }
-                    }
-
-                    Text {
-                        text: Math.round(ReceiverState.volume / 2) + "%"
-                        color: Theme.textSecondary
-                        font.pixelSize: Theme.fontSizeSmall
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
-
-                // Mute button (UI-17)
-                Rectangle {
-                    width: Theme.touchTargetSmall
-                    height: Theme.touchTargetSmall
-                    radius: Theme.radiusSmall
-                    color: ReceiverState.muted ? Qt.rgba(0.906, 0.298, 0.235, 0.3) : "transparent"
-
-                    Text {
-                        anchors.centerIn: parent
-                        text: ReceiverState.muted ? "\u2716" : "\u266B"
-                        color: ReceiverState.muted ? Theme.errorColor : Theme.textPrimary
-                        font.pixelSize: Theme.fontSizeMedium
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: ReceiverController.toggleMute()
-                    }
-                }
-
-                // Power button (UI-17)
-                Rectangle {
-                    width: Theme.touchTargetSmall
-                    height: Theme.touchTargetSmall
-                    radius: Theme.radiusSmall
-                    color: ReceiverState.powered ? Qt.rgba(0.180, 0.361, 0.541, 0.3) : "transparent"
-
-                    Text {
-                        anchors.centerIn: parent
-                        text: "\u23FB"
-                        color: ReceiverState.powered ? Theme.accentLight : Theme.textDimmed
-                        font.pixelSize: Theme.fontSizeMedium
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: ReceiverController.setPower(!ReceiverState.powered)
-                    }
-                }
-
-                // Time display (UI-16)
-                Text {
-                    id: timeDisplay
-                    color: Theme.textSecondary
-                    font.pixelSize: Theme.fontSizeBody
-
-                    Timer {
-                        interval: 60000
-                        running: true
-                        repeat: true
-                        triggeredOnStart: true
-                        onTriggered: timeDisplay.text = Qt.formatTime(new Date(), "h:mm AP")
-                    }
-                }
+            handle: Rectangle {
+                x: volumeSlider.leftPadding + volumeSlider.visualPosition * (volumeSlider.availableWidth - width)
+                y: volumeSlider.topPadding + volumeSlider.availableHeight / 2 - height / 2
+                width: 16
+                height: 16
+                radius: 8
+                color: volumeSlider.pressed ? Theme.accentLight : Theme.accent
             }
         }
+
+        Text {
+            text: Math.round(ReceiverState.volume / 2) + "%"
+            color: Theme.textSecondary
+            font.pixelSize: Theme.fontSizeSmall
+            anchors.verticalCenter: parent.verticalCenter
+        }
+    }
+
+    // Mute button (top-right, left of volumeRow)
+    Rectangle {
+        id: muteBtn
+        anchors.top: parent.top
+        anchors.right: volumeRow.left
+        anchors.topMargin: Theme.spacingSmall
+        anchors.rightMargin: Theme.spacingSmall
+        width: Theme.touchTargetSmall; height: Theme.touchTargetSmall
+        radius: Theme.radiusSmall; z: 10
+        color: ReceiverState.muted ? Qt.rgba(0.906, 0.298, 0.235, 0.3) : "transparent"
+
+        Text { anchors.centerIn: parent; text: ReceiverState.muted ? "\u2716" : "\u266B"; color: ReceiverState.muted ? Theme.errorColor : Theme.textPrimary; font.pixelSize: Theme.fontSizeMedium }
+        MouseArea { anchors.fill: parent; onClicked: ReceiverController.toggleMute() }
+    }
+
+    // Search button (top-right, left of mute, Streaming only)
+    Rectangle {
+        id: searchBtn
+        anchors.top: parent.top
+        anchors.right: muteBtn.left
+        anchors.topMargin: Theme.spacingSmall
+        anchors.rightMargin: Theme.spacingSmall
+        width: Theme.touchTargetSmall; height: Theme.touchTargetSmall
+        radius: Theme.radiusSmall; z: 10
+        color: searchMa.pressed ? Theme.glassBg : "transparent"
+        visible: ReceiverState.currentInput === MediaSource.Streaming
+
+        Text { anchors.centerIn: parent; text: "\u2315"; color: Theme.textPrimary; font.pixelSize: Theme.fontSizeMedium }
+        MouseArea { id: searchMa; anchors.fill: parent; onClicked: spotifySearch.visible = true }
+    }
+
+    // Connection dot (top-right, left of search)
+    Rectangle {
+        id: connDot
+        anchors.top: parent.top
+        anchors.right: searchBtn.left
+        anchors.topMargin: Theme.spacingSmall + 10
+        anchors.rightMargin: Theme.spacingSmall
+        width: 8; height: 8; radius: 4; z: 10
+        color: UIState.receiverConnected ? Theme.successColor : Theme.errorColor
     }
 
     // ========== Error Banner (UI-15) ==========
@@ -303,97 +242,137 @@ Window {
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
+        anchors.margins: Theme.spacingLarge
+        spacing: Theme.spacingLarge
 
-        // Left panel: Input carousel (UI-03)
+        // Left panel: 1/4 width, rounded, PNG icons
         Rectangle {
             id: leftPanel
-            width: Theme.leftPanelWidth
+            width: (parent.width - parent.spacing) / 4
             height: parent.height
             color: Theme.secondaryBg
+            radius: Theme.radiusLarge
 
-            // Separator line on right edge
-            Rectangle {
-                anchors.right: parent.right
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                width: 1
-                color: Theme.glassBorder
+            function getServiceIcon() {
+                if (ReceiverState.currentInput === MediaSource.Library || root.showLibraryBrowser)
+                    return "qrc:/MediaConsole/icons/music-note.svg"
+                switch (ReceiverState.currentInput) {
+                    case MediaSource.Phono:     return "qrc:/MediaConsole/icons/phono.png"
+                    case MediaSource.Bluetooth: return "qrc:/MediaConsole/icons/bluetooth.png"
+                    case MediaSource.CD:        return "qrc:/MediaConsole/icons/compact-disc.png"
+                    case MediaSource.Computer:  return "qrc:/MediaConsole/icons/computer.png"
+                    case MediaSource.Streaming: return "qrc:/MediaConsole/icons/spotify.png"
+                    default:                    return ""
+                }
             }
 
-            // Tap left panel to open carousel (CAR-04)
+            function getDisplayText() {
+                if (ReceiverState.currentInput === MediaSource.Library || root.showLibraryBrowser)
+                    return "Library"
+                switch (ReceiverState.currentInput) {
+                    case MediaSource.Streaming:  return "Streaming"
+                    case MediaSource.Phono:      return "Phono"
+                    case MediaSource.CD:         return "CD"
+                    case MediaSource.Computer:   return "Computer"
+                    case MediaSource.Bluetooth:  return "Bluetooth"
+                    default:                     return "Unknown"
+                }
+            }
+
+            Column {
+                anchors.centerIn: parent
+                spacing: Theme.spacingMedium
+
+                Image {
+                    source: leftPanel.getServiceIcon()
+                    visible: source !== "" && status === Image.Ready
+                    width: 256; height: 256
+                    fillMode: Image.PreserveAspectFit
+                    smooth: true
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+
+                Text {
+                    text: leftPanel.getDisplayText()
+                    font.pixelSize: 64
+                    font.bold: true
+                    color: Theme.textPrimary
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
+            }
+
             MouseArea {
                 anchors.fill: parent
-                onClicked: inputCarousel.show()
-
-                Column {
-                    anchors.centerIn: parent
-                    spacing: Theme.spacingMedium
-
-                    // Active input icon (large, accent-colored circle)
-                    Rectangle {
-                        id: currentInputIcon
-                        width: 96
-                        height: 96
-                        radius: 48
-                        color: Theme.accent
-                        border.color: Theme.accentLight
-                        border.width: 2
-                        anchors.horizontalCenter: parent.horizontalCenter
-
-                        Text {
-                            anchors.centerIn: parent
-                            text: currentInputIconText()
-                            font.pixelSize: 40
-                            color: Theme.textPrimary
-                        }
-                    }
-
-                    // Active input label
-                    Text {
-                        text: currentInputLabelText()
-                        color: Theme.textPrimary
-                        font.pixelSize: Theme.fontSizeMedium
-                        font.bold: true
-                        anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: {
+                    if (ReceiverState.currentInput === MediaSource.Library) {
+                        root.showLibraryBrowser = !root.showLibraryBrowser
                     }
                 }
             }
         }
 
-        // Right panel: Active view (UI-03)
-        Item {
+        // Right panel: rounded rect with NowPlaying + LibraryBrowser
+        Rectangle {
             id: rightPanel
-            width: parent.width - Theme.leftPanelWidth
+            width: (parent.width - parent.spacing) * 3 / 4
             height: parent.height
+            color: Theme.secondaryBg
+            radius: Theme.radiusLarge
 
-            // View loader — switches component based on UIState.activeView
-            Loader {
-                id: viewLoader
+            NowPlaying {
+                id: nowPlaying
                 anchors.fill: parent
-                source: {
-                    switch (UIState.activeView) {
-                        case ActiveView.NowPlaying: return "components/NowPlaying.qml"
-                        case ActiveView.LibraryBrowser: return "components/LibraryBrowser.qml"
-                        case ActiveView.SpotifySearch: return "components/SpotifySearch.qml"
-                        default: return "components/NowPlaying.qml"
-                    }
-                }
+                anchors.margins: Theme.spacingLarge
+                visible: !root.showLibraryBrowser
+            }
 
-                // Smooth crossfade when switching views
-                opacity: status === Loader.Ready ? 1.0 : 0.0
-                Behavior on opacity {
-                    NumberAnimation { duration: Theme.animMedium; easing.type: Easing.OutCubic }
-                }
+            LibraryBrowser {
+                id: libraryBrowser
+                anchors.fill: parent
+                anchors.margins: Theme.spacingLarge
+                visible: root.showLibraryBrowser
             }
         }
     }
 
     // ========== Input Carousel Overlay (UI-05) ==========
-    // Hidden by default — shows as full-screen overlay when left panel is tapped or encoder turns
     InputCarousel {
         id: inputCarousel
         anchors.fill: parent
         z: 500
+    }
+
+    // ========== Spotify Search Overlay ==========
+    SpotifySearch {
+        id: spotifySearch
+        anchors.fill: parent
+        visible: false
+        z: 1000
+    }
+
+    // ========== Connections wiring ==========
+
+    // Carousel → library browser
+    Connections {
+        target: inputCarousel
+        function onLibraryRequested() { root.showLibraryBrowser = true }
+        function onInputSelected()    { root.showLibraryBrowser = false }
+    }
+
+    // Library browser → back to now playing
+    Connections {
+        target: libraryBrowser
+        function onTrackSelected() { root.showLibraryBrowser = false }
+    }
+
+    // Input change → hide library if leaving Library input
+    Connections {
+        target: ReceiverState
+        function onCurrentInputChanged() {
+            if (ReceiverState.currentInput !== MediaSource.Library) {
+                root.showLibraryBrowser = false
+            }
+        }
     }
 
     // ========== Volume Overlay (UI-11) ==========
@@ -705,8 +684,6 @@ Window {
                             id: retryErrorMa
                             anchors.fill: parent
                             onClicked: {
-                                // AUDIO-07: Pluggable restart action — wired to QCoreApplication::quit() in main.cpp
-                                // systemd will restart the process automatically
                                 UIState.setAudioError("")
                                 UIState.restartRequested()
                             }

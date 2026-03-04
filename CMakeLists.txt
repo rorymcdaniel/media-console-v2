@@ -345,6 +345,18 @@ qt_add_qml_module(media-console
         src/qml/controls/SimpleKeyboard.qml
     RESOURCES
         src/qml/qmldir
+        src/qml/icons/input.png
+        src/qml/icons/compact-disc.png
+        src/qml/icons/phono.png
+        src/qml/icons/bluetooth.png
+        src/qml/icons/computer.png
+        src/qml/icons/spotify.png
+        src/qml/icons/music-note.svg
+        src/qml/icons/other-streaming.png
+        src/qml/icons/airplay.png
+        src/qml/icons/amazon-music.png
+        src/qml/icons/pandora.png
+        src/qml/icons/chromecast.png
 )
 
 # Testing

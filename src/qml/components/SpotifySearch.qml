@@ -43,7 +43,7 @@ Item {
         MouseArea {
             id: closeMa
             anchors.fill: parent
-            onClicked: UIState.setActiveView(ActiveView.NowPlaying)
+            onClicked: spotifySearch.visible = false
         }
     }
 

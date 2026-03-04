@@ -5,6 +5,8 @@ import MediaConsole 1.0
 Item {
     id: libraryBrowser
 
+    signal trackSelected()
+
     StackView {
         id: libraryStack
         anchors.fill: parent
@@ -523,6 +525,7 @@ Item {
                             anchors.fill: parent
                             onClicked: {
                                 FlacLibraryController.playTrack(index)
+                                libraryBrowser.trackSelected()
                                 UIState.setActiveView(ActiveView.NowPlaying)
                             }
                         }

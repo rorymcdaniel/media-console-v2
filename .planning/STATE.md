@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: UI Polish
 current_phase: 13 — InputCarousel Polish
-current_plan: —
-status: planning
-last_updated: "2026-03-04T16:33:35.555Z"
+current_plan: 02
+status: executing
+last_updated: "2026-03-04T16:38:13Z"
 progress:
   total_phases: 17
   completed_phases: 12
   total_plans: 41
-  completed_plans: 39
-  percent: 95
+  completed_plans: 41
+  percent: 100
 ---
 
 # Session State
@@ -27,10 +27,10 @@ See: .planning/PROJECT.md (updated 2026-03-01)
 
 **Milestone:** v1.1 UI Polish
 **Current phase:** 13 — InputCarousel Polish
-**Current plan:** —
-**Status:** Ready to plan Phase 13
+**Current plan:** 02 (complete)
+**Status:** Phase 13 plans 01-02 complete
 
-**Progress:** [██████████] 95%
+**Progress:** [██████████] 100%
 
 ## Decisions
 
@@ -52,6 +52,10 @@ See: .planning/PROJECT.md (updated 2026-03-01)
 - [v1.1 start]: Window.FullScreen for fullscreen kiosk display under labwc
 - [Phase 13-01]: UIState bridge signals are transient (no backing property) — pure event bus for GPIO encoder turns, following showToast/restartRequested pattern
 - [Phase 13-01]: GPIO inputSelect (push button) routed through UIState bridge; mute is now touch-only from AppBuilder
+- [Phase 13-02]: PathView uses currentIndex assignment (not positionViewAtIndex — ListView-only API) for ReceiverState sync
+- [Phase 13-02]: show() sets visible=true before opacity=1.0 — Qt skips Behavior animations on invisible items
+- [Phase 13-02]: autoSelectTimer.stop() + reset called inside hide() to prevent stale auto-select after overlay dismissal
+- [Phase 13-02]: InputCarousel placed at z:500 as window-root sibling, consistent with existing overlay z-layer convention
 
 ## Session Log
 
@@ -59,3 +63,5 @@ See: .planning/PROJECT.md (updated 2026-03-01)
 - 2026-03-01: App deployed to Pi — fullscreen under labwc Wayland compositor
 - 2026-03-01: Milestone v1.1 started — UI Polish
 - 2026-03-04: v1.1 roadmap created — 5 phases (13-17), 19 requirements mapped
+- 2026-03-04: Phase 13 plan 01 complete — UIState GPIO signal bridge (inputNext/Previous/Select)
+- 2026-03-04: Phase 13 plan 02 complete — InputCarousel rewritten as full-screen PathView overlay

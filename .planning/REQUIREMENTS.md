@@ -9,9 +9,9 @@ The original QML (~5,200 lines) is the reference benchmark. Every requirement he
 
 ### Input Carousel
 
-- [ ] **CAR-01**: InputCarousel rotation animation is smooth and continuous — no jank or frame drops on Pi 5
-- [ ] **CAR-02**: Carousel snaps to the selected input with a natural deceleration curve
-- [ ] **CAR-03**: Non-selected inputs are visually de-emphasised (scale, opacity) to reinforce the 3D wheel illusion
+- [x] **CAR-01**: InputCarousel rotation animation is smooth and continuous — no jank or frame drops on Pi 5
+- [x] **CAR-02**: Carousel snaps to the selected input with a natural deceleration curve
+- [x] **CAR-03**: Non-selected inputs are visually de-emphasised (scale, opacity) to reinforce the 3D wheel illusion
 - [x] **CAR-04**: Physical encoder rotation drives the carousel with 1:1 feel — no lag between turn and scroll
 
 ### Now Playing
@@ -62,9 +62,9 @@ Deferred — not in scope for v1.1.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CAR-01 | Phase 13 | Pending |
-| CAR-02 | Phase 13 | Pending |
-| CAR-03 | Phase 13 | Pending |
+| CAR-01 | Phase 13 | Complete |
+| CAR-02 | Phase 13 | Complete |
+| CAR-03 | Phase 13 | Complete |
 | CAR-04 | Phase 13 | Complete |
 | NOW-01 | Phase 14 | Pending |
 | NOW-02 | Phase 14 | Pending |

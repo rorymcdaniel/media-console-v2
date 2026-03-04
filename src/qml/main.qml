@@ -16,6 +16,30 @@ Window {
     // Set to true when eject is tapped while CD is playing — shows Yes/No dialog
     property bool ejectConfirmVisible: false
 
+    // Helper functions for left panel static current-input display
+    function currentInputIconText() {
+        switch (ReceiverState.currentInput) {
+            case MediaSource.Streaming:  return "\u266B"
+            case MediaSource.Phono:      return "\u25CE"
+            case MediaSource.CD:         return "\u25CF"
+            case MediaSource.Computer:   return "\u2338"
+            case MediaSource.Bluetooth:  return "\u2261"
+            case MediaSource.Library:    return "\u2630"
+            default:                     return "\u2022"
+        }
+    }
+    function currentInputLabelText() {
+        switch (ReceiverState.currentInput) {
+            case MediaSource.Streaming:  return "Streaming"
+            case MediaSource.Phono:      return "Phono"
+            case MediaSource.CD:         return "CD"
+            case MediaSource.Computer:   return "Computer"
+            case MediaSource.Bluetooth:  return "Bluetooth"
+            case MediaSource.Library:    return "Library"
+            default:                     return "Unknown"
+        }
+    }
+
     // Global touch activity detection (UI-18)
     // Covers the entire window, forwards all press events to ScreenTimeoutController
     // without consuming them so child elements still receive input.
@@ -296,9 +320,43 @@ Window {
                 color: Theme.glassBorder
             }
 
-            // Input carousel (UI-05)
-            InputCarousel {
+            // Tap left panel to open carousel (CAR-04)
+            MouseArea {
                 anchors.fill: parent
+                onClicked: inputCarousel.show()
+
+                Column {
+                    anchors.centerIn: parent
+                    spacing: Theme.spacingMedium
+
+                    // Active input icon (large, accent-colored circle)
+                    Rectangle {
+                        id: currentInputIcon
+                        width: 96
+                        height: 96
+                        radius: 48
+                        color: Theme.accent
+                        border.color: Theme.accentLight
+                        border.width: 2
+                        anchors.horizontalCenter: parent.horizontalCenter
+
+                        Text {
+                            anchors.centerIn: parent
+                            text: currentInputIconText()
+                            font.pixelSize: 40
+                            color: Theme.textPrimary
+                        }
+                    }
+
+                    // Active input label
+                    Text {
+                        text: currentInputLabelText()
+                        color: Theme.textPrimary
+                        font.pixelSize: Theme.fontSizeMedium
+                        font.bold: true
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                }
             }
         }
 
@@ -328,6 +386,14 @@ Window {
                 }
             }
         }
+    }
+
+    // ========== Input Carousel Overlay (UI-05) ==========
+    // Hidden by default — shows as full-screen overlay when left panel is tapped or encoder turns
+    InputCarousel {
+        id: inputCarousel
+        anchors.fill: parent
+        z: 500
     }
 
     // ========== Volume Overlay (UI-11) ==========

@@ -60,34 +60,33 @@ Deferred — not in scope for v1.1.
 
 ## Traceability
 
-*(Populated during roadmap creation)*
-
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CAR-01 | — | Pending |
-| CAR-02 | — | Pending |
-| CAR-03 | — | Pending |
-| CAR-04 | — | Pending |
-| NOW-01 | — | Pending |
-| NOW-02 | — | Pending |
-| NOW-03 | — | Pending |
-| NOW-04 | — | Pending |
-| NOW-05 | — | Pending |
-| TRANS-01 | — | Pending |
-| TRANS-02 | — | Pending |
-| TRANS-03 | — | Pending |
-| VIS-01 | — | Pending |
-| VIS-02 | — | Pending |
-| VIS-03 | — | Pending |
-| VIS-04 | — | Pending |
-| TOUCH-01 | — | Pending |
-| TOUCH-02 | — | Pending |
-| TOUCH-03 | — | Pending |
+| CAR-01 | Phase 13 | Pending |
+| CAR-02 | Phase 13 | Pending |
+| CAR-03 | Phase 13 | Pending |
+| CAR-04 | Phase 13 | Pending |
+| NOW-01 | Phase 14 | Pending |
+| NOW-02 | Phase 14 | Pending |
+| NOW-03 | Phase 14 | Pending |
+| NOW-04 | Phase 14 | Pending |
+| NOW-05 | Phase 14 | Pending |
+| TRANS-01 | Phase 15 | Pending |
+| TRANS-02 | Phase 15 | Pending |
+| TRANS-03 | Phase 15 | Pending |
+| VIS-01 | Phase 16 | Pending |
+| VIS-02 | Phase 16 | Pending |
+| VIS-03 | Phase 16 | Pending |
+| VIS-04 | Phase 16 | Pending |
+| TOUCH-01 | Phase 17 | Pending |
+| TOUCH-02 | Phase 17 | Pending |
+| TOUCH-03 | Phase 17 | Pending |
 
 **Coverage:**
 - v1.1 requirements: 19 total
-- Mapped to phases: 0
-- Unmapped: 19 (roadmap not yet created)
+- Mapped to phases: 19
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-01*
+*Traceability populated: 2026-03-04*

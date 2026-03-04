@@ -25,6 +25,14 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 11: Integration Wiring Fixes** - Fix cross-phase integration bugs: Q_INVOKABLE, signal wiring, QML singleton registration, seek routing, volume reconciliation (completed 2026-03-01)
 - [x] **Phase 12: Verification and Traceability Completion** - Write VERIFICATION.md for Phases 1/2/4/5/6, create Phase 6 SUMMARYs, reconcile REQUIREMENTS.md traceability (completed 2026-02-28)
 
+## Milestone v1.1: UI Polish
+
+- [ ] **Phase 13: InputCarousel Polish** - Smooth rotation animation, natural snap deceleration, 3D depth emphasis, and 1:1 encoder feel
+- [ ] **Phase 14: Now Playing Polish** - Album art fade-in, consistent text layout across all sources, control feedback, smooth progress bar, and flipable card transitions
+- [ ] **Phase 15: View Transitions** - Animated switching between all top-level views and consistent push/pop for LibraryBrowser drill-down
+- [ ] **Phase 16: Visual Design** - Typography hierarchy, color palette consistency, interactive affordances, and status bar layout
+- [ ] **Phase 17: Touch Responsiveness** - One-frame tap response, natural scroll momentum in LibraryBrowser, and reliable AlphabetSidebar touch
+
 ## Phase Details
 
 ### Phase 1: Foundation and Build Infrastructure
@@ -227,6 +235,80 @@ Plans:
 - [x] 12-02-PLAN.md — Write 04-VERIFICATION.md, 05-VERIFICATION.md
 - [x] 12-03-PLAN.md — Write 06-VERIFICATION.md, reconcile REQUIREMENTS.md checkboxes
 
+---
+
+## Milestone v1.1: UI Polish
+
+### Phase 13: InputCarousel Polish
+**Goal**: The InputCarousel feels like a physical wheel — smooth continuous rotation, natural snap, clear 3D depth, and 1:1 encoder response
+**Depends on**: Phase 12 (v1.0 complete)
+**Requirements**: CAR-01, CAR-02, CAR-03, CAR-04
+**Success Criteria** (what must be TRUE):
+  1. Rotating the carousel produces no frame drops or jank on Pi 5 — motion is continuously smooth at display refresh rate
+  2. Releasing a carousel gesture snaps to the nearest input with a deceleration curve that feels physically natural (not instant, not elastic)
+  3. Non-selected inputs are visibly smaller and less opaque than the active input, reinforcing the 3D wheel illusion at a glance
+  4. Turning the physical encoder updates the carousel position with no perceptible lag — one encoder event, one immediate visual step
+**Plans**: TBD
+
+Plans:
+- [ ] 13-01: TBD
+
+### Phase 14: Now Playing Polish
+**Goal**: The NowPlaying view presents album art, track information, and controls with the quality of the original reference implementation
+**Depends on**: Phase 13
+**Requirements**: NOW-01, NOW-02, NOW-03, NOW-04, NOW-05
+**Success Criteria** (what must be TRUE):
+  1. Album art fills its container correctly for any aspect ratio and fades in smoothly when the source or track changes — no pop or stretch
+  2. Track title, artist, and album text are clearly legible and sized consistently when switching between CD, FLAC, Spotify, and streaming sources
+  3. Tapping play/pause, previous, or next shows a visual change within one frame — the button does not feel unresponsive
+  4. The progress bar moves smoothly without visible stepping at 10 fps or higher
+  5. Flipping the NowPlaying card animates with the same duration and easing as the original — no abrupt cut or overshoot
+**Plans**: TBD
+
+Plans:
+- [ ] 14-01: TBD
+- [ ] 14-02: TBD
+
+### Phase 15: View Transitions
+**Goal**: Navigating between top-level views and drilling into the library is animated — the interface never hard-cuts between states
+**Depends on**: Phase 14
+**Requirements**: TRANS-01, TRANS-02, TRANS-03
+**Success Criteria** (what must be TRUE):
+  1. Switching between NowPlaying, LibraryBrowser, and SpotifySearch always plays an animation — no hard cut is ever visible
+  2. View transition animations complete within 300 ms and touch input is accepted immediately after — the UI never feels locked
+  3. Drilling down from Artist to Album to Track uses a consistent push animation; going back uses the matching pop — direction is always clear
+**Plans**: TBD
+
+Plans:
+- [ ] 15-01: TBD
+
+### Phase 16: Visual Design
+**Goal**: All views share a consistent visual language — typography, color, and affordances are coherent and legible on the 1920x720 display
+**Depends on**: Phase 13
+**Requirements**: VIS-01, VIS-02, VIS-03, VIS-04
+**Success Criteria** (what must be TRUE):
+  1. Title, subtitle, body, and caption text sizes are consistent across all views — the same semantic role always uses the same size and weight
+  2. No UI element is near-invisible against the dark background — all text and icons meet a readable contrast ratio
+  3. Every interactive element (button, list item, carousel slot) has a distinct visual state that makes it obviously tappable versus static content
+  4. The status bar at 1920px width shows all elements without crowding or text truncation under any source or metadata combination
+**Plans**: TBD
+
+Plans:
+- [ ] 16-01: TBD
+
+### Phase 17: Touch Responsiveness
+**Goal**: Every touch interaction on the kiosk feels immediate — taps respond in one frame, scrolling carries momentum, and the sidebar is reliable
+**Depends on**: Phase 15, Phase 16
+**Requirements**: TOUCH-01, TOUCH-02, TOUCH-03
+**Success Criteria** (what must be TRUE):
+  1. Tapping any button or list item produces a visible state change within the same frame — no delay is perceptible between finger contact and visual response
+  2. Flinging the LibraryBrowser list carries natural momentum — a fast fling scrolls further than a slow one, and deceleration feels physical
+  3. Dragging a single finger along the AlphabetSidebar reliably jumps to the corresponding letter section without missed touches or stuck positions
+**Plans**: TBD
+
+Plans:
+- [ ] 17-01: TBD
+
 ## Progress
 
 **Execution Order:**
@@ -246,3 +328,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10
 | 10. QML UI and Production Deployment | 4/4 | Complete    | 2026-02-28 |
 | 11. Integration Wiring Fixes | 0/? | Complete    | 2026-03-01 |
 | 12. Verification and Traceability Completion | 3/3 | Complete | 2026-02-28 |
+| 13. InputCarousel Polish | 0/? | Not started | - |
+| 14. Now Playing Polish | 0/? | Not started | - |
+| 15. View Transitions | 0/? | Not started | - |
+| 16. Visual Design | 0/? | Not started | - |
+| 17. Touch Responsiveness | 0/? | Not started | - |

@@ -2,12 +2,12 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: UI Polish
-current_phase: not_started
+current_phase: 13
 current_plan: —
-status: defining_requirements
-last_updated: "2026-03-01T00:00:00.000Z"
+status: ready_to_plan
+last_updated: "2026-03-04T00:00:00.000Z"
 progress:
-  total_phases: 0
+  total_phases: 5
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -20,14 +20,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-01)
 
 **Core value:** The touchscreen kiosk must always be responsive — no freezes, no unrecoverable states.
-**Current focus:** Milestone v1.1 — UI Polish (requirements defined, roadmap pending)
+**Current focus:** Milestone v1.1 — UI Polish (roadmap defined, Phase 13 next)
 
 ## Position
 
 **Milestone:** v1.1 UI Polish
-**Current phase:** Not started (defining requirements)
+**Current phase:** 13 — InputCarousel Polish
 **Current plan:** —
-**Status:** Defining requirements
+**Status:** Ready to plan Phase 13
+
+**Progress:** [....................] 0/5 phases complete
 
 ## Decisions
 
@@ -53,3 +55,4 @@ See: .planning/PROJECT.md (updated 2026-03-01)
 - 2026-03-01: Milestone v1.0 complete — all 12 phases shipped, 365 tests passing
 - 2026-03-01: App deployed to Pi — fullscreen under labwc Wayland compositor
 - 2026-03-01: Milestone v1.1 started — UI Polish
+- 2026-03-04: v1.1 roadmap created — 5 phases (13-17), 19 requirements mapped

@@ -2,15 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: UI Polish
-current_phase: 13
+current_phase: 13 — InputCarousel Polish
 current_plan: —
-status: ready_to_plan
-last_updated: "2026-03-04T00:00:00.000Z"
+status: planning
+last_updated: "2026-03-04T16:33:35.555Z"
 progress:
-  total_phases: 5
-  completed_phases: 0
-  total_plans: 0
-  completed_plans: 0
+  total_phases: 17
+  completed_phases: 12
+  total_plans: 41
+  completed_plans: 39
+  percent: 95
 ---
 
 # Session State
@@ -29,7 +30,7 @@ See: .planning/PROJECT.md (updated 2026-03-01)
 **Current plan:** —
 **Status:** Ready to plan Phase 13
 
-**Progress:** [....................] 0/5 phases complete
+**Progress:** [██████████] 95%
 
 ## Decisions
 
@@ -49,6 +50,8 @@ See: .planning/PROJECT.md (updated 2026-03-01)
 - [v1.1 start]: QML resource path fixed to qrc:/qt/qml/MediaConsole/src/qml/main.qml (qt_add_qml_module path)
 - [v1.1 start]: QT_QPA_PLATFORM=wayland with WAYLAND_DISPLAY=wayland-0 (labwc compositor on Pi)
 - [v1.1 start]: Window.FullScreen for fullscreen kiosk display under labwc
+- [Phase 13-01]: UIState bridge signals are transient (no backing property) — pure event bus for GPIO encoder turns, following showToast/restartRequested pattern
+- [Phase 13-01]: GPIO inputSelect (push button) routed through UIState bridge; mute is now touch-only from AppBuilder
 
 ## Session Log
 

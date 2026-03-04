@@ -78,15 +78,11 @@ AppContext AppBuilder::build(const AppConfig& config)
     connect(m_gpioMonitor.get(), &IGpioMonitor::volumeChanged, m_volumeGestureController.get(),
             &VolumeGestureController::onEncoderTick);
 
-    // Input encoder navigation -> receiver input cycling
-    connect(m_gpioMonitor.get(), &IGpioMonitor::inputNext, m_receiverController.get(), &ReceiverController::inputNext);
-    connect(m_gpioMonitor.get(), &IGpioMonitor::inputPrevious, m_receiverController.get(),
-            &ReceiverController::inputPrevious);
-
-    // Push button -> mute toggle (context-dependent routing deferred to Phase 10
-    // when InputCarousel exists; for now, push always toggles mute)
-    connect(m_gpioMonitor.get(), &IGpioMonitor::inputSelect, m_receiverController.get(),
-            &ReceiverController::toggleMute);
+    // Input encoder events -> UIState bridge -> QML carousel intercepts and shows itself
+    // (QML carousel calls ReceiverController.selectInput() on confirm — not wired here)
+    connect(m_gpioMonitor.get(), &IGpioMonitor::inputNext, m_uiState.get(), &UIState::requestInputNext);
+    connect(m_gpioMonitor.get(), &IGpioMonitor::inputPrevious, m_uiState.get(), &UIState::requestInputPrevious);
+    connect(m_gpioMonitor.get(), &IGpioMonitor::inputSelect, m_uiState.get(), &UIState::requestInputSelect);
 
     // Reed switch -> UIState.doorOpen (Phase 9 DisplayController reacts to state changes)
     connect(m_gpioMonitor.get(), &IGpioMonitor::reedSwitchChanged, m_uiState.get(), &UIState::setDoorOpen);

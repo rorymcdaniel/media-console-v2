@@ -437,7 +437,6 @@ Item {
                 PlaybackControls {
                     width: parent.width
                     height: Theme.touchTargetXLarge
-                    visible: !root.isIdle
                 }
             }
             } // infoColumnWrapper

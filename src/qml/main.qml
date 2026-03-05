@@ -304,8 +304,8 @@ Window {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    if (ReceiverState.currentInput === MediaSource.Library) {
-                        root.showLibraryBrowser = !root.showLibraryBrowser
+                    if (root.showLibraryBrowser) {
+                        root.showLibraryBrowser = false
                     }
                 }
             }

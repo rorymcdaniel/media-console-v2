@@ -11,13 +11,19 @@ Item {
     // Streaming: previous, play/pause, next (shuffle/repeat deferred)
     // Bluetooth: play/pause only
     // Phono/Computer: no playback controls
+    // Use activeSource when something is playing; fall back to currentInput so
+    // controls appear as soon as the user selects a playable input (before playback starts).
+    property var effectiveSource: PlaybackState.activeSource !== MediaSource.None
+                                  ? PlaybackState.activeSource
+                                  : ReceiverState.currentInput
+
     property bool showPlayPause: {
-        var s = PlaybackState.activeSource
+        var s = effectiveSource
         return s === MediaSource.CD || s === MediaSource.Library ||
                s === MediaSource.Streaming || s === MediaSource.Bluetooth
     }
     property bool showPrevNext: {
-        var s = PlaybackState.activeSource
+        var s = effectiveSource
         return s === MediaSource.CD || s === MediaSource.Library || s === MediaSource.Streaming
     }
     property bool showControls: showPlayPause || showPrevNext

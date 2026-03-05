@@ -27,3 +27,12 @@ cmake --build "$BUILD_DIR"
 
 echo "[$(TIMESTAMP)] === Build complete ==="
 echo "[$(TIMESTAMP)] Binary: $BUILD_DIR/media-console"
+
+echo "[$(TIMESTAMP)] Restarting media-console service..."
+sudo systemctl restart media-console
+
+echo "[$(TIMESTAMP)] Waiting 3 seconds for service to start..."
+sleep 3
+
+echo "[$(TIMESTAMP)] Checking service status..."
+sudo systemctl status media-console --no-pager || true

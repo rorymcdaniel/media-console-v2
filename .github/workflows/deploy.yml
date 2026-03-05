@@ -106,6 +106,13 @@ jobs:
             bash deploy/pi-build.sh
           ENDSSH
 
+      - name: Verify Deployment
+        if: always()
+        run: |
+          ssh -o StrictHostKeyChecking=no rory@pi5 "sudo systemctl is-active media-console" && \
+          echo "✅ Service is active" || \
+          echo "❌ Service failed to start - check logs with: journalctl -u media-console -n 50"
+
       - name: Notify Discord
         if: success()
         env:
